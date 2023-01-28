@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="stylesheet" href="Affine.css">
+  <script src="Affine.js"></script>
+  </link>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CrAlSim</title>
+  <link rel="stylesheet" href="Algorithm.css">
+  </link>
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+    integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous">
+    </script>
+</head>
+
+<body>
+  <div class="aff">
+    <div class="affMenu">
+
+      <span class="active3 activeaffinetab" data-aff-value="#aff_1">Cipher/Decipher</span>
+      <span data-aff-value="#aff_2">simulator</span>
+      <span data-aff-value="#aff_3">Theory</span>
+
+    </div>
+
+    <div class="aff-content">
+      <div class="aff-content__aff active3" id="aff_1" data-aff-info>
+        <div class="affineCipherDecipher">
+
+          <div class="affineContainer">
+            <h1>Generate Cipher</h1>
+            <p>Note key should be co-prime of Modulo m <span>i.e gcd of key and modulo m should be 1</span></p>
+            
+            <div class="affinekey">
+              <label for="affinekey1">Key A:</label>
+              <input type="number" id="affinekey1" placeholder="A">
+
+              <label for="affinekey2">Key B:</label>
+              <input type="number" id="affinekey2" placeholder="B">
+            </div>
+
+            <div class="affineplaintext">
+              <label for="plaintext">Plain Text:</label>
+              <input type="text" id="plaintext" placeholder="Enter Message " value="">
+              <button type="button" onclick="generateCipher()">Encrypt</button>
+            </div>
+            <p id="message"></p>
+
+            <div class="affineciphertext">
+              <label for="ciphertext">Cipher Text:</label>
+              <input type="text" id="ciphertext" value="">
+              <button type="button" onclick="decipher()">Decrypt</button>
+            </div>
+            <hr>
+            <div class="affineotherfunction">
+              <button type="button" onclick="displayDiv()">Show Transformed Alphabets</button>
+              <button type="button" onclick="affineReset()">Reset</button>
+            </div>
+
+            <div class="affineShowTransformedAlphabets">
+              <table id="affinetable">
+                <tr>
+                  <th>Plain Text</th>
+                  
+                </tr>
+                <tr>
+                  <th>Value</th>
+                  
+                </tr>
+                <tr>
+                  <th>(ax+b)%26</th>
+                  
+                </tr>
+                <tr>
+                  <th>CipherText</th>
+                  
+                </tr>
+              </table>
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+      
+      <div class="aff-content__aff" id="aff_2" data-aff-info>
+        <div class="affineCipherDecipher">
+          <div class="affineSimulator">
+            <div class="affineCalculation">
+              <div class="affineSubCalculation">
+                <p id="affineuppercal">formula</p>
+                <P id="affinelowercal">Calculating Number</P>
+              </div>
+              <div id="affinecalval">2</div>
+              <div id="affinecalchar">c</div>
+              
+            </div>
+            <button type="button" id="affine-next-simulator">Next</button>
+            <div class="affineTableHeader">
+              <h1>Calculation</h1>
+              <h1>Transformed Value</h1>
+            </div>
+            <div class="affineSimulatorContent">
+            <table >
+              
+            </table>
+          </div>
+            <button type="button" id="affine-sim-btn">Skip Steps</button>
+
+          </div>
+        </div>
+
+      </div>
+      <div class="aff-content__aff" id="aff_3" data-aff-info>
+        <div class="affineCipherDecipher">
+          theory
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script type="text/javascript">
+    const afftabs = document.querySelectorAll('[data-aff-value]')
+    const afftabInfos = document.querySelectorAll('[data-aff-info]')
+
+    afftabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = document
+          .querySelector(tab.dataset.affValue);
+
+        afftabInfos.forEach(affInfo => {
+          affInfo.classList.remove('active3')
+        })
+        target.classList.add('active3');
+        target.classList.add('activeaffinetab');
+      })
+    })
+  </script>
+
+  <script type="text/javascript">
+    $(document).on('click', 'span', function () {
+      $(this).addClass('activeaffinetab').siblings().removeClass('activeaffinetab')
+    });
+  </script>
+
+</body>
+
+</html>

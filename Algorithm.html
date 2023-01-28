@@ -1,0 +1,145 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CrAlSim</title>
+    <link rel="stylesheet" href="Algorithm.css"></link>
+    <script
+         src="https://code.jquery.com/jquery-3.6.1.min.js"
+         integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+         crossorigin="anonymous">
+    </script>
+    <script>
+      $(function(){
+        $('#header').load('Header.html');
+      });
+    </script>
+    <script>
+      $(function(){
+        $('#sidebarmenu').load('AlgoSideBar.html');
+      });
+  </script>
+  <script>
+    $(function(){
+      $('#AES').load('AES.html');
+    });
+</script>
+<script>
+  $(function(){
+    $('#DES').load('DES.html');
+  });
+</script>
+<script>
+  $(function(){
+    $('#Affine').load('Affine.html');
+  });
+</script>
+</head>
+<body>
+      <div class="header" id="header"></div>
+      <div class="algosection">
+      
+        <div class="algobar">
+        <div class="name"><p>Cryptography Algorithms</p></div>
+
+        <div class="tabs">
+          <p>Symmetric</p>
+          <p>Stream</p>
+          <p>Monoalphabetic</p>
+        <span class="active"data-tab-value="#tab_1">Additive</span>
+        <span data-tab-value="#tab_2">Ceaser</span>
+        <span data-tab-value="#tab_3">Multiplicative</span>
+        <span data-tab-value="#tab_4">Affine</span>
+
+        <p>Polyalphabetic</p>
+        <span data-tab-value="#tab_5">Playfair</span>
+        <span data-tab-value="#tab_6">Vigener</span>
+        <span data-tab-value="#tab_7">Hill</span>
+
+        <p>Block</p>
+        <span data-tab-value="#tab_8">AES</span>
+        <span data-tab-value="#tab_9">DES</span>
+
+        <p>Assymetric</p>
+        <span data-tab-value="#tab_10">Elgamel</span>
+        <span data-tab-value="#tab_11">RSA</span>
+        
+    </div>
+  </div>
+  
+    <div class="tab-content">
+        <div class="tabs__tab active" id="tab_1" data-tab-info>
+            <p>Additive</p>
+  
+        </div>
+        <div class="tabs__tab" id="tab_2" data-tab-info>
+            <p>ceaser</p>
+  
+        </div>
+        <div class="tabs__tab" id="tab_3" data-tab-info>
+            <p>multliplicative</p>
+  
+        </div>
+        <div class="tabs__tab" id="tab_4" data-tab-info>
+          <div class="Affine" id= "Affine"></div>
+
+      </div>
+      <div class="tabs__tab" id="tab_5" data-tab-info>
+          <p>playfair</p>
+
+      </div>
+      <div class="tabs__tab" id="tab_6" data-tab-info>
+          <p>vigener</p>
+
+      </div>
+      <div class="tabs__tab" id="tab_7" data-tab-info>
+        <p>hill</p>
+
+    </div>
+    <div class="tabs__tab" id="tab_8" data-tab-info>
+        <div class="AES" id="AES"></div>
+
+    </div>
+
+    <div class="tabs__tab" id="tab_9" data-tab-info>
+        <div class="DES" id="DES"></div>
+
+    </div>
+    <div class="tabs__tab" id="tab_10" data-tab-info>
+      <p>elgamel</p>
+
+  </div>
+  <div class="tabs__tab" id="tab_11" data-tab-info>
+      <p>RSA</p>
+
+  </div>
+
+    </div>
+   
+   <script type="text/javascript">
+        const tabs = document.querySelectorAll('[data-tab-value]')
+        const tabInfos = document.querySelectorAll('[data-tab-info]')
+  
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const target = document
+                    .querySelector(tab.dataset.tabValue);
+  
+                tabInfos.forEach(tabInfo => {
+                    tabInfo.classList.remove('active')
+                })
+                target.classList.add('active');
+            })
+        })
+    </script>
+     
+    <script type="text/javascript">
+      $(document).on('click','span',function(){
+        $(this).addClass('active').siblings().removeClass('active')
+      });
+    </script>  
+</body>
+</html> 
+

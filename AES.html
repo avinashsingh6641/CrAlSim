@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="stylesheet" href="AES.css">
+  </link>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CrAlSim</title>
+  <link rel="stylesheet" href="Algorithm.css">
+  </link>
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+    integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous">
+    </script>
+</head>
+
+<body>
+  <div class="aes">
+    <div class="aesMenu">
+
+      <span class="active2 activeaestab" data-aes-value="#aes_1">Cipher/Decipher</span>
+      <span data-aes-value="#aes_2">simulator</span>
+      <span data-aes-value="#aes_3">Theory</span>
+
+    </div>
+
+    <div class="aes-content">
+      <div class="aesMenu__aes active2" id="aes_1" data-aes-info>
+        <div class="aesCipherDecipher">
+
+        </div>
+
+      </div>
+      <div class="aesMenu__aes" id="aes_2" data-aes-info>
+        <p>simulate</p>
+
+      </div>
+      <div class="aesMenu__aes" id="aes_3" data-aes-info>
+        <p>theory</p>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script type="text/javascript">
+    const aestabs = document.querySelectorAll('[data-aes-value]')
+    const aestabInfos = document.querySelectorAll('[data-aes-info]')
+
+    aestabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = document
+          .querySelector(tab.dataset.aesValue);
+
+        aestabInfos.forEach(aesInfo => {
+          aesInfo.classList.remove('active2')
+        })
+        target.classList.add('active2');
+        target.classList.add('activeaestab');
+      })
+    })
+  </script>
+  <script type="text/javascript">
+    $(document).on('click', 'span', function () {
+      $(this).addClass('activeaestab').siblings().removeClass('activeaestab')
+    });
+  </script>
+
+</body>
+
+</html>

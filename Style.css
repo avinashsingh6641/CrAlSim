@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    text-decoration:none;
+}
+html, body {
+    height: 100%;
+    width:100%;
+ }
+
+li,a,p,option{
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+    font-size: 1.1rem;
+    text-decoration: none;
+    list-style: none;
+}
+
+nav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:30px 10%;
+    background-color: white;
+    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+    
+}
+nav .logo{
+     display: flex;
+     flex-direction: row;
+}
+
+nav .logo p{
+    font-size: 3rem;
+}
+nav .logo .one{
+    color: rgb(239, 31, 4);
+}
+nav .logo .two{
+    color: rgb(11, 203, 232);
+}
+
+nav .logo .three{
+    color: rgb(151, 22, 201);
+}
+
+.menu1{
+    display:flex;
+    justify-content: space-around;
+    flex-direction: row;
+    align-items: center;
+    padding:5px;
+}
+.menu1 li{
+    padding:10px;
+    margin:0.5rem;
+    width:8rem;
+}
+
+.menu1 li a{
+    color:black;
+}
+.menu1 li :hover{
+    color:white;
+    border: 1;
+    padding:0.7rem;
+    border-radius: 0.2rem;
+    background-image: linear-gradient(to left, rgba(10, 211, 242, 0.6) -26.48%, rgba(154, 71, 232, 0.6) 73.52%);
+    transition: ease-in-out 0.2s;
+}
+.menu1 li.active{
+    color:white;
+    border: 1;
+    padding:0.7rem;
+    border-radius: 0.2rem;
+    background-image: linear-gradient(to left, rgba(10, 211, 242, 0.6) -26.48%, rgba(154, 71, 232, 0.6) 73.52%);
+    transition: ease-in-out 0.2s;
+}
+
+
+
+
+
+
+
+
+
+
+

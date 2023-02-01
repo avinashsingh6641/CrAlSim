@@ -33,7 +33,7 @@
           <div class="affineContainer">
             <h1>Generate Cipher</h1>
             <p>Note key should be co-prime of Modulo m <span>i.e gcd of key and modulo m should be 1</span></p>
-            
+
             <div class="affinekey">
               <label for="affinekey1">Key A:</label>
               <input type="number" id="affinekey1" placeholder="A">
@@ -64,19 +64,19 @@
               <table id="affinetable">
                 <tr>
                   <th>Plain Text</th>
-                  
+
                 </tr>
                 <tr>
                   <th>Value</th>
-                  
+
                 </tr>
                 <tr>
                   <th>(ax+b)%26</th>
-                  
+
                 </tr>
                 <tr>
                   <th>CipherText</th>
-                  
+
                 </tr>
               </table>
 
@@ -86,18 +86,51 @@
         </div>
 
       </div>
-      
+
       <div class="aff-content__aff" id="aff_2" data-aff-info>
         <div class="affineCipherDecipher">
           <div class="affineSimulator">
             <div class="affineCalculation">
-              <div class="affineSubCalculation">
-                <p id="affineuppercal">formula</p>
-                <P id="affinelowercal">Calculating Number</P>
+              <div class="affineChangeColorString">
+
               </div>
-              <div id="affinecalval">2</div>
-              <div id="affinecalchar">c</div>
-              
+              <div class="affineMainCalculationDiv">
+                <div class="affineMainCalculationValue">
+
+                  <div>
+                    <div class="affineA-BValue">
+                      <p></p>
+                      <p></p>
+                    </div>
+                    <div class="affineFormula">
+                      <p>(</p>
+                      <p>(</p>
+                      <p>X</p>
+                      <p>*</p>
+                      <p>A</p>
+                      <p>)</p>
+                      <p>+</p>
+                      <p>B</p>
+                      <p>)</p>
+                      <p>%</p>
+                      <p>m</p>
+                    </div>
+                  </div>
+
+                  <div class="affineCalcSection">
+                    
+                  </div>
+                </div>
+                <div class="affineMainCalculationOutputVal">
+                  <h6>Transformed Val</h6>
+                  <p>-</p>
+                </div>
+                <div class="affineMainCalculationOutputChar">
+                  <h6>Transformed Char</h6>
+                  <p>-</p>
+                </div>
+              </div>
+
             </div>
             <button type="button" id="affine-next-simulator">Next</button>
             <div class="affineTableHeader">
@@ -105,11 +138,12 @@
               <h1>Transformed Value</h1>
             </div>
             <div class="affineSimulatorContent">
-            <table >
-              
-            </table>
-          </div>
+              <table>
+
+              </table>
+            </div>
             <button type="button" id="affine-sim-btn">Skip Steps</button>
+            <button type="button" id="affine-sim-reset">Reset</button>
 
           </div>
         </div>

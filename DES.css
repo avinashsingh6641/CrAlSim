@@ -7,22 +7,22 @@
 }
 
 
-[data-aes-info] {
+[data-des-info] {
     display: none;
 }
   
-.active2[data-aes-info] {
+.active4[data-des-info] {
     display: block; 
 }
   
 
-.aes{
+.des{
     display:flex;
     flex-direction: column;
     width: 100%;
     height: 100%;
 }  
-.aesMenu{
+.desMenu{
     display:flex;
     flex-direction: row;
     width:100%;
@@ -34,31 +34,31 @@
     border-top: 1px solid rgb(131, 131, 131);
     background-color: rgb(235, 250, 245);
 }
-.aesMenu span{
+.desMenu span{
     font-family: sans-serif;
     font-size: large;
     padding:0 3rem;
     padding-bottom: 0.5rem;
 }
-.aes-content{
+.des-content{
     width:100%;
     height:100%;
    
 }
-.aesMenu span:hover{
+.desMenu span:hover{
     color:rgb(136, 23, 242);
     transition: ease-in-out 0.2s;
 }
-.aesMenu span.activeaestab{
+.desMenu span.activedestab{
     border-bottom: 0.2rem solid rgb(18, 165, 165);
     color:rgb(136, 23, 242);
     cursor: pointer; 
 }
-.aes-content__aes{
+.des-content__des{
     width:100%;
     height:100%;
 }
-.aesCipherDecipher{
+.desCipherDecipher{
     display:flex;
     width:100%;
     height:100%;
@@ -67,7 +67,7 @@
 }
 
 /* input page css */
-.aesContainer{
+.desContainer{
     margin:2rem;
     width:80%;
     height:80%;
@@ -77,32 +77,32 @@
     flex-direction: column;
 }
 
-.aesContainer h1{
+.desContainer h1{
     font-family: sans-serif;
     font-weight:bold ;
     font-size: large;
     padding:1rem 1rem;
 }
-.aesContainer p{
+.desContainer p{
   margin-left:1rem ;
   color:red;
 }
-.aesContainer span{
+.desContainer span{
     color:rgb(4, 126, 126)
 }
-.aesContainer label{
+.desContainer label{
     font-family: sans-serif;
     font-weight:bold ;
     font-size: large;
     margin-left: 2rem;
 }
 
-.aeskey, .aesplaintext, .aesciphertext{
+.deskey, .desplaintext, .desciphertext{
    display:flex;
    flex-direction: row;
    margin-top: 1.5rem;
 }
-.aeskey input,.aesplaintext input, .aesciphertext input{
+.deskey input,.desplaintext input, .desciphertext input{
     margin-left: 2rem;
     width:25rem;
     height:2.5rem;
@@ -110,18 +110,18 @@
     border:none;
     text-align: center;
 }
-.aesplaintext button, .aesciphertext button{
+.desplaintext button, .desciphertext button{
     margin-left: 2rem;
     width:4rem;
     height:2rem;
     cursor: pointer;
 }
 
-.aesContainer hr{
+.desContainer hr{
     margin-top: 1rem;
 }
 
-.aesContainer button{
+.desContainer button{
     width:4rem;
     height:2rem;
     align-self: flex-end;
@@ -129,7 +129,7 @@
     margin-top: 1rem;
 }
 
-.aesTransformedTable{
+.desTransformedTable{
     margin-top: 0.5rem;
     width:80%;
     height:12rem;
@@ -138,13 +138,9 @@
     scroll-behavior: smooth;
     background-color: rgb(197, 148, 243);
 }
-.aesTransformedTable table{
+.desTransformedTable table{
     margin-left: 2rem;
     margin-top: 1rem;
     
 }
-
-
   
-
-

@@ -1,19 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrAlSim</title>
-    <link rel="stylesheet" href="Algorithm.css"></link>
-    <script
-         src="https://code.jquery.com/jquery-3.6.1.min.js"
-         integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
-         crossorigin="anonymous">
+  <link rel="stylesheet" href="DES.css">
+  <!-- <script src="Affine.js"></script> -->
+  </link>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CrAlSim</title>
+  <link rel="stylesheet" href="Algorithm.css">
+  </link>
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+    integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous">
     </script>
-    
 </head>
+
 <body>
-      <p>hello there 2 hurray</p>
+  <div class="des">
+    <div class="desMenu">
+
+      <span class="active4 activedestab" data-des-value="#des_1">Cipher/Decipher</span>
+      <span data-des-value="#des_2">simulator</span>
+      <span data-des-value="#des_3">Theory</span>
+
+    </div>
+
+    <div class="des-content">
+      <div class="des-content__des active4" id="des_1" data-des-info>
+        <div class="desCipherDecipher">
+          
+          <div class="desContainer">
+            <h1>Generate Cipher</h1>
+            <p>Key should be 64 bit <span>i.e of 8 Characters</span></p>
+            <div class="deskey">
+
+            <label for="deskey">64 bit Key:</label>
+            <input type="text" id="deskey" placeholder="Enter Key">
+          </div>
+
+            <div class="desplaintext">
+              <label for="desplaintext">Plain Text:</label>
+              <input type="text" id="desplaintext" placeholder="Enter plain text " value="">
+              <button type="button" onclick="">Encrypt</button>
+            </div>
+
+            <div class="desciphertext">
+              <label for="desciphertext">Cipher Text:</label>
+              <input type="text" id="desciphertext" value="" placeholder="Enter chipher text">
+              <button type="button" onclick="">Decrypt</button>
+            </div>
+            <hr>
+            <div class="desTransformedTable">
+              <table>
+                <tr>
+                  <td>A</td>
+                  <td>b</td>
+                  
+                </tr>
+                <tr>
+                  <td>A</td>
+                  <td>b</td>
+                </tr>
+                <tr>
+                  <td>A</td>
+                  <td>b</td>
+                  
+                </tr>
+                <tr>
+                  <td>A</td>
+                  <td>b</td>
+                  
+                </tr>
+              </table>
+            </div>
+              <button type="button" onclick="">Reset</button>
+
+          </div>
+        </div>
+        </div>
+      </div>
+
+      <div class="des-content__des" id="des_2" data-des-info>
+        <div class="desCipherDecipher">
+          <p>decipher</p>
+        </div>
+      </div>
+      <div class="des-content__des" id="des_3" data-des-info>
+        <div class="desCipherDecipher">
+          <p>theory</p>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script type="text/javascript">
+    const destabs = document.querySelectorAll('[data-des-value]')
+    const destabInfos = document.querySelectorAll('[data-des-info]')
+
+    destabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = document
+          .querySelector(tab.dataset.desValue);
+
+        destabInfos.forEach(desInfo => {
+          desInfo.classList.remove('active4')
+        })
+        target.classList.add('active4');
+        target.classList.add('activedestab');
+      })
+    })
+  </script>
+
+  <script type="text/javascript">
+    $(document).on('click', 'span', function () {
+      $(this).addClass('activedestab').siblings().removeClass('activedestab')
+    });
+  </script>
+
 </body>
+
 </html>

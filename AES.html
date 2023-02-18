@@ -3,8 +3,10 @@
 
 <head>
   <link rel="stylesheet" href="AES.css">
+  <script src="AES.js"></script>
   </link>
   <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CrAlSim</title>
@@ -26,18 +28,68 @@
     </div>
 
     <div class="aes-content">
-      <div class="aesMenu__aes active2" id="aes_1" data-aes-info>
+      <div class="aes-content__aes active2" id="aes_1" data-aes-info>
         <div class="aesCipherDecipher">
 
+          <div class="aesContainer">
+            <h1>Generate Cipher</h1>
+            <p>Key should be 128 bit <span>i.e of 16 Characters</span></p>
+            <div class="aeskey">
+
+            <label for="aeskey">128 bit Key:</label>
+            <input type="text" id="aeskey" placeholder="Enter 128 bit key">
+          </div>
+
+            <div class="aesplaintext">
+              <label for="aesplaintext">Plain Text:</label>
+              <input type="text" id="aesplaintext" placeholder="Enter plain text " value="">
+              <button type="button" onclick="aesEncrypt()">Encrypt</button>
+            </div>
+
+            <div class="aesciphertext">
+              <label for="aesciphertext">Cipher Text:</label>
+              <input type="text" id="aesciphertext" value="" placeholder="Enter Cipher text">
+              <button type="button" onclick="aesDecrypt()">Decrypt</button>
+            </div>
+            <hr>
+            <div class="aesTransformedTable">
+              <table>
+                <tr>
+                  <td>A</td>
+                  <td>b</td>
+                  
+                </tr>
+                <tr>
+                  <td>A</td>
+                  <td>b</td>
+                </tr>
+                <tr>
+                  <td>A</td>
+                  <td>b</td>
+                  
+                </tr>
+                <tr>
+                  <td>A</td>
+                  <td>b</td>
+                  
+                </tr>
+              </table>
+            </div>
+              <button type="button" onclick="">Reset</button>
+
+          </div>
         </div>
-
       </div>
-      <div class="aesMenu__aes" id="aes_2" data-aes-info>
-        <p>simulate</p>
 
+      <div class="aes-content__aes" id="aes_2" data-aes-info>
+        <div class="aesCipherDecipher">
+          <p>decipher</p>
+        </div>
       </div>
-      <div class="aesMenu__aes" id="aes_3" data-aes-info>
-        <p>theory</p>
+      <div class="aes-content__aes" id="aes_3" data-aes-info>
+        <div class="aesCipherDecipher">
+          <p>theory</p>
+        </div>
 
       </div>
     </div>
@@ -61,6 +113,7 @@
       })
     })
   </script>
+
   <script type="text/javascript">
     $(document).on('click', 'span', function () {
       $(this).addClass('activeaestab').siblings().removeClass('activeaestab')

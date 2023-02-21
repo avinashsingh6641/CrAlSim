@@ -5,6 +5,19 @@
     box-sizing:border-box;
     text-decoration:none;
 }
+.headerPage{
+    display:flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+[data-header-info] {
+    display: none;
+}
+  
+.activeH[data-header-info] {
+    display: block; 
+}
 html, body {
     height: 100%;
     width:100%;
@@ -18,8 +31,9 @@ li,a,p,option{
     list-style: none;
 }
 
-nav{
+.header{
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
     padding:30px 10%;
@@ -27,42 +41,43 @@ nav{
     box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
     
 }
-nav .logo{
+.header .logo{
      display: flex;
      flex-direction: row;
 }
 
-nav .logo p{
+.header .logo p{
     font-size: 3rem;
 }
-nav .logo .one{
+.header .logo .one{
     color: rgb(239, 31, 4);
 }
-nav .logo .two{
+.header .logo .two{
     color: rgb(11, 203, 232);
 }
 
-nav .logo .three{
+.header .logo .three{
     color: rgb(151, 22, 201);
 }
 
-.menu1{
+.headerMenu{
     display:flex;
     justify-content: space-around;
     flex-direction: row;
     align-items: center;
     padding:5px;
 }
-.menu1 li{
-    padding:10px;
+.headerMenu span{
+    padding:0.7rem;
     margin:0.5rem;
     width:8rem;
+    color:black;
+    cursor: pointer;
+    font-family: sans-serif;
+    font-size: large;
 }
 
-.menu1 li a{
-    color:black;
-}
-.menu1 li :hover{
+.headerMenu span:hover{
     color:white;
     border: 1;
     padding:0.7rem;
@@ -70,13 +85,36 @@ nav .logo .three{
     background-image: linear-gradient(to left, rgba(10, 211, 242, 0.6) -26.48%, rgba(154, 71, 232, 0.6) 73.52%);
     transition: ease-in-out 0.2s;
 }
-.menu1 li.active{
+span.activeHeader{
     color:white;
     border: 1;
     padding:0.7rem;
     border-radius: 0.2rem;
     background-image: linear-gradient(to left, rgba(10, 211, 242, 0.6) -26.48%, rgba(154, 71, 232, 0.6) 73.52%);
     transition: ease-in-out 0.2s;
+}
+.header-content{
+    width:100%;
+    height:100%;
+}
+.header-content__head{
+    width:100%;
+    height:100%;
+}
+.Algorithms{
+    height:100%;
+}
+.Home{
+    height:100%;
+}
+.Introduction{
+    height:100%;
+}
+.Help{
+    height:100%;
+}
+.Feedback{
+    height:100%;
 }
 
 

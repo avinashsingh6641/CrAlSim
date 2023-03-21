@@ -137,7 +137,7 @@ function aesGenerateRoundKey(){
 
 //pre round transformation
 let aesPlaintext;
-let aesPlainArr = [];
+let aesAnimationStateArr = [];
 let aesPlainHexArr = [];
 let aesCiphertext;
 
@@ -150,6 +150,21 @@ function setAesDocument(){
     aesCiphertext = document.getElementById('aesciphertext').value;
     aesKey = document.getElementById('aeskey').value;
 
+    aesStateArray =document.getElementsByClassName('aesStateArray')[0];
+    stateTable= aesStateArray.getElementsByTagName('table')[0];
+
+    roundKeyOne =document.getElementsByClassName('firstRoundKey')[0];
+    roundOneKeyTable= roundKeyOne.getElementsByTagName('table')[0];
+
+    theRoundKey =document.getElementsByClassName('roundKey')[0];
+    theRoundKeyTable= theRoundKey.getElementsByTagName('table')[0];
+
+    roundKeyLast =document.getElementsByClassName('lastRoundKey')[0];
+    roundKeyLastTable= roundKeyLast.getElementsByTagName('table')[0];
+
+    counter = document.getElementsByClassName('counter')[0];
+    ch3 = counter.getElementsByTagName('h3')[0];
+
 }
 function print(arr){
     arr.forEach((rows)=>{
@@ -160,7 +175,7 @@ function print(arr){
 function clear(){
     for(let i = 3;i>=0;i--){
         for(let j = 3;j>=0;j--){
-            aesPlainArr[i].splice(j, 1);
+            aesAnimationStateArr[i].splice(j, 1);
             aesPlainHexArr[i].splice(j, 1);
         }
        }
@@ -176,6 +191,9 @@ function createAesKey2DArray(){
         aesKeyArr[i][j] = aesKey.charAt(k);
         aesKeyHexArr[i][j] = aesKey.charCodeAt(k).toString(16);
         keyArrays['rKA0'][i][j] = aesKey.charCodeAt(k).toString(16);
+
+        //let stateTd = document.createElement('td');
+        //stateTr.appendChild(stateTd).innerHTML=`${aesKey.charCodeAt(k).toString(16)}`;
         k++; 
     }
    }
@@ -183,16 +201,19 @@ function createAesKey2DArray(){
 function createAesPlain2DArray(str){
     let k = 0;
    for(let i = 0;i<4;i++){
-    aesPlainArr[i] = [];
+    aesAnimationStateArr[i] = [];
     aesPlainHexArr[i] = [];
+    const stateTr =stateTable.getElementsByTagName('tr')[i];
     for(let j = 0;j<4;j++){
-        aesPlainArr[i][j] = str.charAt(k);
+        aesAnimationStateArr[i][j] = str.charCodeAt(k).toString(16);
         aesPlainHexArr[i][j] = str.charCodeAt(k).toString(16);
+        let stateTd = document.createElement('td');
+        stateTr.appendChild(stateTd).innerHTML=`${str.charCodeAt(k).toString(16)}`;
         k++; 
     }
    }
    aesRound0To10();
-   clear();
+   //clear();
 }
 function splitAesPlaintext(){
     let subStringCounter = 0;
@@ -221,11 +242,82 @@ function generateAesCipherText(){
 }
 
 //let cipherWholeString ="";
+function simulationInitialConfiguration(){
+    
+    for(let i =0;i<4;i++){
+        const initialRoundTr =roundOneKeyTable.getElementsByTagName('tr')[i];
+        const theRoundTr = theRoundKeyTable.getElementsByTagName('tr')[i];
+        const lastRoundTr= roundKeyLastTable.getElementsByTagName('tr')[i];
+    for(let j = 0;j<4;j++){
+        let initialRoundTd = document.createElement('td');
+        let theRoundTd = document.createElement('td');
+        let lastRoundTd = document.createElement('td');
+        initialRoundTr.appendChild(initialRoundTd).innerHTML=`${keyArrays['rKA0'][i][j]}`;
+        theRoundTr.appendChild(theRoundTd).innerHTML=`${keyArrays['rKA1'][i][j]}`;
+        lastRoundTr.appendChild(lastRoundTd).innerHTML=`${keyArrays['rKA10'][i][j]}`;
+    }
+}
+}
+function aesFillTableValue(arr,round,tableNo){
+    const Round1 = document.getElementsByClassName('aesRoundValue')[round];
+    // console.log(Round1);
+    const Round1Table1 =Round1.getElementsByTagName('table')[tableNo];
+    // console.log(Round1Table1);
+    for(let i =0;i<4;i++){  
+        const tr =document.createElement('tr');
+        let appendedTr = Round1Table1.appendChild(tr);
+        for(let j =0;j<4;j++){
+            console.log('here');
+            const td=document.createElement('td');
+            const tdVal=td.innerHTML=`${arr[i][j]}`;
+            appendedTr.appendChild(td);
+        }
+    }
+}
+function aesROFillTableValue(round,tableNo){
+    const Round1 = document.getElementsByClassName('aesRoundValue')[round];
+    // console.log(Round1);
+    const Round1Table1 =Round1.getElementsByTagName('table')[tableNo];
+    // console.log(Round1Table1);
+    for(let i =0;i<4;i++){  
+        const tr =document.createElement('tr');
+        let appendedTr = Round1Table1.appendChild(tr);
+        for(let j =0;j<4;j++){
+            console.log('here');
+            const td=document.createElement('td');
+            //const tdVal=td.innerHTML=`${arr[i][j]}`;
+            appendedTr.appendChild(td);
+        }
+    }
+}
+function aesFillTableLastValue(arr){
+    const Round1 = document.getElementsByClassName('finalOutputValue')[0];
+    // console.log(Round1);
+    const Round1Table1 =Round1.getElementsByTagName('table')[0];
+    // console.log(Round1Table1);
+    for(let i =0;i<4;i++){  
+        const tr =document.createElement('tr');
+        let appendedTr = Round1Table1.appendChild(tr);
+        for(let j =0;j<4;j++){
+            console.log('here');
+            const td=document.createElement('td');
+            const tdVal=td.innerHTML=`${arr[i][j]}`;
+            appendedTr.appendChild(td);
+        }
+    }
+
+}
 
 function aesRound0To10(){
-    xorTextAndKey(keyArrays['rKA0']);
+    aesFillTableValue(aesPlainHexArr,0,0);
+    aesROFillTableValue(0,1);
+    aesROFillTableValue(0,2);
+    aesROFillTableValue(0,3);
+    aesFillTableValue(keyArrays['rKA0'],0,4);
+    xorTextAndKey(aesPlainHexArr,keyArrays['rKA0']);
+    aesFillTableValue(aesPlainHexArr,1,0);
     for(let i = 1;i<10;i++){
-        aesTheRounds(keyArrays['rKA'+i]);
+        aesTheRounds(keyArrays['rKA'+i],i);
     }
     lastRound(keyArrays['rKA'+10]);
     let str = convertStringOfBits();
@@ -251,7 +343,7 @@ function aesEncrypt(){
     createAesKey2DArray();
     aesGenerateRoundKey();
     splitAesPlaintext();
-    
+    simulationInitialConfiguration();
     aescipher.value = aesCiphertext;
 
     }catch(err){
@@ -261,22 +353,23 @@ function aesEncrypt(){
     //console.log(aesCiphertext);
 }
 
-function xorTextAndKey(keyArr){
+function xorTextAndKey(state,keyArr){
     for(let i = 0 ;i<4;i++){
         for(let j = 0 ;j<4;j++){
-            let intVal= ((parseInt(aesPlainHexArr[i][j],16)) ^ (parseInt(keyArr[i][j],16)));
-            aesPlainHexArr[i][j] = intVal.toString(16);
+            let intVal= ((parseInt(state[i][j],16)) ^ (parseInt(keyArr[i][j],16)));
+            state[i][j] = intVal.toString(16);
         }
     }
     
 }
 
-function interchangeRowAndColumn(){
+
+function interchangeRowAndColumn(state){
     for(let i =1;i<4;i++){
         for(let j=0;j<i;j++){
-            let temp = aesPlainHexArr[i][j];
-            aesPlainHexArr[i][j] = aesPlainHexArr[j][i];
-            aesPlainHexArr[j][i] = temp;
+            let temp = state[i][j];
+            state[i][j] = state[j][i];
+            state[j][i] = temp;
         }
     }
 }
@@ -343,7 +436,7 @@ function generateHexaNumber(hex1,hex2){
      return parseInt(binary,2);
 
 }
-function mixColumns(row,c){
+function mixColumns(state,row,c){
    for(let i =0 ;i<4;i++){
     let multipliedInt;
     let irreducable = 283 //11b;
@@ -357,17 +450,17 @@ function mixColumns(row,c){
             xorSum = xorSum ^ multipliedInt;
         }
    }
-   aesPlainHexArr[i][c]=xorSum.toString(16);
+   state[i][c]=xorSum.toString(16);
 }
 }
 
-function aesTheRounds(keyArr){
+function aesTheRounds(keyArr,roundNumber){
     aesPlainHexArr.forEach((rows)=>{
         sBoxByteSubstitution(rows);
     });
+    aesFillTableValue(aesPlainHexArr,roundNumber,1);
     
-    
-    interchangeRowAndColumn();
+    interchangeRowAndColumn(aesPlainHexArr);
     
 
     //let count = 0;
@@ -375,21 +468,21 @@ function aesTheRounds(keyArr){
        shiftRow(row,index);
     });
     
-    
+    aesFillTableValue(aesPlainHexArr,roundNumber,2);
     for(let i =0;i<4;i++){
         let arr=[];
         for(let j = 0;j<4;j++){
             arr[j]=aesPlainHexArr[j][i];
         }
-        mixColumns(arr,i);
+        mixColumns(aesPlainHexArr,arr,i);
         
     }
-    
+    aesFillTableValue(aesPlainHexArr,roundNumber,3);
     interchangeRowAndColumnForKey(keyArr);
-    
-    xorTextAndKey(keyArr);
-    
-    interchangeRowAndColumn();
+    aesFillTableValue(keyArr,roundNumber,4);
+    xorTextAndKey(aesPlainHexArr,keyArr);
+    aesFillTableValue(aesPlainHexArr,roundNumber+1,0);
+    interchangeRowAndColumn(aesPlainHexArr);
     interchangeRowAndColumnForKey(keyArr);
 
 }
@@ -397,16 +490,21 @@ function lastRound(keyArr){
     aesPlainHexArr.forEach((rows)=>{
         sBoxByteSubstitution(rows);
     });
+    aesFillTableValue(aesPlainHexArr,10,1);
 
-    interchangeRowAndColumn();
+    interchangeRowAndColumn(aesPlainHexArr);
 
     aesPlainHexArr.forEach((row,index)=>{
        shiftRow(row,index);
     });
+    aesFillTableValue(aesPlainHexArr,10,2);
     interchangeRowAndColumnForKey(keyArr);
-    xorTextAndKey(keyArr);
+    aesROFillTableValue(10,3)
+    aesFillTableValue(keyArr,10,4);
+    xorTextAndKey(aesPlainHexArr,keyArr);
+    aesFillTableLastValue(aesPlainHexArr);
     interchangeRowAndColumnForKey(keyArr);
-    interchangeRowAndColumn();
+    interchangeRowAndColumn(aesPlainHexArr);
 
 }
 
@@ -540,7 +638,7 @@ function mixColumnDecrypt(row,c){
 
 function aesDecryptFirstRound(){
     interchangeRowAndColumnForKey(keyArrays['rKA10']);
-    xorTextAndKey(keyArrays['rKA10']);
+    xorTextAndKey(aesPlainHexArr,keyArrays['rKA10']);
     interchangeRowAndColumnForKey(keyArrays['rKA10']);
     aesPlainHexArr.forEach((row,index)=>{
         rShiftRow(row,index);
@@ -555,7 +653,7 @@ function aesDecryptFirstRound(){
 function aesDecryptTheRounds(keyArr){
     interchangeRowAndColumnForKey(keyArr);
 
-    xorTextAndKey(keyArr);
+    xorTextAndKey(aesPlainHexArr,keyArr);
     interchangeRowAndColumnForKey(keyArr);
     for(let i =0;i<4;i++){
         let arr=[];
@@ -598,7 +696,7 @@ function splitAesCipherText(){
 }
 
 function aesDecryptRound0To10(){
-    interchangeRowAndColumn();
+    interchangeRowAndColumn(aesPlainHexArr);
     
     aesDecryptFirstRound();
     
@@ -608,9 +706,9 @@ function aesDecryptRound0To10(){
 
     interchangeRowAndColumnForKey(keyArrays['rKA0']);
 
-    xorTextAndKey(keyArrays['rKA0']);
+    xorTextAndKey(aesPlainHexArr,keyArrays['rKA0']);
 
-    interchangeRowAndColumn();
+    interchangeRowAndColumn(aesPlainHexArr);
     interchangeRowAndColumnForKey(keyArrays['rKA0']);
     aesPlaintext+=generateAesCipherText();
 }
@@ -719,6 +817,229 @@ function convertIntoHexaDecimal(v1){
     }
     
 }
+
+// simulator code here &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+let aesStateArray;
+let stateTable;
+let roundKeyOne;
+let roundOneKeyTable;
+let theRoundKey;
+let theRoundKeyTable;
+let roundKeyLast;
+let roundKeyLastTable;
+
+function updateSimulationStateArray(){
+    for(let i = 0;i<4;i++){
+        const stateTr =stateTable.getElementsByTagName('tr')[i];
+        for(let j = 0;j<4;j++){
+            const trVal =stateTr.getElementsByTagName('td')[j];
+            trVal.innerHTML=`${aesAnimationStateArr[i][j]}`;
+        }
+       }
+}
+function updateSimulationKeyArray(key){
+    for(let i = 0;i<4;i++){
+        const KeyTr =theRoundKeyTable.getElementsByTagName('tr')[i];
+        for(let j = 0;j<4;j++){
+            const trVal =KeyTr.getElementsByTagName('td')[j];
+            trVal.innerHTML=`${key[i][j]}`;
+        }
+       }
+}
+
+function aesAnimate1(){  
+    aesStateArray.classList.add('aesFirstMoveAnimation');
+    roundOneKeyTable.classList.add('aesKeyMoveAnimation');
+    setTimeout(()=>{
+        xorTextAndKey(aesAnimationStateArr,keyArrays['rKA0']);
+        updateSimulationStateArray();
+    },1000)
+}
+let roundNumber=1;
+let counter;
+let ch3;
+function aesAnimate2(key,n){
+    // aesStateArray.classList.remove('aesFirstMoveAnimation');
+    const counter = document.getElementsByClassName('counter')[0];
+    const ch3 = counter.getElementsByTagName('h3')[0];
+    ch3.innerHTML=`${roundNumber}`;
+    
+    setTimeout(()=>{
+        aesAnimationStateArr.forEach((rows)=>{
+            sBoxByteSubstitution(rows);  
+        });
+        interchangeRowAndColumn(aesAnimationStateArr);
+        updateSimulationStateArray();
+    },1500)
+
+    setTimeout(()=>{
+        aesAnimationStateArr.forEach((row,index)=>{
+            shiftRow(row,index);
+         });
+         updateSimulationStateArray();
+    },4500)
+    
+     setTimeout(()=>{
+        for(let i =0;i<4;i++){
+        let arr=[];
+        for(let j = 0;j<4;j++){
+            arr[j]=aesAnimationStateArr[j][i];
+        }
+        mixColumns(aesAnimationStateArr,arr,i);
+    }
+    updateSimulationStateArray();
+    
+},7000)
+setTimeout(()=>{
+    theRoundKeyTable.classList.add('aesKeyMoveAnimation');
+},9000)
+setTimeout(()=>{
+    interchangeRowAndColumnForKey(key);
+    xorTextAndKey(aesAnimationStateArr,key);
+    updateSimulationStateArray();
+    interchangeRowAndColumn(aesAnimationStateArr);
+    interchangeRowAndColumnForKey(key);
+    
+},10000)
+setTimeout(()=>{
+    updateSimulationKeyArray(keyArrays[`${'rKA'+n}`]);
+},10000)
+ roundNumber++;   
+}
+function aesAnimate3(key9,key10,n){
+    // aesStateArray.classList.remove('aesEightMoveAnimation');
+        aesStateArray.classList.add('aesNineMoveAnimation');
+        ch3.innerHTML=`${roundNumber}`;
+    setTimeout(()=>{
+        aesAnimationStateArr.forEach((rows)=>{
+            sBoxByteSubstitution(rows);  
+        });
+        interchangeRowAndColumn(aesAnimationStateArr);
+        updateSimulationStateArray();
+    },500)
+
+    setTimeout(()=>{
+        aesAnimationStateArr.forEach((row,index)=>{
+            shiftRow(row,index);
+         });
+         updateSimulationStateArray();
+    },3000)
+    
+     setTimeout(()=>{
+        for(let i =0;i<4;i++){
+        let arr=[];
+        for(let j = 0;j<4;j++){
+            arr[j]=aesAnimationStateArr[j][i];
+        }
+        mixColumns(aesAnimationStateArr,arr,i);
+    }
+    updateSimulationStateArray();
+    
+},5000)
+setTimeout(()=>{
+    theRoundKeyTable.classList.add('aesKeyMoveAnimation');
+},6000)
+
+setTimeout(()=>{
+    interchangeRowAndColumnForKey(key9);
+    xorTextAndKey(aesAnimationStateArr,key9);
+    updateSimulationStateArray();
+    interchangeRowAndColumn(aesAnimationStateArr);
+    interchangeRowAndColumnForKey(key9);
+    
+},7000)
+setTimeout(()=>{
+    updateSimulationKeyArray(keyArrays[`${'rKA'+n}`]);
+},8000) 
+// last Round animation
+
+setTimeout(()=>{
+    roundNumber++;
+    ch3.innerHTML=`${roundNumber}`;
+    theRoundKeyTable.classList.remove('aesKeyMoveAnimation');
+    aesAnimationStateArr.forEach((rows)=>{
+        sBoxByteSubstitution(rows);  
+    });
+    interchangeRowAndColumn(aesAnimationStateArr);
+    updateSimulationStateArray();
+},9000)
+setTimeout(()=>{
+    aesAnimationStateArr.forEach((row,index)=>{
+        shiftRow(row,index);
+     });
+     updateSimulationStateArray();
+},11000)
+setTimeout(()=>{
+    roundKeyLastTable.classList.add('aesKeyMoveAnimation');
+},12000)
+setTimeout(()=>{
+    roundKeyLastTable.classList.add('aesKeyMoveAnimation');
+    interchangeRowAndColumnForKey(key10);
+    xorTextAndKey(aesAnimationStateArr,key10);
+    updateSimulationStateArray();
+    interchangeRowAndColumn(aesAnimationStateArr);
+    interchangeRowAndColumnForKey(key10);
+    
+},13000)
+}
+const aesNextButton = document.getElementById("aesnext");
+aesNextButton.addEventListener("click", eval(aesSimulateFunctions));
+let aesAnimateCount =1;
+function aesSimulateFunctions(){
+        aesAnimate1(keyArrays['rKA0']);
+        
+        setTimeout(()=>{
+            aesStateArray.classList.add('aesEightMoveAnimation');
+            aesAnimate2(keyArrays['rKA1'],2);
+        },3000) 
+        
+        setTimeout(()=>{
+            theRoundKeyTable.classList.remove('aesKeyMoveAnimation');
+            aesAnimate2(keyArrays['rKA2'],3);
+        },18000)
+        setTimeout(()=>{
+            theRoundKeyTable.classList.remove('aesKeyMoveAnimation');
+            aesAnimate2(keyArrays['rKA3'],4);
+        },33000)
+        setTimeout(()=>{
+            theRoundKeyTable.classList.remove('aesKeyMoveAnimation');
+            aesAnimate2(keyArrays['rKA4'],5);
+        },48000)
+        setTimeout(()=>{
+            theRoundKeyTable.classList.remove('aesKeyMoveAnimation');
+            aesAnimate2(keyArrays['rKA5'],6);
+        },63000)
+        setTimeout(()=>{
+            theRoundKeyTable.classList.remove('aesKeyMoveAnimation');
+            aesAnimate2(keyArrays['rKA6'],7);
+        },78000)
+        setTimeout(()=>{
+            theRoundKeyTable.classList.remove('aesKeyMoveAnimation');
+            aesAnimate2(keyArrays['rKA7'],8);
+        },93000)
+        setTimeout(()=>{
+            theRoundKeyTable.classList.remove('aesKeyMoveAnimation');
+            aesAnimate2(keyArrays['rKA8'],9); 
+        },108000)
+        setTimeout(()=>{
+            theRoundKeyTable.classList.remove('aesKeyMoveAnimation');
+           aesAnimate3(keyArrays['rKA9'],keyArrays['rKA10'],10);
+        },123000)
+    }
+
+function aesBackdropAndModal(){
+    const backdrop = document.getElementsByClassName('aesBackdrop')[0];
+    const modal = document.getElementsByClassName('aesModal')[0];
+    backdrop.style.display="block";
+    modal.style.display="block";
+}
+function closeAesBackdrop(){
+    const modal = document.getElementsByClassName('aesModal')[0];
+    backdrop.style.display="none";
+    modal.style.display="none";
+}
+const backdrop = document.getElementsByClassName('aesBackdrop')[0];
+backdrop.addEventListener("click",closeAesBackdrop);
 
 
 

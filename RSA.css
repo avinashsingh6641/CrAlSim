@@ -1,0 +1,176 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    text-decoration:none;
+}
+
+
+[data-rsa-info] {
+    display: none;
+}
+  
+.active7[data-rsa-info] {
+    display: block; 
+}
+  
+
+.rsa{
+    display:flex;
+    flex-direction: column;
+    width: 100%;
+    height: 140%;
+}  
+.rsaMenu{
+    display:flex;
+    flex-direction: row;
+    width:100%;
+    justify-content:space-around;
+    align-items: center;
+    cursor:pointer;
+    height:2.5rem;
+    border-bottom: 1px solid rgb(140, 138, 138);
+    border-top: 1px solid rgb(131, 131, 131);
+    background-color: rgb(235, 250, 245);
+}
+.rsaMenu span{
+    font-family: sans-serif;
+    font-size: large;
+    padding:0 3rem;
+    padding-bottom: 0.5rem;
+}
+.rsa-content{
+    width:100%;
+    height:100%;
+   
+}
+.rsaMenu span:hover{
+    color:rgb(136, 23, 242);
+    transition: ease-in-out 0.2s;
+}
+.rsaMenu span.activersatab{
+    border-bottom: 0.2rem solid rgb(18, 165, 165);
+    color:rgb(136, 23, 242);
+    cursor: pointer; 
+}
+.rsa-content__rsa{
+    width:100%;
+    height:100%;
+}
+.rsaCipherDecipher{
+    display:flex;
+    width:100%;
+    height:100%;
+    background-color: rgb(217, 251, 251);
+    justify-content: center;
+}
+.rsaEncryptDecryptContainer{
+    height:97%;
+    width:90%;
+    margin-top: 1rem;
+    background-color:rgb(228, 206, 248);
+    border-radius: 1rem;
+}
+.rsaStep1Input,.rasStep2Input,.rasStep3Input,.rasStep4Input{
+    width:90%;
+    /* background-color: cyan; */
+    margin-left: 2rem;
+    display:flex;
+    flex-direction: column;
+    margin-top: 1rem;
+    border-bottom: 1px solid black;
+}
+.rasStep4Input{
+    border-bottom: none;
+}
+.step1Input span{
+    color: red;
+}
+.step1Input p,.step2EDInput p{
+    color: black;
+}
+.rsaStep1Input h5{
+    color: rgb(1, 66, 66);
+    font-family: sans-serif;
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: row;
+}
+.rsaStep1Input h5 p{
+    margin-left: 2rem;
+    color: blueviolet;
+}
+.rsaStep1Input h5 span{
+    margin-left:1rem;
+    color: red;
+}
+.rsaStep1Input button{
+    width:7rem;
+    height:2rem;
+    cursor: pointer;
+}
+.step1Input input,.step2EDInput input,.step3Input input,.step4Input input{
+    height:2rem;
+    width:6rem;
+    border:none;
+    border-radius: 1rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    text-align: center;
+}
+.step1Input label{
+    font-size: 1.5rem;
+}
+.step1Input{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+.step2EDInput,.step3Input,.step4Input{
+    display:flex;
+    flex-direction: column;
+    margin-top: 1rem;
+}
+.step2EDInput span,.step3Input span,.step4Input span{
+    color: red;
+}
+.step2EDInput label,.step3Input label,.step4Input label{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-family: sans-serif;
+    font-size: 1.5rem;
+}
+.rsaPublicAndPrivateKey{
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+    background-color: rgb(36, 240, 97);
+    border-radius: 1rem;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.rsaPublicAndPrivateKey span{
+    color: red;
+    margin-left: 1rem;
+}
+.rsaPublicAndPrivateKey h6{
+    display:flex;
+    flex-direction: row;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+.rsaPublicAndPrivateKey p{
+    color: blue;
+}
+.step3Input button,.step4Input button{
+    width:5rem;
+    height:2rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+}

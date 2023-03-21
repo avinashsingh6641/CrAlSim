@@ -36,6 +36,21 @@
     $('#Affine').load('Affine.html');
   });
 </script>
+<script>
+  $(function(){
+    $('#Additive').load('Additive.html');
+  });
+</script>
+<script>
+  $(function(){
+    $('#Multiplicative').load('Multiplicative.html');
+  });
+</script>
+<script>
+  $(function(){
+    $('#RSA').load('RSA.html');
+  });
+</script>
 </head>
 <body>
       <div class="algoheader" id="algoheader"></div>
@@ -49,21 +64,21 @@
           <p>Stream</p>
           <p>Monoalphabetic</p>
         <span class="active"data-tab-value="#tab_1">Additive</span>
-        <span data-tab-value="#tab_2">Ceaser</span>
+        <!-- <span data-tab-value="#tab_2">Ceaser</span> -->
         <span data-tab-value="#tab_3">Multiplicative</span>
         <span data-tab-value="#tab_4">Affine</span>
 
-        <p>Polyalphabetic</p>
+        <!-- <p>Polyalphabetic</p>
         <span data-tab-value="#tab_5">Playfair</span>
         <span data-tab-value="#tab_6">Vigener</span>
-        <span data-tab-value="#tab_7">Hill</span>
+        <span data-tab-value="#tab_7">Hill</span> -->
 
         <p>Block</p>
         <span data-tab-value="#tab_8">AES</span>
         <span data-tab-value="#tab_9">DES</span>
 
         <p>Assymetric</p>
-        <span data-tab-value="#tab_10">Elgamel</span>
+        <!-- <span data-tab-value="#tab_10">Elgamel</span> -->
         <span data-tab-value="#tab_11">RSA</span>
         
     </div>
@@ -71,22 +86,22 @@
   
     <div class="tab-content">
         <div class="tabs__tab active" id="tab_1" data-tab-info>
-            <p>Additive</p>
+          <div class="Additive" id= "Additive"></div>
   
         </div>
-        <div class="tabs__tab" id="tab_2" data-tab-info>
+        <!-- <div class="tabs__tab" id="tab_2" data-tab-info>
             <p>ceaser</p>
   
-        </div>
+        </div> -->
         <div class="tabs__tab" id="tab_3" data-tab-info>
-            <p>multliplicative</p>
+          <div class="Multiplicative" id= "Multiplicative"></div>
   
         </div>
         <div class="tabs__tab" id="tab_4" data-tab-info>
           <div class="Affine" id= "Affine"></div>
 
       </div>
-      <div class="tabs__tab" id="tab_5" data-tab-info>
+      <!-- <div class="tabs__tab" id="tab_5" data-tab-info>
           <p>playfair</p>
 
       </div>
@@ -95,9 +110,9 @@
 
       </div>
       <div class="tabs__tab" id="tab_7" data-tab-info>
-        <p>hill</p>
+        <p>hill</p> -->
 
-    </div>
+    <!-- </div> -->
     <div class="tabs__tab" id="tab_8" data-tab-info>
         <div class="AES" id="AES"></div>
 
@@ -107,12 +122,12 @@
         <div class="DES" id="DES"></div>
 
     </div>
-    <div class="tabs__tab" id="tab_10" data-tab-info>
+    <!-- <div class="tabs__tab" id="tab_10" data-tab-info>
       <p>elgamel</p>
 
-  </div>
+  </div> -->
   <div class="tabs__tab" id="tab_11" data-tab-info>
-      <p>RSA</p>
+    <div class="RSA" id="RSA"></div>
 
   </div>
 

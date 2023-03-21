@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- <link rel="stylesheet" href="DES.css"> -->
+  <script src="Multiplicative.js"></script>
+  </link>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CrAlSim</title>
+  <link rel="stylesheet" href="Multiplicative.css">
+  </link>
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+    integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous">
+    </script>
+</head>
+
+<body>
+  <div class="multiplicative">
+    <div class="multiplicativeMenu">
+
+      <span class="active6 activemultiplicativetab" data-multiplicative-value="#multiplicative_1">Cipher/Decipher</span>
+      <!-- <span data-multiplicative-value="#multiplicative_2">simulator</span> -->
+      <span data-multiplicative-value="#multiplicative_3">Theory</span>
+
+    </div>
+
+    <div class="multiplicative-content">
+      <div class="multiplicative-content__multiplicative active6" id="multiplicative_1" data-multiplicative-info>
+        <div class="multiplicativeCipherDecipher">
+            <div class="multiplicativeMainDiv">
+                <div class="multiplicativeKeyInputFields">
+                   <label for="multiplicativeKeyField">Key:</label>
+                   <input type="text" id="multiplicativeKeyField" placeholder="Enter Key " value=""> 
+                   <span>Enter single string character only</span>
+                </div>
+   
+                <div class="multiplicativePlainInputFields">
+                   <label for="multiplicativePlainField">Plain Text:</label>
+                   <input type="text" id="multiplicativePlainField" placeholder="Enter Plain Text " value=""> 
+                   <button type="button" onclick="multiplicativeEncrypt()">Encrypt</button>
+                </div>
+   
+                <div class="multiplicativeCipherInputFields">
+                   <label for="multiplicativeCipherField">Cipher Text:</label>
+                   <input type="text" id="multiplicativeCipherField" placeholder="Enter Cipher Text " value=""> 
+                   <button type="button" onclick="multiplicativeDecrypt()">Decrypt</button>
+                </div>
+                <div class="multiplicativeTransformedValue">
+                  <h4>Transformed Value Table</h4>
+                  <div class="multiplicativeTransformedValueTable">
+                  <table>
+                    <tr></tr>
+                    <tr></tr>
+                    <tr></tr>
+                    <tr></tr>
+                  </table>
+                </div>
+             </div>
+        </div>
+      </div>
+
+      <!-- <div class="multiplicative-content__multiplicative" id="multiplicative_2" data-multiplicative-info>
+        <div class="multiplicativeCipherDecipher">
+          <p>decipher</p>
+        </div>
+      </div> -->
+      <div class="multiplicative-content__multiplicative" id="multiplicative_3" data-multiplicative-info>
+        <div class="multiplicativeCipherDecipher">
+          <p>theory</p>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script type="text/javascript">
+    const multiplicativetabs = document.querySelectorAll('[data-multiplicative-value]')
+    const multiplicativetabInfos = document.querySelectorAll('[data-multiplicative-info]')
+
+    multiplicativetabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = document
+          .querySelector(tab.dataset.multiplicativeValue);
+
+          multiplicativetabInfos.forEach(multiplicativeInfo => {
+            multiplicativeInfo.classList.remove('active6')
+        })
+        target.classList.add('active6');
+        target.classList.add('activemultiplicativetab');
+      })
+    })
+  </script>
+
+  <script type="text/javascript">
+    $(document).on('click', 'span', function () {
+      $(this).addClass('activemultiplicativetab').siblings().removeClass('activemultiplicativetab')
+    });
+  </script>
+
+</body>
+
+</html>

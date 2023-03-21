@@ -18,6 +18,179 @@
 </head>
 
 <body>
+  <div class="aesBackdrop"></div>
+  <div class="aesModal">
+    <div class="aesHeadingValue">
+      <p>Start of Round</p>
+      <p>After SubBytes</p>
+      <p>After ShiftRows</p>
+      <p>After MixColumns</p>
+      <p>Round Key</p>
+    </div>
+    <div class="aesTransformedValueTable">
+      <div class="aesRoundValue">
+        <h3>Round 0</h3>
+        <table></table>
+        <table></table>
+        <table></table>
+        <table></table>
+        <div class="aesXorLogo">
+          <hr>
+          <hr>
+        </div>
+        <table></table>
+        <h4>=</h4>
+      </div>
+
+      <div class="aesRoundValue">
+        <h3>Round 1</h3>
+        <table></table>
+        <table></table>
+        <table></table>
+        <table></table>
+        <div class="aesXorLogo">
+          <hr>
+          <hr>
+        </div>
+        <table></table>
+        <h4>=</h4>
+      </div>
+
+      <div class="aesRoundValue">
+        <h3>Round 2</h3>
+        <table></table>
+        <table></table>
+        <table></table>
+        <table></table>
+        <div class="aesXorLogo">
+          <hr>
+          <hr>
+        </div>
+        <table></table>
+        <h4>=</h4>
+      </div>
+
+      <div class="aesRoundValue">
+        <h3>Round 3</h3>
+        <table></table>
+        <table></table>
+        <table></table>
+        <table></table>
+        <div class="aesXorLogo">
+          <hr>
+          <hr>
+        </div>
+        <table></table>
+        <h4>=</h4>
+      </div>
+
+      <div class="aesRoundValue">
+        <h3>Round 4</h3>
+        <table></table>
+        <table></table>
+        <table></table>
+        <table></table>
+        <div class="aesXorLogo">
+          <hr>
+          <hr>
+        </div>
+        <table></table>
+        <h4>=</h4>
+      </div>
+
+      <div class="aesRoundValue">
+        <h3>Round 5</h3>
+        <table></table>
+        <table></table>
+        <table></table>
+        <table></table>
+        <div class="aesXorLogo">
+          <hr>
+          <hr>
+        </div>
+        <table></table>
+        <h4>=</h4>
+      </div>
+
+      <div class="aesRoundValue">
+        <h3>Round 6</h3>
+        <table></table>
+        <table></table>
+        <table></table>
+        <table></table>
+        <div class="aesXorLogo">
+          <hr>
+          <hr>
+        </div>
+        <table></table>
+        <h4>=</h4>
+      </div>
+
+      <div class="aesRoundValue">
+        <h3>Round 7</h3>
+        <table></table>
+        <table></table>
+        <table></table>
+        <table></table>
+        <div class="aesXorLogo">
+          <hr>
+          <hr>
+        </div>
+        <table></table>
+        <h4>=</h4>
+      </div>
+
+      <div class="aesRoundValue">
+        <h3>Round 8</h3>
+        <table></table>
+        <table></table>
+        <table></table>
+        <table></table>
+        <div class="aesXorLogo">
+          <hr>
+          <hr>
+        </div>
+        <table></table>
+        <h4>=</h4>
+      </div>
+
+      <div class="aesRoundValue">
+        <h3>Round 9</h3>
+        <table></table>
+        <table></table>
+        <table></table>
+        <table></table>
+        <div class="aesXorLogo">
+          <hr>
+          <hr>
+        </div>
+        <table></table>
+        <h4>=</h4>
+      </div>
+
+      <div class="aesRoundValue">
+        <h3>Round 10</h3>
+        <table></table>
+        <table></table>
+        <table></table>
+        <table></table>
+        <div class="aesXorLogo">
+          <hr>
+          <hr>
+        </div>
+        <table></table>
+        <h4>=</h4>
+      </div>
+      <div class="finalOutputValue">
+        <h6>Final OutPut</h6>
+        <table></table>
+      </div>
+    </div>
+    <div class="aesModalButton">
+      <button onclick="closeAesBackdrop()">Close</button>
+    </div>
+    
+  </div>
   <div class="aes">
     <div class="aesMenu">
 
@@ -36,9 +209,9 @@
             <p>Key should be 128 bit <span>i.e of 16 Characters</span></p>
             <div class="aeskey">
 
-            <label for="aeskey">128 bit Key:</label>
-            <input type="text" id="aeskey" placeholder="Enter 128 bit key">
-          </div>
+              <label for="aeskey">128 bit Key:</label>
+              <input type="text" id="aeskey" placeholder="Enter 128 bit key">
+            </div>
 
             <div class="aesplaintext">
               <label for="aesplaintext">Plain Text:</label>
@@ -53,29 +226,9 @@
             </div>
             <hr>
             <div class="aesTransformedTable">
-              <table>
-                <tr>
-                  <td>A</td>
-                  <td>b</td>
-                  
-                </tr>
-                <tr>
-                  <td>A</td>
-                  <td>b</td>
-                </tr>
-                <tr>
-                  <td>A</td>
-                  <td>b</td>
-                  
-                </tr>
-                <tr>
-                  <td>A</td>
-                  <td>b</td>
-                  
-                </tr>
-              </table>
+              <p>Hexa decimal value is converted into Base64 </p>
             </div>
-              <button type="button" onclick="">Reset</button>
+            <button type="button" onclick="">Reset</button>
 
           </div>
         </div>
@@ -83,7 +236,117 @@
 
       <div class="aes-content__aes" id="aes_2" data-aes-info>
         <div class="aesCipherDecipher">
-          <p>decipher</p>
+          <!-- <div class="aesSimulate"> -->
+
+          <hr class="verticalLine1">
+          <hr class="horizontalLine1">
+          <hr class="verticalLine2">
+          <hr class="horizontalLine2">
+          <div class="aesStateArray">
+            <table>
+              <tr></tr>
+              <tr></tr>
+              <tr></tr>
+              <tr></tr>
+            </table>
+          </div>
+          <div class="aesFirstRoundMajorDiv">
+            <div class="roundsText">
+              <p>Initial Round</p>
+            </div>
+            <div class="aesFirstRound">
+              <p>AddRoundKey</p>
+            </div>
+            <div class="firstRoundKey">
+              <p>Round Key 0</p>
+              <table>
+                <tr>
+
+                </tr>
+                <tr>
+
+                </tr>
+                <tr>
+
+                </tr>
+                <tr>
+
+                </tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="aesTheRoundsMajorDiv">
+            <div class="roundsText">
+              <div class="counter">
+                <p>Round Count</p>
+                <h3>0</h3>
+              </div>
+              <p>9 Main Rounds</p>
+            </div>
+            <div class="aesTheRounds">
+              <p>1-SubBytes</p>
+              <p>2-ShiftRows</p>
+              <p>3-MixColumns</p>
+              <p>4-AddRoundKey</p>
+            </div>
+
+            <div class="roundKey">
+              <p>Round Key 1-9</p>
+              <hr>
+              <table>
+                <tr>
+
+                </tr>
+                <tr>
+
+                </tr>
+                <tr>
+
+                </tr>
+                <tr>
+
+                </tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="aesLastRoundMajorDiv">
+            <div class="roundsText">
+              <p>Final Round</p>
+            </div>
+            <div class="aesLastRound">
+              <p>1-SubBytes</p>
+              <p>2-ShiftRows</p>
+              <p>3-AddRoundKey</p>
+            </div>
+            <div class="lastRoundKey">
+              <p>Round Key 10</p>
+              <table>
+                <tr>
+
+                </tr>
+                <tr>
+
+                </tr>
+                <tr>
+
+                </tr>
+                <tr>
+
+                </tr>
+              </table>
+            </div>
+          </div>
+          <!-- </div> -->
+          <div class="aesSimulationBottomDiv">
+            <button onclick="aesBackdropAndModal()">All Value</button>
+          <div class="aesSimulateButton">
+            <button type="button" id="aesnext">Start</button>
+            <button>Play</button>
+            <button>Pause</button>
+          </div>
+        </div>
         </div>
       </div>
       <div class="aes-content__aes" id="aes_3" data-aes-info>

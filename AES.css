@@ -63,7 +63,8 @@
     width:100%;
     height:100%;
     background-color: rgb(217, 251, 251);
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 }
 
 /* input page css */
@@ -144,7 +145,402 @@
     
 }
 
+/* simulator css */
+.aesSimulate{
+    display:flex;
+    width:100%;
+    height:100%;
+    background-color: rgb(217, 251, 251);
+    flex-direction: column;
+    align-items: center;
+}
 
+.verticalLine1{
+    display:block;
+    transform: rotate(90deg);
+       border: 1px solid black;
+       width:37rem;
+       position:relative;
+       top:44%;
+}
+.horizontalLine1{
+    display:block;
+       border: 1px solid black;
+       width:10rem;
+       position:relative;
+       top:55%;
+       left:6.5%;
+}
+.verticalLine2{
+    display:block;
+    transform: rotate(90deg);
+       border: 1px solid black;
+       width:12rem;
+       position:relative;
+       top:40.6%;
+       left:13.2%;
+}
+.horizontalLine2{
+    display:block;
+       border: 1px solid black;
+       width:10rem;
+       position:relative;
+       top:26.2%;
+       left:6.5%;
+}
+.aesInitialState{
+    margin:1rem;
+}
+.aesInitialState td,tr{
+    width:0.3rem ;
+    height:0.7rem;
+    font-size: 0.6rem;
+    
+}
+.aesAddRoundKey{
+    width:15rem;
+    height:2rem;
+    border-radius:1rem;
+    background-color: rgb(97, 245, 117);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.aesTheRoundsMajorDiv{
+    margin-top: 1rem;
+    border-top-style: dotted;
+    border-bottom-style: dotted;
+    width:80%;
+    height:40%;
+    z-index: 2;
+}
+.aesLastRoundMajorDiv{
+    width:80%;
+    height:40%;
+    justify-content:space-around ;
+    z-index: 2;
+    
+}
+.aesFirstRoundMajorDiv{
+    width:80%;
+    height:20%;
+    z-index: 2;
+}
+.firstRoundKey{
+    height:80%;
+    display:flex;
+    justify-content:space-between;
+    align-items: center;
+    width:17%;
+    align-self: center;
+    flex-direction: column;
+
+}
+.lastRoundKey{
+    height:50%;
+    display:flex;
+    justify-content:space-between;
+    align-items: center;
+    width:20%;
+    align-self: center;
+    flex-direction: column;
+
+}
+.aesTheRoundsMajorDiv,.aesLastRoundMajorDiv,.aesFirstRoundMajorDiv{
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+}
+.roundKey,.firstRoundKey,.lastRoundKey{
+    border:1px solid black;
+}
+.roundKey,.roundsText{
+    display:flex;
+    justify-content:space-between;
+    align-items: center;
+    width:17%;
+    height:50%;
+    align-self: center;
+    flex-direction: column;
+}
+.roundKey table,.lastRoundKey table{
+    margin-bottom: 1rem;
+}
+.counter{
+    display: flex;
+    flex-direction: column;
+    background-color: black;
+    align-items: center;
+    border-radius: 0.2rem;
+    padding:0.5rem;
+    margin-bottom: 0.5rem;
+}
+.counter p{
+    font-size: small;
+}
+.counter p,.counter h3{
+    color: white;
+}
+.aesTheRounds{
+    margin-top: 1rem;
+    width:25%;
+    height:40%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.aesTheRounds p,.aesLastRound p,.aesFirstRound p{
+    width:15rem;
+    height:2rem;
+    border-radius: 1rem;
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+.aesFirstRound{
+    margin-top: 5rem;
+}
+.aesTheRounds p:first-child,.aesLastRound p:first-child{
+    background-color: rgb(83, 178, 225);
+}
+
+.aesTheRounds p:nth-child(2),.aesLastRound p:nth-child(2){
+    background-color: rgb(248, 100, 94);
+}
+.aesTheRounds p:nth-child(3){
+    background-color: rgb(232, 246, 106);
+}
+.aesTheRounds p:last-child,.aesLastRound p:last-child,.aesFirstRound p{
+    background-color: rgb(97, 245, 117);
+}
+.aesLastRound{
+    margin-top: 1rem;
+    width:80%;
+    height:40%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.aesStateArray{
+    position: absolute;
+    top: 12rem;
+    z-index: 5;
+}
+.aesSimulationBottomDiv{
+    display:flex;
+    flex-direction: row;
+    width:100%;
+    justify-content: space-between;
+}
+.aesSimulationBottomDiv button{
+    width:4rem;
+    height:2rem;
+    margin-left: 2rem;
+}
+.aesSimulateButton{
+    display:flex;
+    flex-direction: row;
+    width:100%;
+    justify-content:flex-end;
+}
+.aesSimulateButton button{
+    margin-bottom:1rem;
+    padding:0.5rem 1rem;
+    cursor: pointer;
+    margin-left: 1rem;
+    margin-right: 1rem;
+
+}
+
+/* aes animation */
+
+.aesFirstMoveAnimation{
+    /* animation-fill-mode: forwards; */
+    animation-name:slide;
+  animation-duration: 3s;
+}
+.aesKeyMoveAnimation{
+    animation-name: move-key-aes;
+    animation-duration: 2s;
+}
+.aesEightMoveAnimation{
+    /* animation-fill-mode: forwards; */
+    animation-name: eightround;
+  animation-duration: 15s;
+  animation-iteration-count: 8;
+}
+.aesNineMoveAnimation{
+    animation-fill-mode:forwards;
+    animation-name: ninethround;
+  animation-duration: 15s;
+  animation-iteration-count:1;
+}
+
+
+@keyframes slide {
+    0%{transform:translateY(0rem);opacity: 1;}
+    50%{opacity: 0;}
+    100%{transform:translateY(8rem);opacity: 1;}
+}
+@keyframes move-key-aes {
+    0%{transform:translateY(0rem);opacity: 1;}
+    30%{transform:translateY(3.5rem);opacity: 0.7;}
+    100%{transform:translateY(3.5rem) translateX(-20rem);opacity: 0;}
+}
+@keyframes eightround {
+    0%{transform:translateY(8rem);opacity: 1;}
+    10%{opacity: 0;}
+    20%{transform:translateY(12.2rem);opacity: 1;}
+    30%{opacity: 0;}
+    40%{transform:translateY(15rem);opacity:1;}
+    50%{opacity: 0;}
+    60%{transform:translateY(18rem);opacity: 1;}
+    70%{opacity: 0;}
+    80%{transform:translateY(21rem);opacity: 1;}
+    90%{transform:translateX(11rem) translateY(21rem);}
+    95%{transform:translateX(11rem) translateY(8rem);}
+    100%{transform:translateY(8rem) translateX(0rem);}
+       
+}
+@keyframes ninethround{
+    0%{transform:translateY(8rem);opacity: 1;}
+    7%{opacity: 0;}
+    14%{transform:translateY(12.2rem);opacity: 1;}
+    21%{opacity: 0;}
+    28%{transform:translateY(15rem);opacity:1;}
+    35%{opacity: 0;}
+    42%{transform:translateY(18rem);opacity: 1;}
+    49%{opacity: 0;}
+    56%{transform:translateY(21rem);opacity: 1;}
+    63%{opacity: 0;}
+    70%{transform:translateY(27.5rem);opacity: 1;}
+    77%{opacity: 0;}
+    84%{transform:translateY(30.5rem);opacity: 1;}
+    91%{opacity: 0;}
+    100%{transform:translateY(33.5rem);opacity: 1;}
+}
+
+.aesBackdrop{
+    position: absolute;
+  top: 0;
+  left: 0;
+  height: 115%;
+  width: 100%;
+  z-index: 10;
+  background-color: rgb(15, 15, 15);
+  opacity: 0.6;
+  display:none;
+}
+.aesModal{
+    position: absolute;
+    width:80%;
+    height:88%;
+    z-index:11;
+    top:10%;
+    left:10%;
+    display:none;
+    background-color: white;
+    border-radius: 0.3rem;
+}
+.aesHeadingValue{
+    width:100%;
+    height:5%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.aesHeadingValue p{
+    color: black;
+    
+}
+.aesHeadingValue :first-child{
+  margin-left: 12rem;
+}
+.aesHeadingValue :last-child{
+    margin-right: 6rem;
+  }
+.aesTransformedValueTable{
+     width:100;
+     height:80%;
+     overflow-y: scroll;
+     scroll-behavior: smooth;
+}
+.aesModalButton{
+  width:100%;
+  height:5%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-top: 3rem;
+}
+.aesModalButton button{
+    width:5rem;
+    height:2rem;
+    margin-right: 2rem;
+}
+.aesRoundValue{
+    width:100%;
+    height:7rem;
+    border-bottom: 2px dotted black;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin:1rem;
+}
+.finalOutputValue{
+    width:100%;
+    height:7rem;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+}
+.finalOutputValue h6{
+    margin-bottom:0.2rem;
+}
+.finalOutputValue table{
+    width:5rem;
+}
+
+.aesRoundValue table{
+    margin:0rem 2.5rem;
+}
+.aesRoundValue table tr td,.finalOutputValue table tr td{
+    background-color: #96D4D4;
+
+}
+.finalOutputValue tr td{
+    height:1rem;
+}
+.aesRoundValue tr td{
+    height:1.5rem;
+}
+.aesXorLogo{
+    width:1rem;
+    height:1rem;
+    border:1px solid black;
+    border-radius: 0.5rem;
+    position: relative;
+
+}
+.aesXorLogo hr:first-child{
+    transform: rotate(90deg);
+    width:100%;
+    color:5px solid black;
+    top:0.5rem;
+    position:absolute;
+    /* margin-left: 0.5rem; */
+}
+.aesXorLogo hr:last-child{
+    width:100%;
+    color:5px solid black;
+    top:0.4rem;
+    position:absolute;
+    /* margin-left: 0.5rem; */
+}
   
 
 

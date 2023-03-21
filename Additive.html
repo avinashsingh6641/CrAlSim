@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- <link rel="stylesheet" href="DES.css"> -->
+  <script src="Additive.js"></script>
+  </link>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CrAlSim</title>
+  <link rel="stylesheet" href="Additive.css">
+  </link>
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+    integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous">
+    </script>
+</head>
+
+<body>
+  <div class="additive">
+    <div class="additiveMenu">
+
+      <span class="active5 activeadditivetab" data-additive-value="#additive_1">Cipher/Decipher</span>
+      <!-- <span data-additive-value="#additive_2">simulator</span> -->
+      <span data-additive-value="#additive_3">Theory</span>
+
+    </div>
+
+    <div class="additive-content">
+      <div class="additive-content__additive active5" id="additive_1" data-additive-info>
+        <div class="additiveCipherDecipher">
+          <div class="additiveMainDiv">
+             <div class="additiveKeyInputFields">
+                <label for="additiveKeyField">Key:</label>
+                <input type="text" id="additiveKeyField" placeholder="Enter Key " value=""> 
+                <span>Enter single string character only</span>
+             </div>
+
+             <div class="additivePlainInputFields">
+                <label for="additivePlainField">Plain Text:</label>
+                <input type="text" id="additivePlainField" placeholder="Enter Plain Text " value=""> 
+                <button type="button" onclick="additiveEncrypt()">Encrypt</button>
+             </div>
+
+             <div class="additiveCipherInputFields">
+                <label for="additiveCipherField">Cipher Text:</label>
+                <input type="text" id="additiveCipherField" placeholder="Enter Cipher Text " value=""> 
+                <button type="button" onclick="additiveDecrypt()">Decrypt</button>
+             </div>
+             
+             <div class="additiveTransformedValue">
+              <h4>Transformed Value Table</h4>
+              <div class="additiveTransformedValueTable">
+              <table>
+                <tr></tr>
+                <tr></tr>
+                <tr></tr>
+                <tr></tr>
+              </table>
+            </div>
+
+             </div>
+
+          </div>
+          
+        </div>
+        
+      </div>
+
+      <!-- <div class="additive-content__additive" id="additive_2" data-additive-info>
+        <div class="additiveCipherDecipher">
+          <p>decipher</p>
+        </div>
+      </div> -->
+      <div class="additive-content__additive" id="additive_3" data-additive-info>
+        <div class="additiveCipherDecipher">
+          <p>theory</p>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script type="text/javascript">
+    const additivetabs = document.querySelectorAll('[data-additive-value]')
+    const additivetabInfos = document.querySelectorAll('[data-additive-info]')
+
+    additivetabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = document
+          .querySelector(tab.dataset.additiveValue);
+
+        additivetabInfos.forEach(additiveInfo => {
+          additiveInfo.classList.remove('active5')
+        })
+        target.classList.add('active5');
+        target.classList.add('activeadditivetab');
+      })
+    })
+  </script>
+
+  <script type="text/javascript">
+    $(document).on('click', 'span', function () {
+      $(this).addClass('activeadditivetab').siblings().removeClass('activeadditivetab')
+    });
+  </script>
+
+</body>
+
+</html>

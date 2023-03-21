@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- <link rel="stylesheet" href="DES.css"> -->
+    <script src="RSA.js"></script>
+    </link>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CrAlSim</title>
+    <link rel="stylesheet" href="RSA.css">
+    </link>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous">
+        </script>
+</head>
+
+<body>
+    <div class="rsa">
+        <div class="rsaMenu">
+
+            <span class="active7 activersatab" data-rsa-value="#rsa_1">Cipher/Decipher</span>
+            <!-- <span data-rsa-value="#rsa_2">simulator</span> -->
+            <span data-rsa-value="#rsa_3">Theory</span>
+
+        </div>
+
+        <div class="rsa-content">
+            <div class="rsa-content__rsa active7" id="rsa_1" data-rsa-info>
+                <div class="rsaCipherDecipher">
+                    <div class="rsaEncryptDecryptContainer">
+                        <div class="rsaStep1Input">
+                            <h3>#Step1</h3>
+                            <h5>Enter two distinct prime number <span>P & Q</span></h5>
+                            <div class="step1Input">
+                                <label>P:<input id ="RsaP" value=""></input></label>
+                                <label>Q:<input id ="RsaQ" value=""></input></label>
+                                <p>Some prime numbers: <span>11, 13, 17, 19, 23, 29, 191, 193, 197, 199,</span> etc.</p>
+                            </div>
+                            <button type="button" onclick="rsaPQNL()">Calculate Key</button>
+                            <h5>N=P*Q <span>44</span> <p>Product of two prime number</p></h5>
+                            <h5>L=(P-1)*(Q-1)<span>40</span><p>Count of number which dont have common factor with N in the range from 1 to N</p></h5>
+
+
+                        </div>
+                        <div class="rasStep2Input">
+                            <h3>#Step2</h3>
+                            <div class="step2EDInput"><label>E:<input></input><p>E must be smaller than L and coprime with L & N :</p></label>
+                                <p> Possible encryption keys are: <span>5,7,13,17,25,29</span></p>
+                            </div>
+
+                            <div class="step2EDInput"><label>D:<input></input><p>Remainder of the product of D and E when divided by L should be 1 (D * E % L = 1):</p></label>
+                                <p> Possible decryption keys are:<span>713,1109,1505,1901,2297</span></p>
+                            </div>
+                            <div class="rsaPublicAndPrivateKey">
+                                 <h6>Private Key: <p>(E,N)</p><span>(5,473)</span></h6>
+                                 <h6>Public Key: <p>(D,N)</p> <span>(713,437)</span></h6>
+                            </div>
+
+                        </div>
+                        <div class="rasStep3Input">
+                            <h3>#Step3 Encrypt Message</h3>
+                            <div class="step3Input">
+                                <label>Enter Message:<input></input><p>Encrypted message: <span>Message ^ E % N </span></p></label>
+                                <button >Encrypt</button>
+                            </div>
+
+                        </div>
+                        <div class="rasStep4Input">
+                            <h3>#Step4 Decrypt Message</h3>
+                            <div class="step4Input">
+                                <label>Enter Cipher Message:<input></input><p>Encrypted message: <span>Cipher ^ D % N </span></p></label>
+                                <button>Decrypt</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="rsa-content__rsa" id="rsa_2" data-rsa-info>
+                <div class="rsaCipherDecipher">
+                    <p>decipher</p>
+                </div>
+            </div> -->
+            <div class="rsa-content__rsa" id="rsa_3" data-rsa-info>
+                <div class="rsaCipherDecipher">
+                    <p>theory</p>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script type="text/javascript">
+        const rsatabs = document.querySelectorAll('[data-rsa-value]')
+        const rsatabInfos = document.querySelectorAll('[data-rsa-info]')
+
+        rsatabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const target = document
+                    .querySelector(tab.dataset.rsaValue);
+
+                rsatabInfos.forEach(rsaInfo => {
+                    rsaInfo.classList.remove('active7')
+                })
+                target.classList.add('active7');
+                target.classList.add('activersatab');
+            })
+        })
+    </script>
+
+    <script type="text/javascript">
+        $(document).on('click', 'span', function () {
+            $(this).addClass('activersatab').siblings().removeClass('activersatab')
+        });
+    </script>
+
+</body>
+
+</html>

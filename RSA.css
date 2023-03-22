@@ -20,7 +20,7 @@
     display:flex;
     flex-direction: column;
     width: 100%;
-    height: 140%;
+    height: 150%;
 }  
 .rsaMenu{
     display:flex;
@@ -173,4 +173,61 @@
     margin-top: 1rem;
     margin-bottom: 1rem;
     cursor: pointer;
+}
+.step2EDInput label span {
+    color:black;
+    font-size: large;
+    font-family: sans-serif;
+}
+.step2EDInput p{
+    color:rgb(16, 16, 194);
+    width: fit-content;
+   
+}
+.step2EDInput p:hover{
+    color:rgb(13, 149, 233);
+    cursor: pointer;
+}
+.rsaBackdrop{
+    /* position: relative; */
+    position: absolute;
+  top: 0;
+  left: 0;
+  height: 180%;
+  width: 100%;
+  z-index: 10;
+  background-color: rgb(15, 15, 15);
+  opacity: 0.6;
+  display:none;
+}
+.rsaEModal{
+    position: absolute;
+    width:50%;
+    height:40%;
+    z-index:11;
+    top:50%;
+    left:25%;
+    display:none;
+    background-color: white;
+    border-radius: 0.3rem;
+    overflow: scroll;
+    /* overflow-y: scroll;
+    scroll-behavior: smooth; */
+}
+.rsaDModal{
+    position: absolute;
+    width:50%;
+    height:40%;
+    z-index:11;
+    top:50%;
+    left:25%;
+    display:none;
+    background-color: white;
+    border-radius: 0.3rem;
+}
+.rasStep2Input button{
+   width:fit-content;
+   padding:0rem 0.5rem;
+   height:2rem;
+   margin-top: 1rem;
 }

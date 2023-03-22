@@ -1,3 +1,31 @@
+function rsaBackdropAndModal(modal){
+  const backdrop = document.getElementsByClassName('rsaBackdrop')[0];
+  backdrop.style.display="block";
+  modal.style.display="block";
+}
+function closeRsaBackdrop(modal){
+  const backdrop = document.getElementsByClassName('rsaBackdrop')[0];
+  backdrop.style.display="none";
+  modal.style.display="none";
+}
+
+function openPossibleEncryptionKeyDiv(){
+  const modal = document.getElementsByClassName('rsaEModal')[0];
+  rsaBackdropAndModal(modal);
+}
+function closePossibleEncryptionKeyDiv(){
+  const modal = document.getElementsByClassName('rsaEModal')[0];
+  closeRsaBackdrop(modal);
+}
+function openPossibleDecryptionKeyDiv(){
+  const modal = document.getElementsByClassName('rsaDModal')[0];
+  rsaBackdropAndModal(modal);
+}
+function closePossibleDecryptionKeyDiv(){
+  const modal = document.getElementsByClassName('rsaDModal')[0];
+  closeRsaBackdrop(modal);
+}
+
 let rsaPrimeP; 
 let rsaPrimeQ;
 let rsaStep1;
@@ -22,27 +50,16 @@ function gcd(x, y) {
     }
     return x;
   }
-function rsaPublicKey_D_Generator(E){
+function rsaPublicKey_D_Generator(){
+  const E = document.getElementById("EInput").value;
+  const modal = document.getElementsByClassName('rsaEModal')[0];
+  const rsaDValueDiv = document.getElementsByClassName('rsaDModal')[0];
      for(let D = 0 ;D<=100000;D++ ){
        if(((E*D)%rsaL) == 1){
+        rsaDValueDiv.innerHTML=`${rsaDValueDiv.innerHTML},${D}`;
         possibleDValueArray.push(D);
        }
      }
-}
-function fastModulerExponent(m,E,Mod){
-  var binaryOfExponent = parseInt(E,16).toString(2);
-  console.log(binaryOfExponent);
-  let result = m;
-  for(let i = 1;i<binaryOfExponent.length;i++){
-    if(binaryOfExponent.charAt(i)==0){
-       result = (result^2)%Mod;
-    }
-    else if(binaryOfExponent.charAt(i)==1){
-      result = (result^2)%Mod;
-      result = (result*m)%Mod;
-    }
-  }
-  return result;
 }
 function powerMod(base, exponent, modulus) {
   if (modulus === 1) return 0;
@@ -65,17 +82,50 @@ function rsaPQNL(){
     rsaL = (rsaPrimeP.value-1)*(rsaPrimeQ.value-1)
     step1Span[2].innerHTML= rsaN;
     step1Span[3].innerHTML= rsaL;
+    const rsaEValueDiv = document.getElementsByClassName('rsaEModal')[0];
+    // const EValue = rsaEValueDiv.getElementsByTagName('div')[0];
     for(let i = 1 ;i<=rsaL;i++){
         let gcdofN = gcd(i,rsaN);
         let gcdofL = gcd(i,rsaL);
         if(gcdofN == 1 && gcdofL == 1){
+            rsaEValueDiv.innerHTML=`${rsaEValueDiv.innerHTML},${i}`;
             possibleEValueArray.push(i);
         }
     }
     console.log(possibleEValueArray);
-    console.log(rsaPublicKey_D_Generator(38539));
+    // console.log(rsaPublicKey_D_Generator(38539));
     console.log(possibleDValueArray);
-    console.log("here",powerMod(101,38537,39203));
-    console.log("here",powerMod(31975,87497,39203));
+    // console.log("here",powerMod(101,38537,39203));
+    // console.log("here",powerMod(31975,87497,39203));
     
+}
+function rsaEncrypt(){
+  const E = document.getElementById("EInput").value;
+  // const D = document.getElementById("DInput");
+  const message = document.getElementById("rsaMessage").value;
+  const cipher = document.getElementById("rsaCipher");
+
+  for(let i = 0;i<message.length;i++){
+    console.log(message.charCodeAt(i));
+    let rsaCipher = powerMod(message.charCodeAt(i), E,rsaN);
+    cipher.value =`${cipher.value},${rsaCipher}`;
+  }
+  
+}
+function rsaDecrypt(){
+  // const E = document.getElementById("EInput").value;
+  const D = document.getElementById("DInput").value;
+  const message = document.getElementById("rsaMessage");
+  message.value="";
+  const cipher = document.getElementById("rsaCipher").value;
+  const cipherArray = cipher.split(",");
+  let string = "";
+  for(let i = 1;i<cipherArray.length;i++){
+    // console.log(message.charCodeAt(i));
+    let rsaMessage = powerMod(cipherArray[i],D,rsaN);
+    console.log(cipherArray[i]);
+    console.log(rsaMessage);
+    string+=String.fromCharCode(rsaMessage);
+  }
+  message.value= `${string}`;
 }

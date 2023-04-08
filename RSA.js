@@ -50,14 +50,23 @@ function gcd(x, y) {
     }
     return x;
   }
+function rsaDReset(){
+  const rsaDValueDiv = document.getElementsByClassName('rsaDModal')[0];
+  rsaDValueDiv.innerHTML="";
+}
+function rsaEReset(){
+  const rsaEValueDiv = document.getElementsByClassName('rsaEModal')[0];
+  rsaEValueDiv.innerHTML="";
+}
 function rsaPublicKey_D_Generator(){
+  rsaDReset();
   const E = document.getElementById("EInput").value;
-  const modal = document.getElementsByClassName('rsaEModal')[0];
+  // const modal = document.getElementsByClassName('rsaEModal')[0];
   const rsaDValueDiv = document.getElementsByClassName('rsaDModal')[0];
      for(let D = 0 ;D<=100000;D++ ){
        if(((E*D)%rsaL) == 1){
         rsaDValueDiv.innerHTML=`${rsaDValueDiv.innerHTML},${D}`;
-        possibleDValueArray.push(D);
+        // possibleDValueArray.push(D);
        }
      }
 }
@@ -75,9 +84,10 @@ function powerMod(base, exponent, modulus) {
 }
 function rsaPQNL(){
     setRsaDocument();
-    console.log(rsaPrimeP.value);
-    console.log(rsaPrimeQ.value);
-    console.log(rsaPrimeP.value*rsaPrimeQ.value);
+    rsaEReset();
+    // console.log(rsaPrimeP.value);
+    // console.log(rsaPrimeQ.value);
+    // console.log(rsaPrimeP.value*rsaPrimeQ.value);
     rsaN = rsaPrimeP.value*rsaPrimeQ.value;
     rsaL = (rsaPrimeP.value-1)*(rsaPrimeQ.value-1)
     step1Span[2].innerHTML= rsaN;
@@ -89,12 +99,12 @@ function rsaPQNL(){
         let gcdofL = gcd(i,rsaL);
         if(gcdofN == 1 && gcdofL == 1){
             rsaEValueDiv.innerHTML=`${rsaEValueDiv.innerHTML},${i}`;
-            possibleEValueArray.push(i);
+            // possibleEValueArray.push(i);
         }
     }
-    console.log(possibleEValueArray);
+    // console.log(possibleEValueArray);
     // console.log(rsaPublicKey_D_Generator(38539));
-    console.log(possibleDValueArray);
+    // console.log(possibleDValueArray);
     // console.log("here",powerMod(101,38537,39203));
     // console.log("here",powerMod(31975,87497,39203));
     

@@ -18,7 +18,7 @@
 </head>
 
 <body>
-  <div class="aesBackdrop"></div>
+  <div class="aesBackdrop" onclick="closeSubByteModal();closeAllValueModal();closeShiftRowsModal();closeMixColModal();closeXorKeyModal();closeFirstXorKeyModal();closeLastSubByteModal();closeLastShiftRowsModal();closeLastXorKeyModal()"></div>
   <div class="aesModal">
     <div class="aesHeadingValue">
       <p>Start of Round</p>
@@ -187,8 +187,32 @@
       </div>
     </div>
     <div class="aesModalButton">
-      <button onclick="closeAesBackdrop()">Close</button>
+      <button onclick="closeAllValueModal()">Close</button>
     </div>
+    
+  </div>
+  <div class="aesFirstRoundXorKeyModal">
+    
+  </div>
+  <div class="aesSubByteModal">
+    
+  </div>
+  <div class="aesShiftRowModal">
+    
+  </div>
+  <div class="aesMixColModal">
+    
+  </div>
+  <div class="aesXorKeyModal">
+    
+  </div>
+  <div class="aesLastSubByteModal">
+    
+  </div>
+  <div class="aesLastShiftRowsModal">
+    
+  </div>
+  <div class="aesLastXorKeyModal">
     
   </div>
   <div class="aes">
@@ -227,6 +251,7 @@
             <hr>
             <div class="aesTransformedTable">
               <p>Hexa decimal value is converted into Base64 </p>
+              <span></span>
             </div>
             <button type="button" onclick="">Reset</button>
 
@@ -235,19 +260,28 @@
       </div>
 
       <div class="aes-content__aes" id="aes_2" data-aes-info>
+        
         <div class="aesCipherDecipher">
           <!-- <div class="aesSimulate"> -->
-
+            <div class="simulationStringDiv">
+              <span>Note String is converted into corresponding hexadecimal value</span>
+              <p></p>
+            </div>
+          
           <hr class="verticalLine1">
           <hr class="horizontalLine1">
           <hr class="verticalLine2">
           <hr class="horizontalLine2">
           <div class="aesStateArray">
             <table>
-              <tr></tr>
-              <tr></tr>
-              <tr></tr>
-              <tr></tr>
+              <tr>
+              </tr>
+              <tr>
+              </tr>
+              <tr>
+              </tr>
+              <tr>
+              </tr>
             </table>
           </div>
           <div class="aesFirstRoundMajorDiv">
@@ -255,7 +289,7 @@
               <p>Initial Round</p>
             </div>
             <div class="aesFirstRound">
-              <p>AddRoundKey</p>
+              <p onclick="openFirstXorKeyModal()">AddRoundKey</p>
             </div>
             <div class="firstRoundKey">
               <p>Round Key 0</p>
@@ -285,10 +319,10 @@
               <p>9 Main Rounds</p>
             </div>
             <div class="aesTheRounds">
-              <p>1-SubBytes</p>
-              <p>2-ShiftRows</p>
-              <p>3-MixColumns</p>
-              <p>4-AddRoundKey</p>
+              <p onclick="openSubByteModal()">1-SubBytes</p>
+              <p onclick="openShiftRowsModal()">2-ShiftRows</p>
+              <p onclick="openMixColModal()">3-MixColumns</p>
+              <p onclick="openXorKeyModal()">4-AddRoundKey</p>
             </div>
 
             <div class="roundKey">
@@ -316,9 +350,9 @@
               <p>Final Round</p>
             </div>
             <div class="aesLastRound">
-              <p>1-SubBytes</p>
-              <p>2-ShiftRows</p>
-              <p>3-AddRoundKey</p>
+              <p onclick="openLastSubByteModal()">1-SubBytes</p>
+              <p onclick="openLastShiftRowsModal()">2-ShiftRows</p>
+              <p onclick="openLastXorKeyModal()">3-AddRoundKey</p>
             </div>
             <div class="lastRoundKey">
               <p>Round Key 10</p>
@@ -340,11 +374,11 @@
           </div>
           <!-- </div> -->
           <div class="aesSimulationBottomDiv">
-            <button onclick="aesBackdropAndModal()">All Value</button>
+            <button onclick="openAllValueModal()">All Value</button>
           <div class="aesSimulateButton">
-            <button type="button" id="aesnext">Start</button>
-            <button>Play</button>
-            <button>Pause</button>
+            <button type="button" id="aesNextButton">Next</button>
+            <button type="button" onclick="">Prev</button>
+            <button type="button" onclick="">Skip Steps</button>
           </div>
         </div>
         </div>

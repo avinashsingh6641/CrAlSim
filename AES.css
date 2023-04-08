@@ -65,6 +65,7 @@
     background-color: rgb(217, 251, 251);
     flex-direction: column;
     align-items: center;
+    /* position: relative; */
 }
 
 /* input page css */
@@ -132,12 +133,22 @@
 
 .aesTransformedTable{
     margin-top: 0.5rem;
-    width:80%;
+    width:50rem;
     height:12rem;
+    display: flex;
+    flex-direction: column;
     overflow-x: auto;
     align-self: center;
     scroll-behavior: smooth;
     background-color: rgb(197, 148, 243);
+}
+.aesTransformedTable p{
+    align-self: center;
+    /* justify-self: center; */
+    position:absolute;
+}
+.aesTransformedTable span{
+    margin-top: 2rem;
 }
 .aesTransformedTable table{
     margin-left: 2rem;
@@ -168,8 +179,8 @@
        border: 1px solid black;
        width:10rem;
        position:relative;
-       top:55%;
-       left:6.5%;
+       top:54.2%;
+       left:6.6%;
 }
 .verticalLine2{
     display:block;
@@ -177,8 +188,8 @@
        border: 1px solid black;
        width:12rem;
        position:relative;
-       top:40.6%;
-       left:13.2%;
+       top:40.1%;
+       left:13.3%;
 }
 .horizontalLine2{
     display:block;
@@ -186,7 +197,7 @@
        width:10rem;
        position:relative;
        top:26.2%;
-       left:6.5%;
+       left:6.6%;
 }
 .aesInitialState{
     margin:1rem;
@@ -263,7 +274,7 @@
     align-self: center;
     flex-direction: column;
 }
-.roundKey table,.lastRoundKey table{
+.roundKey table,.lastRoundKey table,.firstRoundKey table{
     margin-bottom: 1rem;
 }
 .counter{
@@ -298,6 +309,7 @@
     align-items: center;
     flex-direction: column;
     justify-content: center;
+    cursor: pointer;
 }
 .aesFirstRound{
     margin-top: 5rem;
@@ -325,7 +337,7 @@
 }
 .aesStateArray{
     position: absolute;
-    top: 12rem;
+    top:15rem;
     z-index: 5;
 }
 .aesSimulationBottomDiv{
@@ -335,7 +347,7 @@
     justify-content: space-between;
 }
 .aesSimulationBottomDiv button{
-    width:4rem;
+    width:fit-content;
     height:2rem;
     margin-left: 2rem;
 }
@@ -357,70 +369,110 @@
 /* aes animation */
 
 .aesFirstMoveAnimation{
-    /* animation-fill-mode: forwards; */
+    animation-fill-mode: forwards;
     animation-name:slide;
   animation-duration: 3s;
 }
+.aesSubBytesMoveAnimation{
+    animation-fill-mode: forwards;
+    animation-name:sub-byte;
+  animation-duration: 3s;
+}
+.aesShiftrowMoveAnimation{
+    animation-fill-mode: forwards;
+    animation-name:shift-row;
+  animation-duration: 2.5s;
+}
+.aesMixColMoveAnimation{
+    animation-fill-mode: forwards;
+    animation-name:mix-col;
+  animation-duration: 2.5s;
+}
+.aesXorKeyMoveAnimation{
+    animation-fill-mode: forwards;
+    animation-name:xor-key;
+  animation-duration: 2.5s;
+}
+.aesTraverseBackMoveAnimation{
+    animation-fill-mode: forwards;
+    animation-name:traverse-back;
+  animation-duration: 3s;
+}
+.aesLastRoundSubByteMoveAnimation{
+    animation-fill-mode: forwards;
+    animation-name:last-round-sub-byte;
+  animation-duration: 3s;
+}
+.aesLastRoundShiftRowsMoveAnimation{
+    animation-fill-mode: forwards;
+    animation-name:last-round-shift-rows;
+  animation-duration: 3s;
+}
+.aesLastRoundXorKeyMoveAnimation{
+    animation-fill-mode: forwards;
+    animation-name:last-round-xor-key;
+  animation-duration: 3s;
+}
+
 .aesKeyMoveAnimation{
     animation-name: move-key-aes;
     animation-duration: 2s;
 }
-.aesEightMoveAnimation{
-    /* animation-fill-mode: forwards; */
-    animation-name: eightround;
-  animation-duration: 15s;
-  animation-iteration-count: 8;
-}
-.aesNineMoveAnimation{
-    animation-fill-mode:forwards;
-    animation-name: ninethround;
-  animation-duration: 15s;
-  animation-iteration-count:1;
-}
 
 
-@keyframes slide {
-    0%{transform:translateY(0rem);opacity: 1;}
-    50%{opacity: 0;}
-    100%{transform:translateY(8rem);opacity: 1;}
-}
 @keyframes move-key-aes {
     0%{transform:translateY(0rem);opacity: 1;}
     30%{transform:translateY(3.5rem);opacity: 0.7;}
     100%{transform:translateY(3.5rem) translateX(-20rem);opacity: 0;}
 }
-@keyframes eightround {
-    0%{transform:translateY(8rem);opacity: 1;}
-    10%{opacity: 0;}
-    20%{transform:translateY(12.2rem);opacity: 1;}
-    30%{opacity: 0;}
-    40%{transform:translateY(15rem);opacity:1;}
+@keyframes slide {
+    0%{transform:translateY(0rem);opacity: 1;}
     50%{opacity: 0;}
-    60%{transform:translateY(18rem);opacity: 1;}
-    70%{opacity: 0;}
-    80%{transform:translateY(21rem);opacity: 1;}
-    90%{transform:translateX(11rem) translateY(21rem);}
-    95%{transform:translateX(11rem) translateY(8rem);}
-    100%{transform:translateY(8rem) translateX(0rem);}
-       
+    100%{transform:translateY(7rem);opacity: 1;}
 }
-@keyframes ninethround{
-    0%{transform:translateY(8rem);opacity: 1;}
-    7%{opacity: 0;}
-    14%{transform:translateY(12.2rem);opacity: 1;}
-    21%{opacity: 0;}
-    28%{transform:translateY(15rem);opacity:1;}
-    35%{opacity: 0;}
-    42%{transform:translateY(18rem);opacity: 1;}
-    49%{opacity: 0;}
-    56%{transform:translateY(21rem);opacity: 1;}
-    63%{opacity: 0;}
-    70%{transform:translateY(27.5rem);opacity: 1;}
-    77%{opacity: 0;}
-    84%{transform:translateY(30.5rem);opacity: 1;}
-    91%{opacity: 0;}
-    100%{transform:translateY(33.5rem);opacity: 1;}
+
+@keyframes sub-byte{
+    0%{transform:translateY(7rem);opacity: 1;}
+    50%{opacity: 0;}
+    100%{transform:translateY(12rem);opacity: 1;}
 }
+@keyframes shift-row{
+    0%{transform:translateY(12rem);opacity: 1;}
+    50%{opacity: 0;}
+    100%{transform:translateY(14.8rem);opacity: 1;}
+}
+@keyframes mix-col{
+    0%{transform:translateY(14.8rem);opacity: 1;}
+    50%{opacity: 0;}
+    100%{transform:translateY(17.8rem);opacity: 1;}
+}
+@keyframes xor-key{
+    0%{transform:translateY(17.8rem);opacity: 1;}
+    50%{opacity: 0;}
+    100%{transform:translateY(20.5rem);opacity: 1;}
+}
+@keyframes traverse-back{
+    0%{transform:translateY(20.5rem);}
+    35%{transform:translateX(11rem) translateY(20.5rem);}
+    70%{transform:translateX(11rem) translateY(7rem);}
+    100%{transform:translateY(7rem) translateX(0rem);}
+}
+@keyframes last-round-sub-byte{
+    0%{transform:translateY(20.5rem);opacity: 1;}
+    50%{opacity: 0;}
+    100%{transform:translateY(27rem);opacity: 1;}
+}
+@keyframes last-round-shift-rows{
+    0%{transform:translateY(27rem);opacity: 1;}
+    50%{opacity: 0;}
+    100%{transform:translateY(30rem);opacity: 1;}
+}
+@keyframes last-round-xor-key{
+    0%{transform:translateY(30rem);opacity: 1;}
+    50%{opacity: 0;}
+    100%{transform:translateY(33rem);opacity: 1;}
+}
+
 
 .aesBackdrop{
     position: absolute;
@@ -444,6 +496,18 @@
     background-color: white;
     border-radius: 0.3rem;
 }
+.aesSubByteModal,.aesShiftRowModal,.aesMixColModal,.aesXorKeyModal,.aesFirstRoundXorKeyModal,.aesLastSubByteModal,.aesLastShiftRowsModal,.aesLastXorKeyModal{
+    position: absolute;
+    width:70%;
+    height:80%;
+    z-index:11;
+    top:27%;
+    left:17%;
+    display:none;
+    background-color: white;
+    border-radius: 0.3rem;
+}
+
 .aesHeadingValue{
     width:100%;
     height:5%;
@@ -540,6 +604,19 @@
     top:0.4rem;
     position:absolute;
     /* margin-left: 0.5rem; */
+}
+
+.simulationStringDiv{
+    width:100%;
+    height:4rem;
+    background-color: aqua;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.simulationStringDiv span{
+    color:red;
+    font-size:medium;
 }
   
 

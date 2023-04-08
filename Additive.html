@@ -28,13 +28,14 @@
 
     <div class="additive-content">
       <div class="additive-content__additive active5" id="additive_1" data-additive-info>
-        <div class="additiveCipherDecipher">
+        <div class="additiveCipherDeciphertab1">
           <div class="additiveMainDiv">
              <div class="additiveKeyInputFields">
                 <label for="additiveKeyField">Key:</label>
                 <input type="text" id="additiveKeyField" placeholder="Enter Key " value=""> 
-                <span>Enter single string character only</span>
+                
              </div>
+             <span>Enter single string character only</span>
 
              <div class="additivePlainInputFields">
                 <label for="additivePlainField">Plain Text:</label>
@@ -48,7 +49,7 @@
                 <button type="button" onclick="additiveDecrypt()">Decrypt</button>
              </div>
              
-             <div class="additiveTransformedValue">
+             <!-- <div class="additiveTransformedValue">
               <h4>Transformed Value Table</h4>
               <div class="additiveTransformedValueTable">
               <table>
@@ -57,7 +58,7 @@
                 <tr></tr>
                 <tr></tr>
               </table>
-            </div>
+            </div> -->
 
              </div>
 
@@ -73,8 +74,349 @@
         </div>
       </div> -->
       <div class="additive-content__additive" id="additive_3" data-additive-info>
-        <div class="additiveCipherDecipher">
-          <p>theory</p>
+        <div class="additiveCipherDeciphertab2">
+          <div class="additiveTheory">
+          <p>Additive cipher is monoaphabetic symmetric key cryptography, it is easiest and simlpest technique to encypt data
+            it is also called as shift cipher ,cause we shift our message character by certain characters (Keys) ,it is not secure enough
+            but it is easy to implement
+          </p>
+          <p>Formula to convert message into cipher text,</p>
+          <h6>C = (M+K) mod n</h6>
+          <p>Formula to convert cipher into plain text,</p>
+          <h6>P = (M-K) mod n</h6>
+          <section>
+            <p>here</p>
+            <p>C => Generated cipher character</p>
+            <p>M => Message character</p>
+            <p>K => Key character</p>
+            <p>n => Total number of character used into encryption technique</p>
+            
+          </section>
+          <div class="additiveReferenceTable">
+            <p>Reference table for converting character value to integer</p>
+            <table>
+              <tr>
+                <td>Character</td>
+                <td>a</td>
+                <td>b</td>
+                <td>c</td>
+                <td>d</td>
+                <td>e</td>
+                <td>f</td>
+                <td>g</td>
+                <td>h</td>
+                <td>i</td>
+                <td>j</td>
+                <td>k</td>
+                <td>l</td>
+                <td>m</td>
+                <td>n</td>
+                <td>o</td>
+                <td>p</td>
+                <td>q</td>
+                <td>r</td>
+                <td>s</td>
+                <td>t</td>
+                <td>u</td>
+                <td>v</td>
+                <td>w</td>
+                <td>x</td>
+                <td>y</td>
+                <td>z</td>
+
+              </tr>
+              <tr>
+                <td>Integer</td>
+                <td>0</td>
+                <td>1</td>
+                <td>2</td>
+                <td>3</td>
+                <td>4</td>
+                <td>5</td>
+                <td>6</td>
+                <td>7</td>
+                <td>8</td>
+                <td>9</td>
+                <td>10</td>
+                <td>11</td>
+                <td>12</td>
+                <td>13</td>
+                <td>14</td>
+                <td>15</td>
+                <td>16</td>
+                <td>17</td>
+                <td>18</td>
+                <td>19</td>
+                <td>20</td>
+                <td>21</td>
+                <td>22</td>
+                <td>23</td>
+                <td>24</td>
+                <td>25</td>
+
+              </tr>
+            </table>
+          </div>
+          <hr>
+        <div class="additiveSteps">
+          <h6>Consider the following example</h6>
+          <p>M(message) = hello everyone</p>
+          <p>K(key) = t</p>
+          <h2>Encryption</h2>
+          <h4>#Step1</h4>
+          <p>convert Message and Key into Integer , use the reference table</p>
+          <table>
+            <tr>
+              <td>Message</td>
+              <td>h</td>
+              <td>e</td>
+              <td>l</td>
+              <td>l</td>
+              <td>o</td>
+              <td>e</td>
+              <td>v</td>
+              <td>e</td>
+              <td>r</td>
+              <td>y</td>
+              <td>o</td>
+              <td>n</td>
+              <td>e</td>
+            </tr>
+            <tr>
+              <td>Integer</td>
+              <td>7</td>
+              <td>4</td>
+              <td>11</td>
+              <td>11</td>
+              <td>14</td>
+              <td>4</td>
+              <td>21</td>
+              <td>4</td>
+              <td>17</td>
+              <td>24</td>
+              <td>14</td>
+              <td>13</td>
+              <td>4</td>
+            </tr>
+          </table>
+          <span>Key:  t = 19 </span>
+          <h4>#Step2</h4>
+          <P>(Message + Key) mod 26</P>
+          <p>e.g (7+19) mod 26 = 26 mod 26  = 0 = a</p>
+          <table>
+              <td>message</td>
+              <td>7</td>
+              <td>4</td>
+              <td>11</td>
+              <td>11</td>
+              <td>14</td>
+              <td>4</td>
+              <td>21</td>
+              <td>4</td>
+              <td>17</td>
+              <td>24</td>
+              <td>14</td>
+              <td>13</td>
+              <td>4</td>
+            </tr>
+            <tr>
+              <td>Key</td>
+              <td>19</td>
+              <td>19</td>
+              <td>19</td>
+              <td>19</td>
+              <td>19</td>
+              <td>19</td>
+              <td>19</td>
+              <td>19</td>
+              <td>19</td>
+              <td>19</td>
+              <td>19</td>
+              <td>19</td>
+              <td>19</td>
+            </tr>
+            <tr>
+              <td>Message + Key</td>
+              <td>26</td>
+              <td>23</td>
+              <td>30</td>
+              <td>30</td>
+              <td>33</td>
+              <td>23</td>
+              <td>40</td>
+              <td>23</td>
+              <td>36</td>
+              <td>43</td>
+              <td>33</td>
+              <td>32</td>
+              <td>23</td>
+            </tr>
+            <tr>
+              <td>mod 26</td>
+              <td>0</td>
+              <td>23</td>
+              <td>4</td>
+              <td>4</td>
+              <td>7</td>
+              <td>23</td>
+              <td>14</td>
+              <td>23</td>
+              <td>10</td>
+              <td>17</td>
+              <td>7</td>
+              <td>6</td>
+              <td>23</td>
+            </tr>
+          </table>
+          <h4>#Step 3</h4>
+          <p>convert Integer back to Character , use the reference table</p>
+          <table>
+            <tr>
+              <td>cipher</td>
+              <td>0</td>
+              <td>23</td>
+              <td>4</td>
+              <td>4</td>
+              <td>7</td>
+              <td>23</td>
+              <td>14</td>
+              <td>23</td>
+              <td>10</td>
+              <td>17</td>
+              <td>7</td>
+              <td>6</td>
+              <td>23</td>
+            </tr>
+            <tr>
+              <td>Character</td>
+              <td>a</td>
+              <td>x</td>
+              <td>e</td>
+              <td>e</td>
+              <td>h</td>
+              <td>x</td>
+              <td>o</td>
+              <td>x</td>
+              <td>k</td>
+              <td>r</td>
+              <td>h</td>
+              <td>g</td>
+              <td>x</td>
+            </tr>
+          </table>
+          <h3>Cipher text => axeehxoxkrhgx</h3>
+          <h2>Decryption</h2>
+          <h4>#Step4</h4>
+          <P>(Message - Key) mod 26</P>
+          <p>e.g (0-19) mod 26 = -19 mod 26  = 26 +(-19) mod 26 = 7 mod 26 = 7 =h</p>
+          <table>
+            <tr>
+              <td>Message</td>
+              <td>0</td>
+              <td>23</td>
+              <td>4</td>
+              <td>4</td>
+              <td>7</td>
+              <td>23</td>
+              <td>14</td>
+              <td>23</td>
+              <td>10</td>
+              <td>17</td>
+              <td>7</td>
+              <td>6</td>
+              <td>23</td>
+              
+            </tr>
+            <tr>
+              <td>Key</td>
+              <td>19</td>
+              <td>19</td>
+              <td>19</td>
+              <td>19</td>
+              <td>19</td>
+              <td>19</td>
+              <td>19</td>
+              <td>19</td>
+              <td>19</td>
+              <td>19</td>
+              <td>19</td>
+              <td>19</td>
+              <td>19</td>
+
+            </tr>
+            <tr>
+              <td>Message - Key</td>
+              <td>-19</td>
+              <td>4</td>
+              <td>-15</td>
+              <td>-15</td>
+              <td>-12</td>
+              <td>4</td>
+              <td>-5</td>
+              <td>4</td>
+              <td>-9</td>
+              <td>-2</td>
+              <td>-12</td>
+              <td>-13</td>
+              <td>4</td>
+            </tr>
+            <tr>
+              <td>mod 26</td>
+              <td>7</td>
+              <td>4</td>
+              <td>11</td>
+              <td>11</td>
+              <td>14</td>
+              <td>4</td>
+              <td>21</td>
+              <td>4</td>
+              <td>17</td>
+              <td>24</td>
+              <td>14</td>
+              <td>13</td>
+              <td>4</td>
+            </tr>
+          </table>
+          <h4>#Step 5</h4>
+          <table>
+            <tr>
+              <td>Integer</td>
+              <td>7</td>
+              <td>4</td>
+              <td>11</td>
+              <td>11</td>
+              <td>14</td>
+              <td>4</td>
+              <td>21</td>
+              <td>4</td>
+              <td>17</td>
+              <td>24</td>
+              <td>14</td>
+              <td>13</td>
+              <td>4</td>
+            </tr>
+            <tr>
+              <td>Message</td>
+              <td>h</td>
+              <td>e</td>
+              <td>l</td>
+              <td>l</td>
+              <td>o</td>
+              <td>e</td>
+              <td>v</td>
+              <td>e</td>
+              <td>r</td>
+              <td>y</td>
+              <td>o</td>
+              <td>n</td>
+              <td>e</td>
+              
+            </tr>
+          </table>
+          <h3>Plain text => hello everyone</h3>
+        </div>
+
+        </div>
         </div>
 
       </div>

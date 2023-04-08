@@ -150,8 +150,66 @@
 
       </div>
       <div class="aff-content__aff" id="aff_3" data-aff-info>
-        <div class="affineCipherDecipher">
-          theory
+        <div class="affineCipherDecipherTheory">
+          <div class="affineTheoryDiv">
+            <p>Affine is monoalphabetic symmetric key substitution cipher technique whose key consists of 2 coefficients A and B 
+              which acts as a coefficient to mathematical linear function <sapn>f=Ax+B</sapn> (called affine).</p>
+              <div class="affineReferenceTable">
+                <img src ="referenceTable.png">
+              </div>
+              <div class="affineEncryptionTheory">
+                <h5>Encryption</h5>
+                <span>Formula => C = (Ax + B)mod m</span>
+                <p>where</p>
+                <p>A => Multiplicative Key <span>Note (A) Should be coprime with modulo m i.e gcd(A,m) = 1 in our case m is 26</span></p>
+                <p>B => Additive Key</p>
+                <p>x => Integer value for Message character</p>
+                <p>C => output Integer value for Cipher character</p>
+                <h6>Consider the Following example</h6>
+                <p>Message(x) => hello </p>
+                <p> A = 11 & B = 13</p>
+                <p> refer the above table to convert message character to integer</p>
+                <p>first character of message i.e <span>h = 7 </span></p>
+                <p> C = ((11*7)+13)mod 26 => (77+13) mod 26 => 90 mod 26 => 12 => m<span>refer the table value for corresponding character</span></p>
+              </div>
+              <div class="affineDecryptionTheory">
+                <h5>Decryption</h5>
+                <span>Formula => x = (A' * C - B)mod m</span>
+                <p>where</p>
+                <p>A' => A' is Modulo Multiplicative Inverse of A <span>(A * A') mod 26 = 1</span></p>
+                <p>B => Additive Key <span>t to get inverse of Additive we just need to subtract by B</span></p>
+                <p>x => OutPut Integer value for Message character</p>
+                <p>C => Integer value for Cipher character</p>
+                <h6>Consider the Following example</h6>
+                <p>Message(x) => hello </p>
+                <p> A = 11 & B = 13</p>
+                <p>(A * A') mod 26 = 1 Therefor (11 * 19)mod 26 => 209 mod 26 => 1 Hence , A' = 19 </p>
+                <p> refer the above table to convert message character to integer</p>
+                <p>first character of message i.e <span>m = 12 </span></p>
+                <p> x = ((19*12)-13)mod 26 => (228 - 13) mod 26 => 215 mod 26 => 7 => h<span>refer the table value for corresponding character</span></p>
+              </div>
+              <div class="affineSpecialTheory">
+                <h5>Special cases of affine cipher</h5>
+                <p>If B = 0 then Affine Cipher will act as an <span>Multiplicative Cipher</span></p>
+                <p>If A = 1 then Affine Cipher will act as an <span>Additive Cipher</span></p>
+              </div>
+              <div class="affineAInverse">
+                <h5>How to Calculate Modulo Inverse</h5>
+                <p>Modulo Inverse exist only when A and m are coprime where (A is multiplicative key)
+                  (m is total number of alphabets take into consideration)inour case (m=26)</p>
+                <p>Therefor gcd(A,26) should be 1</p>
+                <p>Hence we are limited to certain values for (A) out of 26 i.e 1, 3, 5, 7, 9, 11, 15, 17, 19, 21, 23 and 25
+                   (if the alphabet is 26 characters long)
+
+                </p>
+                <h6>Consider the  following Example</h6>
+                <p>A = > 11 & m => 26</p>
+                <p>So there should exist A' such that(A * A')mod26 = 1 </p>
+                <p>We will try A' value from(1 to 26) such that if multiplied with A ,taking mod 26 will give output 1</p>
+                <img src = "moduloInverse.png">
+                <p>Therefore A' is <span>19</span> for A = 11  this will be our Multiplicative Modulo Inverse</p>
+              </div>
+          </div>
         </div>
 
       </div>

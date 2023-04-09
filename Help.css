@@ -1,0 +1,89 @@
+/* .help-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #f5f8ff;
+} */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    text-decoration:none;
+}
+.helpContainer {
+
+    margin: 0 40px;
+    max-width: 600px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.helpContainer h1 {
+    color: #333;
+    font-family: sans-serif;
+}
+
+.helpContainer .helpTab {
+    position: relative;
+    background: #fff;
+    padding: 0 20px 20px;
+    box-shadow: 0 15px 25px rgba(10, 211, 242, 0.05);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.helpContainer .helpTab input {
+    appearance: none;
+}
+
+.helpContainer .helpTab label::after {
+
+
+    position: absolute;
+    right: 20px;
+    font-size: 2em;
+    color: rgba(0, 0, 0, 0.1);
+    transition: transform 1s;
+}
+
+.helpContainer .helpTab label::after {
+    color : #333;
+}
+
+.helpContainer .helpTab label h2 {
+    width: 40px;
+    height: 40px;
+    background: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 1.25em;
+
+    border-radius: 5px;
+    margin-right: 10px;
+    font-family: sans-serif;
+}
+
+
+.helpContainer .helpTab label h3 {
+    position: relative;
+    font-weight: 500;
+    color: #333;
+    z-index: 10;
+    font-family: sans-serif;
+}
+
+.helpContainer .helpTab .content-help {
+    position: relative;
+    padding: 10px 0;
+    color: #333;
+    z-index:10;
+    font-family: sans-serif;
+
+}

@@ -38,7 +38,7 @@ li,a,p,option{
     align-items: center;
     padding:30px 10%;
     background-color: white;
-    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+    box-shadow: 2px 2px 2px 1px rgba(1, 1, 1, 0.2);
     
 }
 .header .logo{
@@ -50,7 +50,7 @@ li,a,p,option{
     font-size: 3rem;
 }
 .header .logo .one{
-    color: rgb(239, 31, 4);
+    color: rgb(239, 29, 2);
 }
 .header .logo .two{
     color: rgb(11, 203, 232);

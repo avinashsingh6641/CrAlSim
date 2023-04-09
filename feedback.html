@@ -1,40 +1,43 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="Feedback.css" />
     <title>CrAlSim</title>
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
 
-    <script
-      src="https://code.jquery.com/jquery-3.6.1.min.js"
-      integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
-      crossorigin="anonymous"
-    ></script>
-    <script src="https://kit.fontawesome.com/67c66657c7.js"></script>
     <script>
-      $(function () {
-        $("#header").load("Header.html");
-      });
+      function sendEmail() {
+        Email.send({
+          Host: "smtp.gmail.com",
+          Username: "",
+          Password: "",
+          To: "4swapnil7@gmail.com",
+          From: document.getElementById("email").value,
+          Subject: "FEEDBACK",
+          Body: document.getElementById("text").value,
+        }).then((message) => alert("Feedback sent successfully"));
+      }
     </script>
   </head>
   <body>
-    <div id="header"></div>
-    <section class="feedback-section">
-      <div class="feedback-container">
-        <form>
+    <section class="feedbaackSection">
+      <div class="feedbackContainer">
+        <form onsubmit="sendEmail(); reset(); return false;">
           <h1>Give Your Feedback Here</h1>
           <div class="feedback">
-            <input type="text" placeholder="Your Name" />
+            <input id="text" type="text" placeholder="Your Name" />
             <i class="far fa-user"></i>
           </div>
           <div class="feedback">
-            <input type="email" placeholder="Email" />
+            <input id="email" type="email" placeholder="Email" />
             <i class="far fa-envelope"></i>
           </div>
           <textarea cols="15" rows="5" placeholder="SUGGESTIONS..."></textarea>
-          <button>Send</button>
+          <button type="submit">Send</button>
         </form>
       </div>
     </section>

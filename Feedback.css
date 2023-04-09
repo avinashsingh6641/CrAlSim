@@ -1,20 +1,29 @@
-.feedback-section {
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    text-decoration:none;
+}
+.feedbackSection {
     position: absolute;
     height: 100%;
     width: 100%;
-    background: url();
+    /* background: url(); */
 }
 
-.feedback-container {
+.feedbackContainer {
     display: flex;
-    min-height: 100vh;
-    align-items: center;
+    /* min-height: 100vh; */
+     align-items: center;
     justify-content: center;
-   box-shadow: 0 0 8px;
+    height: 100%;
+   /* box-shadow: 0 0 8px; */
+   /* margin:0; */
 
 }
 
-.feedback-container form {
+.feedbackContainer form {
     width: 100%;
     text-align: center;
     padding: 150px 150px;

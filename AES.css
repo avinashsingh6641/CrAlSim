@@ -67,6 +67,15 @@
     align-items: center;
     /* position: relative; */
 }
+.aesCipherDecipherSimulator{
+    display:flex;
+    width:100%;
+    height:100%;
+    /* background-color: rgb(217, 251, 251); */
+    flex-direction: column;
+    align-items: center;
+    /* position: relative; */
+}
 
 /* input page css */
 .aesContainer{
@@ -137,14 +146,14 @@
     height:12rem;
     display: flex;
     flex-direction: column;
-    overflow-x: auto;
+    overflow-x:scroll; 
     align-self: center;
     scroll-behavior: smooth;
     background-color: rgb(197, 148, 243);
 }
 .aesTransformedTable p{
     align-self: center;
-    /* justify-self: center; */
+    justify-self: center;
     position:absolute;
 }
 .aesTransformedTable span{
@@ -156,7 +165,13 @@
     
 }
 
+
 /* simulator css */
+.aesStateArray table tr td{
+    background-color: black;
+    height:1rem;
+    color: white;
+}
 .aesSimulate{
     display:flex;
     width:100%;
@@ -276,6 +291,11 @@
 }
 .roundKey table,.lastRoundKey table,.firstRoundKey table{
     margin-bottom: 1rem;
+}
+.roundKey table tr td,.lastRoundKey table tr td,.firstRoundKey table tr td{
+    background-color: black;
+    height:1rem;
+    color: white;
 }
 .counter{
     display: flex;
@@ -520,11 +540,19 @@
     
 }
 .aesHeadingValue :first-child{
-  margin-left: 12rem;
+  margin-left: 14rem;
 }
-.aesHeadingValue :last-child{
-    margin-right: 6rem;
+/* .aesHeadingValue :nth-child(3){
+    margin-right: 2rem;
+  } */
+  .aesHeadingValue :nth-child(4){
+    margin-right: 3rem;
   }
+.aesHeadingValue :last-child{
+    margin-right: 7.5rem;
+  }
+
+
 .aesTransformedValueTable{
      width:100;
      height:80%;
@@ -550,9 +578,12 @@
     border-bottom: 2px dotted black;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
-    margin:1rem;
+    /* margin:1rem; */
+}
+.aesRoundValue:nth-child(11) {
+  font-size:1.6rem;
 }
 .finalOutputValue{
     width:100%;
@@ -569,9 +600,9 @@
     width:5rem;
 }
 
-.aesRoundValue table{
+/* .aesRoundValue table{
     margin:0rem 2.5rem;
-}
+} */
 .aesRoundValue table tr td,.finalOutputValue table tr td{
     background-color: #96D4D4;
 
@@ -609,15 +640,143 @@
 .simulationStringDiv{
     width:100%;
     height:4rem;
-    background-color: aqua;
+    /* background-color: aqua; */
     display: flex;
     align-items: center;
     flex-direction: column;
+    border-bottom: 1px solid black;
 }
 .simulationStringDiv span{
     color:red;
     font-size:medium;
 }
-  
 
+.aesSubByteModalSubDiv object{
+  width:28rem;
+  height:28rem;
 
+}
+.aesSubByteModalSubDiv{
+    width:100%;
+    /* height:100%; */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+.aesSubByteModal button{
+    padding:0.5rem 1rem;
+    margin-left: 5rem;
+
+}
+.aesSubByteModalSubDiv table tr td{
+  background-color: white;
+  color:black;
+  border:1px solid black;
+  height: 1.5rem;
+}
+.aesSubByteModalSubDiv table th{
+   font-size: medium;
+   font-family: sans-serif;
+}
+.subytetabel{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.subytetabel table tr td{
+    background-color: rgb(181, 179, 179);
+}
+.currentlyActiveStepIndicator,.ElementsDoneIndicator,.remainingElementsIndicator{
+    margin-top: 1rem;
+    display:flex;
+    flex-direction: row;
+}
+.currentlyActiveStepIndicator div,.ElementsDoneIndicator div,.remainingElementsIndicator div{
+    width:1rem;
+    height:1rem;
+    border-radius: 0.5rem;
+    border:1px solid black;
+    margin-right: 0.5rem;
+}
+.currentlyActiveStepIndicator div{
+    background-color: yellow;
+}
+.ElementsDoneIndicator div{
+    background-color: white;
+}
+.remainingElementsIndicator div{
+    background-color: rgb(181, 179, 179);
+}
+
+.aesShiftRowModalDiv{
+    width:100%;
+    height:100%;
+    display: flex;
+    flex-direction:row;
+    justify-content:space-around;
+    align-items:center;
+
+}
+.insideShiftRowsTable1,.insideShiftRowsTable2{
+   width:25rem;
+   height:20rem;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+}
+.insideShiftRowsTable1 table,.insideShiftRowsTable1 p{
+    margin-top: 1rem;
+}
+.insideShiftRowsTable1 table tr td,.insideShiftRowsTable2 table tr td{
+    width: 4rem;
+    height:3rem;
+    font-size: large;
+}
+
+.insideMixColumndiv{
+    width:100%;
+    height:100%;
+    display:flex;
+    flex-direction: column;
+}
+
+.insideMixColumndivTable{
+    width:100%;
+    height:30%;
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.insideMixColumndivTable table tr td{
+   width: 2rem;
+   height: 2rem;
+   background-color: white;
+   border:1px solid black;
+   font-size: large;
+   color: black;
+}
+.insideMixColumndivTheory{
+    width:100%;
+    height:60%;
+    display:flex;
+    flex-direction: column;
+}
+.insideMixColumndivTheory span{
+    font-size: medium;
+}
+.insideMixColumndivButton{
+    width:100%;
+    height:10%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+
+}
+.insideMixColumndivButton button{
+    padding:0.5rem 1rem;
+    margin-right: 1rem;
+}

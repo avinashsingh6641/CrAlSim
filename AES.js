@@ -329,6 +329,49 @@ function generateAesCipherText() {
 }
 
 //let cipherWholeString ="";
+function resetSimulationInitialConfiguration(){
+  let Plaintext = document.getElementById("aesplaintext");
+  let Ciphertext = document.getElementById("aesciphertext");
+  let Key = document.getElementById("aeskey");
+
+  Plaintext.value = "";
+  Ciphertext.value = "";
+  Key.value ="" ;
+  transformedSpan.innerHTML = "";
+
+  for(let i = 0;i<4;i++){
+    let statetr = stateTable.rows[i];
+    let firstKeytr = roundOneKeyTable.rows[i];
+    let roundKeytr = theRoundKeyTable.rows[i]
+    let lastKeytr = roundKeyLastTable.rows[i]
+    
+    for(let j = 0 ;j<4;j++){
+      statetr.deleteCell(0);
+      firstKeytr.deleteCell(0);
+      roundKeytr.deleteCell(0);
+      lastKeytr.deleteCell(0);
+    }
+    
+  }
+  for(let i =0;i<=10;i++){
+    let Round = document.getElementsByClassName("aesRoundValue")[i];
+    for(let j=0;j<5;j++){
+      let tablePerRound = Round.getElementsByTagName("table")[j];
+      while(tablePerRound.rows[0]){
+        tablePerRound.deleteRow(0);
+      }
+       
+    }
+  }
+  const lastRound = document.getElementsByClassName("finalOutputValue")[0];
+  const LastRoundTable = lastRound.getElementsByTagName("table")[0];
+  while(LastRoundTable.rows[0]){
+    LastRoundTable.deleteRow(0);
+  }
+  aesAnimationReset();
+  
+  
+}
 function simulationInitialConfiguration() {
   for (let i = 0; i < 4; i++) {
     const initialRoundTr = roundOneKeyTable.getElementsByTagName("tr")[i];
@@ -377,7 +420,7 @@ function aesROFillTableValue(round, tableNo) {
     for (let j = 0; j < 4; j++) {
       // console.log('here');
       const td = document.createElement("td");
-      //const tdVal=td.innerHTML=`${arr[i][j]}`;
+      const tdVal=td.innerHTML="xx";
       appendedTr.appendChild(td);
     }
   }
@@ -417,11 +460,18 @@ function aesRound0To10() {
   aesCiphertext += convertIntoBase64(str);
   //generateAesCipherText();
 }
-
+let resetCounter = 0;
 function aesEncrypt() {
   const aescipher = document.getElementById("aesciphertext");
   aescipher.value = "";
   aesCiphertext = "";
+  // aesAnimationReset();
+  // if(resetCounter == 1){
+  //   clear();
+  //   // aesAnimationReset();
+  //   resetSimulationInitialConfiguration();
+  // }
+  
   setAesDocument();
   aesSimulationString.innerHTML = `${aesPlaintext}`;
   try {
@@ -437,6 +487,7 @@ function aesEncrypt() {
     splitAesPlaintext();
     simulationInitialConfiguration();
     aescipher.value = aesCiphertext;
+    resetCounter = 1;
   } catch (err) {
     console.log(err);
   }
@@ -946,7 +997,6 @@ function aesSimulateFunction() {
     }
   }
 }
-
 function aesSimulateRound0() {
   // aesStateArray.classList.remove('aesFirstMoveAnimation');
   aesStateArray.classList.add("aesFirstMoveAnimation");
@@ -955,6 +1005,7 @@ function aesSimulateRound0() {
     xorTextAndKey(aesAnimationStateArr, keyArrays["rKA0"]);
     interchangeRowAndColumn(aesAnimationStateArr);
     updateSimulationStateArray();
+    
   }, 1000);
   setTimeout(() => {
     ch3.innerHTML = `${aesRoundCounter}`;
@@ -965,6 +1016,16 @@ function aesSimulateRound0() {
 function aesSimulateNRoundSubByte() {
   aesStateArray.classList.remove("aesTraverseBackMoveAnimation");
   aesStateArray.classList.add("aesSubBytesMoveAnimation");
+  const insideSubByte = document.getElementsByClassName('aesSubByteModalSubDiv')[0];
+  const insideSubByteTable = insideSubByte.getElementsByTagName('table')[0];
+    for(let i = 0; i<4;i++){
+      let insideSubByteTableTr = insideSubByteTable.getElementsByTagName('tr')[i];
+      for(let j= 0 ;j<4 ;j++){
+        let insideSubByteTableTd = insideSubByteTableTr.getElementsByTagName('td')[j];
+        insideSubByteTableTd.innerHTML =`${aesAnimationStateArr[i][j]}`;
+      }
+    }
+  // ;
   setTimeout(() => {
     aesAnimationStateArr.forEach((rows) => {
       sBoxByteSubstitution(rows);
@@ -972,20 +1033,53 @@ function aesSimulateNRoundSubByte() {
     // interchangeRowAndColumn(aesAnimationStateArr);
     updateSimulationStateArray();
   }, 1000);
+  setTimeout(()=>{
+    insideSBoxReset();
+  },2000);
   theRoundSubCount++;
 }
+
 function aesSimulateNRoundShiftrow() {
   aesStateArray.classList.add("aesShiftrowMoveAnimation");
+
+  // inside shift row code 
+  const shiftRowStateArray1 = document.getElementsByClassName('insideShiftRowsTable1')[0];
+  const shiftRowStateArray2 = document.getElementsByClassName('insideShiftRowsTable2')[0];
+  for(let i = 0;i<4;i++){
+    let shiftRowStateArrayTable = shiftRowStateArray1.getElementsByTagName('table')[i];
+    let shiftRowStateArrayTabletr = shiftRowStateArrayTable.getElementsByTagName('tr')[0];
+    for(let j = 0;j<4;j++){
+      let shiftRowStateArrayTabletrtd = shiftRowStateArrayTabletr.getElementsByTagName('td')[j];
+      shiftRowStateArrayTabletrtd.innerHTML=`${aesAnimationStateArr[i][j]}`;
+    }
+  }
+  // 
+  
   setTimeout(() => {
     aesAnimationStateArr.forEach((row, index) => {
       shiftRow(row, index);
     });
     updateSimulationStateArray();
   }, 1000);
+  
+  // inside shift row code here also
+  setTimeout(()=>{
+    let shiftRowStateArrayTable = shiftRowStateArray2.getElementsByTagName('table')[0];
+    for(let i = 0;i<4;i++){ 
+      let shiftRowStateArrayTabletr = shiftRowStateArrayTable.getElementsByTagName('tr')[i];
+      for(let j = 0;j<4;j++){
+        let shiftRowStateArrayTabletrtd = shiftRowStateArrayTabletr.getElementsByTagName('td')[j];
+        shiftRowStateArrayTabletrtd.innerHTML=`${aesAnimationStateArr[i][j]}`;
+      }
+    }
+
+  },2000);
+  
   theRoundSubCount++;
 }
 function aesSimulateNRoundMixCol() {
   aesStateArray.classList.add("aesMixColMoveAnimation");
+  fillInsideMixColumnStateTable();
   setTimeout(() => {
     for (let i = 0; i < 4; i++) {
       let arr = [];
@@ -996,6 +1090,9 @@ function aesSimulateNRoundMixCol() {
     }
     updateSimulationStateArray();
   }, 1000);
+  setTimeout(()=>{
+    insideMixedColReset();
+  },2000);
   theRoundSubCount++;
 }
 function aesSimulateNRoundXorKey() {
@@ -1093,7 +1190,7 @@ function aesAnimationSkipStep() {
           time2 = 0;
           time3 = 3000;
           time4 = 6000;
-          time4 = 9000;
+          time5 = 9000;
           break;
         }
         case 3: {
@@ -1126,11 +1223,13 @@ function aesAnimationSkipStep() {
       case 3: {
         setTimeout(() => {
           aesSimulateNRoundMixCol();
+          console.log(time3);
         }, time3);
       }
       case 4: {
         setTimeout(() => {
           aesSimulateNRoundXorKey();
+          console.log(time4);
         }, time4);
       }
       default: {
@@ -1180,6 +1279,63 @@ function aesAnimationSkipStep() {
   }
 }
 
+function aesAnimationStateArrayReset(){
+  let k = 0;
+  for (let i = 0; i < 4; i++) {
+    for (let j = 0; j < 4; j++) {
+      aesAnimationStateArr[i][j] = aesPlaintext.charCodeAt(k).toString(16);
+      k++;
+    }
+  }
+
+}
+
+function aesSimulationKeyReset(){
+  for (let i = 0; i < 4; i++) {
+    const initialRoundTr = roundOneKeyTable.getElementsByTagName("tr")[i];
+    const theRoundTr = theRoundKeyTable.getElementsByTagName("tr")[i];
+    const lastRoundTr = roundKeyLastTable.getElementsByTagName("tr")[i];
+    for (let j = 0; j < 4; j++) {
+      const key0Val = initialRoundTr.getElementsByTagName("td")[j];
+      key0Val.innerHTML = `${keyArrays["rKA0"][i][j]}`;
+      const key1Val = theRoundTr.getElementsByTagName("td")[j];
+      key1Val.innerHTML = `${keyArrays["rKA1"][i][j]}`;
+      const key10Val = lastRoundTr.getElementsByTagName("td")[j];
+      key10Val.innerHTML = `${keyArrays["rKA10"][i][j]}`;
+    }
+  }
+
+}
+
+function aesAnimationReset(){
+  aesStateArray.classList.remove("aesFirstMoveAnimation");
+
+  aesStateArray.classList.remove("aesSubBytesMoveAnimation");
+  aesStateArray.classList.remove("aesShiftrowMoveAnimation");
+  aesStateArray.classList.remove("aesMixColMoveAnimation");
+  aesStateArray.classList.remove("aesXorKeyMoveAnimation");
+
+  aesStateArray.classList.remove("aesTraverseBackMoveAnimation");
+  aesStateArray.classList.remove("aesLastRoundSubByteMoveAnimation");
+  aesStateArray.classList.remove("aesLastRoundShiftRowsMoveAnimation");
+  aesStateArray.classList.remove("aesLastRoundXorKeyMoveAnimation{");
+
+  roundOneKeyTable.classList.remove("aesKeyMoveAnimation");
+  theRoundKeyTable.classList.remove("aesKeyMoveAnimation");
+  roundKeyLastTable.classList.remove("aesKeyMoveAnimation");
+  
+  aesRoundCounter = 1;
+  aesFunctionCount = 0;
+  theRoundSubCount = 1;
+  aesLastRoundSubRound = 1;
+  ch3.innerHTML = 0;
+
+  aesSimulationKeyReset(); //Simulation Key reset
+  aesAnimationStateArrayReset();    // animation state array reset
+  updateSimulationStateArray();     // update the resetted array 
+
+}
+
 function aesBackdropAndModal(modal) {
   const backdrop = document.getElementsByClassName("aesBackdrop")[0];
   backdrop.style.display = "block";
@@ -1210,27 +1366,27 @@ function closeSubByteModal() {
 }
 
 function openShiftRowsModal() {
-  const modal = document.getElementsByClassName("aesSubByteModal")[0];
+  const modal = document.getElementsByClassName("aesShiftRowModal")[0];
   aesBackdropAndModal(modal);
 }
 function closeShiftRowsModal() {
-  const modal = document.getElementsByClassName("aesSubByteModal")[0];
+  const modal = document.getElementsByClassName("aesShiftRowModal")[0];
   closeAesBackdrop(modal);
 }
 function openMixColModal() {
-  const modal = document.getElementsByClassName("aesSubByteModal")[0];
+  const modal = document.getElementsByClassName("aesMixColModal")[0];
   aesBackdropAndModal(modal);
 }
 function closeMixColModal() {
-  const modal = document.getElementsByClassName("aesSubByteModal")[0];
+  const modal = document.getElementsByClassName("aesMixColModal")[0];
   closeAesBackdrop(modal);
 }
 function openXorKeyModal() {
-  const modal = document.getElementsByClassName("aesSubByteModal")[0];
+  const modal = document.getElementsByClassName("aesXorKeyModal")[0];
   aesBackdropAndModal(modal);
 }
 function closeXorKeyModal() {
-  const modal = document.getElementsByClassName("aesSubByteModal")[0];
+  const modal = document.getElementsByClassName("aesXorKeyModal")[0];
   closeAesBackdrop(modal);
 }
 function openFirstXorKeyModal() {
@@ -1266,3 +1422,354 @@ function closeLastXorKeyModal() {
   const modal = document.getElementsByClassName("aesLastXorKeyModal")[0];
   closeAesBackdrop(modal);
 }
+// inside SBox all implementation inclusing reset
+let insideSboxRowIndex = 0;
+let insideSboxColumnIndex = 0;
+let sboxRow =0;
+let sboxColumn =0;
+
+function insideSBoxReset(){
+  clearPreviousStepSBoxCss(sboxRow,sboxColumn);
+  insideSboxRowIndex = 0;
+  insideSboxColumnIndex = 0;
+  sboxRow =0;
+  sboxColumn =0;
+  const insideSboxStateArray =  document.getElementsByClassName('subytetabel')[0];
+  const insideSboxStateArraytable = insideSboxStateArray.getElementsByTagName('table')[0];
+  let subByteNewState= document.getElementById('insideSubByteNewStateArray');
+  let subByteNewStateTable = subByteNewState.getElementsByTagName('table')[0];
+  
+  for(let i = 0;i<4;i++){
+    let insideSboxStateArraytabletr = insideSboxStateArraytable.getElementsByTagName('tr')[i];
+    let subByteNewStateTabletr = subByteNewStateTable.getElementsByTagName('tr')[i];
+    for(let j = 0;j<4;j++){
+      let insideSboxStateArraytabletrtd = insideSboxStateArraytabletr.getElementsByTagName('td')[j];
+      let subByteNewStateTabletrtd = subByteNewStateTabletr.getElementsByTagName('td')[j];
+      insideSboxStateArraytabletrtd.style.background = "lightgrey";
+      subByteNewStateTabletrtd.innerHTML = "";
+    }
+  }
+  
+
+}
+function clearPreviousStepCssStateArray(){
+  let clearRowIndex = insideSboxRowIndex;
+  let clearColumnIndex = insideSboxColumnIndex;
+
+  // clear code for state array 
+  if(insideSboxRowIndex ==0 && insideSboxColumnIndex>0){
+    clearRowIndex = insideSboxRowIndex;
+    clearColumnIndex = insideSboxColumnIndex-1;
+
+  }else if(insideSboxRowIndex > 0 && insideSboxColumnIndex==0){
+    clearRowIndex = insideSboxRowIndex-1;
+    clearColumnIndex =3;
+  }else if(insideSboxRowIndex > 0 && insideSboxColumnIndex>0){
+    clearRowIndex = insideSboxRowIndex;
+    clearColumnIndex = insideSboxColumnIndex-1;
+  }
+  const insideSboxStateArray =  document.getElementsByClassName('subytetabel')[0];
+  const insideSboxStateArraytable = insideSboxStateArray.getElementsByTagName('table')[0];
+
+  let insideSboxStateArraytabletr = insideSboxStateArraytable.getElementsByTagName('tr')[clearRowIndex];
+  let insideSboxStateArraytabletrtd = insideSboxStateArraytabletr.getElementsByTagName('td')[clearColumnIndex];
+
+  insideSboxStateArraytabletrtd.style.background = "white";
+
+  // clear code for s box array
+
+
+}
+
+function clearPreviousStepSBoxCss(r,c){
+  if(r>0 || c>0){
+    let insideSbox_SBoxArraytabletr = insideSbox_SBoxArraytable.getElementsByTagName('tr')[r];
+    let insideSbox_SBoxArraytabletrtd = insideSbox_SBoxArraytabletr.getElementsByTagName('td')[c];
+  for(let i = 0;i<sboxColumn;i++){
+    let highLightedRow =insideSbox_SBoxArraytable.getElementsByTagName('tr')[sboxRow];
+     let highLightedtrtd=highLightedRow.getElementsByTagName('td')[i];
+      highLightedtrtd.style.background = "none";
+  }
+  for(let i = 0;i<sboxRow;i++){
+    let highlightedColumntr = insideSbox_SBoxArraytable.getElementsByTagName('tr')[i];
+    let highLightedColumntrtd = highlightedColumntr.getElementsByTagName('td')[sboxColumn];
+    highLightedColumntrtd.style.background = "none";
+  }
+  insideSbox_SBoxArraytabletrtd.style.background = "none";
+}
+  
+
+}
+let insideSbox_sBoxArray;
+let objectTableTag;
+let outsideAccessSbox;
+let sBoxOusideAccess;
+let insideSbox_SBoxArraytable;
+function insideSBox(){
+  clearPreviousStepCssStateArray()
+  const insideSboxStateArray =  document.getElementsByClassName('subytetabel')[0];
+  const insideSboxStateArraytable = insideSboxStateArray.getElementsByTagName('table')[0];
+
+
+  insideSbox_sBoxArray =  document.getElementsByClassName('aesSubByteModalSubDiv')[0];
+  objectTableTag =  insideSbox_sBoxArray.getElementsByTagName('object')[0];
+  outsideAccessSbox = objectTableTag.contentDocument;
+  sBoxOusideAccess = outsideAccessSbox.getElementsByClassName('animationSBoxTable')[0];
+  insideSbox_SBoxArraytable = sBoxOusideAccess.getElementsByTagName('table')[0];
+  
+  // const insideSbox_SBoxArraytable = objectTableTag.getElementsByTagName('table')[0];
+  
+
+  let insideSboxStateArraytabletr = insideSboxStateArraytable.getElementsByTagName('tr')[insideSboxRowIndex];
+  let insideSboxStateArraytabletrtd = insideSboxStateArraytabletr.getElementsByTagName('td')[insideSboxColumnIndex];
+
+  
+
+  insideSboxStateArraytabletrtd.style.background = "yellow";
+  clearPreviousStepSBoxCss(sboxRow,sboxColumn);  //clearing previous css before entering new css
+
+  let stateValue = insideSboxStateArraytabletrtd.innerHTML;
+  // console.log(stateValue);
+  
+  
+  if(stateValue.length == 1){
+    sboxRow = 0;
+    sboxColumn = parseInt(stateValue, 16);
+    
+  }else{
+    sboxRow = parseInt(stateValue.charAt(0), 16);
+    sboxColumn = parseInt(stateValue.charAt(1), 16);
+  }
+
+  let insideSbox_SBoxArraytabletr = insideSbox_SBoxArraytable.getElementsByTagName('tr')[sboxRow];
+  let insideSbox_SBoxArraytabletrtd = insideSbox_SBoxArraytabletr.getElementsByTagName('td')[sboxColumn];
+  for(let i = 0;i<sboxColumn;i++){
+    let highLightedRow =insideSbox_SBoxArraytable.getElementsByTagName('tr')[sboxRow];
+     let highLightedtrtd=highLightedRow.getElementsByTagName('td')[i];
+      highLightedtrtd.style.background = "lightgreen";
+  }
+  for(let i = 0;i<sboxRow;i++){
+    let highlightedColumntr = insideSbox_SBoxArraytable.getElementsByTagName('tr')[i];
+    let highLightedColumntrtd = highlightedColumntr.getElementsByTagName('td')[sboxColumn];
+    highLightedColumntrtd.style.background = "lightgreen";
+  }
+  console.log(sboxRow,sboxColumn);
+  insideSbox_SBoxArraytabletrtd.style.background = "green";
+
+  let substitutedValue = insideSbox_SBoxArraytabletrtd.innerHTML;
+  let subByteNewState= document.getElementById('insideSubByteNewStateArray');
+  let subByteNewStateTable = subByteNewState.getElementsByTagName('table')[0];
+  let subByteNewStateTabletr = subByteNewStateTable.getElementsByTagName('tr')[insideSboxRowIndex];
+  let subByteNewStateTabletrtd = subByteNewStateTabletr.getElementsByTagName('td')[insideSboxColumnIndex];
+  subByteNewStateTabletrtd.innerHTML = `${substitutedValue}`;
+  
+  if(insideSboxColumnIndex>=3){
+    insideSboxRowIndex++;
+    insideSboxColumnIndex = 0;
+  }else{
+    insideSboxColumnIndex++;
+  }
+  
+}
+
+//  inside mix column
+
+function fillInsideMixColumnStateTable(){
+  let insideMixColumnStateArray = document.getElementsByClassName('insideMixColumndivTable')[0];
+  let insideMixColumnStateArrayTable = insideMixColumnStateArray.getElementsByTagName('table')[1];
+  for(let i = 0;i<4;i++){
+    let insideMixColumnStateArrayTabletr = insideMixColumnStateArrayTable.getElementsByTagName('tr')[i];
+    for(let j = 0;j<4;j++){
+      let insideMixColumnStateArrayTabletrtd = insideMixColumnStateArrayTabletr.getElementsByTagName('td')[j];
+      insideMixColumnStateArrayTabletrtd.innerHTML=`${aesAnimationStateArr[i][j]}`;
+    }
+  }
+}
+let insideMixColRowIndex = 0;
+let insideMixColColIndex = 0;
+let creatingArrayIndex = 0;
+function mixColumnColumnNGenerator(){
+  if(insideMixColColIndex>3){
+    insideMixColRowIndex++; 
+    creatingArrayIndex = 0;
+    insideMixColColIndex = 0;
+  }
+  let insideMixColumnStateArray = document.getElementsByClassName('insideMixColumndivTable')[0];
+  let insideMixColumnStateArrayTable = insideMixColumnStateArray.getElementsByTagName('table')[1];
+  // for(let i = 0;i<4;i++){
+    let arr = [];
+    for(let j = 0;j<4;j++){
+      let insideMixColumnStateArrayTabletr = insideMixColumnStateArrayTable.getElementsByTagName('tr')[j];
+      let insideMixColumnStateArrayTabletrtd = insideMixColumnStateArrayTabletr.getElementsByTagName('td')[creatingArrayIndex];
+      arr[j] = insideMixColumnStateArrayTabletrtd.innerHTML;
+    }
+    console.log(arr);
+    simulationMixColumns(arr,insideMixColRowIndex);
+    creatingArrayIndex++;
+    insideMixColColIndex++;
+}
+
+function convertBinaryIntoPolynmial(p1,p2){
+  let b1 = p1;
+  let b2 = p2;
+  let string1 = "";
+  let string2 = "";
+  for(let i =0;i<b1.length;i++){
+      if(b1.charAt(i)==1){
+        string1 += `x^${b1.length-1-i} + `;
+      }
+  }
+  string1 = `(${string1})`
+  for(let i =0;i<b2.length;i++){
+    if(b2.charAt(i)==1){
+      string2 += `x^${b2.length-1-i} + `;
+    }
+}
+string2=`(${string2})`;
+
+return string1+string2;
+    
+}
+function convertBinaryIntoPolynmial2(p1){
+  let str ="";
+  for(let k=0;k<p1.length;k++){
+    if(p1.charAt(k)==1){
+      str += `x^${p1.length-1-k} + `;
+    }
+  }
+  return str;
+}
+let mixColNewStateArrayRowIndex = 0;
+let mixColNewStateArrayColIndex = 0;
+function simulationMixColumns(row,i) {
+  if(mixColNewStateArrayColIndex>3){
+    mixColNewStateArrayRowIndex++;
+    mixColNewStateArrayColIndex = 0;
+  }
+
+  // for (let i = 0; i < 4; i++) {
+    let insideMixColumnStateArray = document.getElementsByClassName('insideMixColumndivTable')[0];
+    let insideMixColumnConstantTable = insideMixColumnStateArray.getElementsByTagName('table')[0];
+    let insideMixColumnNewStateTable = insideMixColumnStateArray.getElementsByTagName('table')[2];
+    let insideMixColumnConstantTabletr = insideMixColumnConstantTable.getElementsByTagName('tr')[i];
+    let insideMixColumnNewStateTabletr = insideMixColumnNewStateTable.getElementsByTagName('tr')[mixColNewStateArrayRowIndex];
+    let multipliedInt;
+    let irreducable = 283; //11b;
+    let xorSum = 0;
+    let insideMixColumnStep1 = document.getElementsByClassName('insideMixColumndivTheory')[0];
+    let insideMixColumnStep1p = insideMixColumnStep1.getElementsByTagName('p')[0];
+    let insideMixColumnStep2p = insideMixColumnStep1.getElementsByTagName('p')[1];
+    let insideMixColumnStep4p = insideMixColumnStep1.getElementsByTagName('p')[4];
+    let insideMixColumnStep6p = insideMixColumnStep1.getElementsByTagName('p')[6];
+    
+    // let insideMixColumnStep1pSpan = insideMixColumnStep1p.getElementsByTagName('span')[0];
+    let spanValue = "";
+    let binaryString = "";
+    let adjustedBinaryString ="";
+    let columnIndex = 0;
+    // let multipliedPolinmial = "";
+    let multipliedFunctionVal;
+    let multipliedBinary = "";
+    let insideMixColumnNewStateTabletrtd;
+    for (let j = 0; j < 4; j++) {
+      let insideMixColumnConstantTabletrtd = insideMixColumnConstantTabletr.getElementsByTagName('td')[j];
+      insideMixColumnNewStateTabletrtd = insideMixColumnNewStateTabletr.getElementsByTagName('td')[mixColNewStateArrayColIndex];
+      spanValue += `(${insideMixColumnConstantTabletrtd.innerHTML} *${row[j]}) +`;
+      binaryString+=`(${parseInt(insideMixColumnConstantTabletrtd.innerHTML, 16).toString(2)})(${parseInt(row[j], 16).toString(2)}) +`;
+      let spanString = convertBinaryIntoPolynmial(parseInt(insideMixColumnConstantTabletrtd.innerHTML, 16).toString(2),parseInt(row[j], 16).toString(2));
+      let insideMixColumnStep3span = insideMixColumnStep1.getElementsByTagName('span')[j];
+      insideMixColumnStep3span.innerHTML = `${spanString}`;
+      multipliedFunctionVal = generateSimulationHexaNumber(insideMixColumnConstantTabletrtd.innerHTML, row[j]);
+      multipliedBinary = parseInt(multipliedFunctionVal, 16).toString(2);
+      adjustedBinaryString = convertBinaryIntoPolynmial2(multipliedBinary);
+      insideMixColumnStep4p.innerHTML = `${adjustedBinaryString}`;
+
+      if (multipliedFunctionVal <= 255) {
+        xorSum = xorSum ^ multipliedFunctionVal;
+      } else {
+        multipliedInt = multipliedFunctionVal ^ irreducable;
+        xorSum = xorSum ^ multipliedInt;
+      }
+      
+    }
+    
+    // console.log(multipliedBinary);
+    // console.log(adjustedBinaryString);
+    // console.log(xorSum.toString(16));
+      // console.log(xorSum);
+      let xorSumBinary = parseInt(xorSum, 10).toString(2);
+      // console.log(xorSumBinary);
+      let reducedPolynomial = convertBinaryIntoPolynmial2(xorSumBinary);
+      // console.log(reducedPolynomial);
+    
+    insideMixColumnStep1p.innerHTML =`elem(${i},${columnIndex}) => ${spanValue} `;
+    insideMixColumnStep2p.innerHTML =`binary =>${binaryString}`;
+    insideMixColumnNewStateTabletrtd.innerHTML=`${xorSum.toString(16)}`;
+    insideMixColumnStep6p.innerHTML = `${reducedPolynomial}`
+    mixColNewStateArrayColIndex++;
+    
+    // state[i][c] = xorSum.toString(16);
+  // }
+}
+
+function generateSimulationHexaNumber(hex1, hex2) {
+  let b1arr = [];
+  let b2arr = [];
+  const combined = {};
+  let b1 = parseInt(hex1, 16).toString(2);
+  let b2 = parseInt(hex2, 16).toString(2);
+  for (let i = b1.length - 1; i >= 0; i--) {
+    if (b1.charAt(i) == 1) {
+      b1arr.push(b1.length - 1 - i);
+    }
+  }
+  for (let j = b2.length - 1; j >= 0; j--) {
+    if (b2.charAt(j) == 1) {
+      b2arr.push(b2.length - 1 - j);
+    }
+  }
+  b1arr.forEach((elem) => {
+    b2arr.forEach((b2elem) => {
+      let sum = elem + b2elem;
+      if (combined[sum] > 0) {
+        combined[sum] = combined[sum] + 1;
+      } else {
+        combined[sum] = 1;
+      }
+    });
+  });
+  let binary = 0;
+  let num = Object.keys(combined)[Object.keys(combined).length - 1];
+  for (let i = num; i >= 0; i--) {
+    if (combined[i] == undefined) {
+      //continue;
+      binary += "0";
+    } else if (combined[i] % 2 != 0) {
+      binary += "1";
+    } else {
+      binary += "0";
+    }
+  }
+  // return binary;
+  return parseInt(binary, 2);
+}
+function insideMixedColReset(){
+   insideMixColRowIndex = 0;
+   insideMixColColIndex = 0;
+   creatingArrayIndex = 0;
+   mixColNewStateArrayRowIndex = 0;
+   mixColNewStateArrayColIndex = 0;
+   let insideMixColumnStateArray = document.getElementsByClassName('insideMixColumndivTable')[0];
+   let insideMixColumnNewStateTable = insideMixColumnStateArray.getElementsByTagName('table')[2];
+  for(let i =0;i<4;i++){
+    let insideMixColumnNewStateTabletr = insideMixColumnNewStateTable.getElementsByTagName('tr')[i];
+    for(let j = 0;j<4;j++){
+      let insideMixColumnNewStateTabletrtd = insideMixColumnNewStateTabletr.getElementsByTagName('td')[j];
+      insideMixColumnNewStateTabletrtd.innerHTML="";
+    }
+  }
+
+}
+
+//inside Add RoundKey 
+

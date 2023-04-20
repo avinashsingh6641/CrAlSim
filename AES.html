@@ -18,7 +18,9 @@
 </head>
 
 <body>
-  <div class="aesBackdrop" onclick="closeSubByteModal();closeAllValueModal();closeShiftRowsModal();closeMixColModal();closeXorKeyModal();closeFirstXorKeyModal();closeLastSubByteModal();closeLastShiftRowsModal();closeLastXorKeyModal()"></div>
+  <div class="aesBackdrop"
+    onclick="closeSubByteModal();closeAllValueModal();closeShiftRowsModal();closeMixColModal();closeXorKeyModal();closeFirstXorKeyModal();closeLastSubByteModal();closeLastShiftRowsModal();closeLastXorKeyModal()">
+  </div>
   <div class="aesModal">
     <div class="aesHeadingValue">
       <p>Start of Round</p>
@@ -29,7 +31,7 @@
     </div>
     <div class="aesTransformedValueTable">
       <div class="aesRoundValue">
-        <h3>Round 0</h3>
+        <h3>Round-0</h3>
         <table></table>
         <table></table>
         <table></table>
@@ -43,7 +45,7 @@
       </div>
 
       <div class="aesRoundValue">
-        <h3>Round 1</h3>
+        <h3>Round-1</h3>
         <table></table>
         <table></table>
         <table></table>
@@ -57,7 +59,7 @@
       </div>
 
       <div class="aesRoundValue">
-        <h3>Round 2</h3>
+        <h3>Round-2</h3>
         <table></table>
         <table></table>
         <table></table>
@@ -71,7 +73,7 @@
       </div>
 
       <div class="aesRoundValue">
-        <h3>Round 3</h3>
+        <h3>Round-3</h3>
         <table></table>
         <table></table>
         <table></table>
@@ -85,7 +87,7 @@
       </div>
 
       <div class="aesRoundValue">
-        <h3>Round 4</h3>
+        <h3>Round-4</h3>
         <table></table>
         <table></table>
         <table></table>
@@ -99,7 +101,7 @@
       </div>
 
       <div class="aesRoundValue">
-        <h3>Round 5</h3>
+        <h3>Round-5</h3>
         <table></table>
         <table></table>
         <table></table>
@@ -113,7 +115,7 @@
       </div>
 
       <div class="aesRoundValue">
-        <h3>Round 6</h3>
+        <h3>Round-6</h3>
         <table></table>
         <table></table>
         <table></table>
@@ -127,7 +129,7 @@
       </div>
 
       <div class="aesRoundValue">
-        <h3>Round 7</h3>
+        <h3>Round-7</h3>
         <table></table>
         <table></table>
         <table></table>
@@ -141,7 +143,7 @@
       </div>
 
       <div class="aesRoundValue">
-        <h3>Round 8</h3>
+        <h3>Round-8</h3>
         <table></table>
         <table></table>
         <table></table>
@@ -155,7 +157,7 @@
       </div>
 
       <div class="aesRoundValue">
-        <h3>Round 9</h3>
+        <h3>Round-9</h3>
         <table></table>
         <table></table>
         <table></table>
@@ -169,7 +171,7 @@
       </div>
 
       <div class="aesRoundValue">
-        <h3>Round 10</h3>
+        <h3>Round-10</h3>
         <table></table>
         <table></table>
         <table></table>
@@ -189,31 +191,296 @@
     <div class="aesModalButton">
       <button onclick="closeAllValueModal()">Close</button>
     </div>
-    
+
   </div>
   <div class="aesFirstRoundXorKeyModal">
-    
+
   </div>
   <div class="aesSubByteModal">
-    
+    <div class="aesSubByteModalSubDiv">
+
+      <div class="subytetabel">
+        <table>
+          <!-- <th colspan="4">State Array</th> -->
+          <p>State Array</p>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+
+        </table>
+        <div class="currentlyActiveStepIndicator">
+          <div></div>
+          <p> Currently Active</p>
+        </div>
+
+        <div class="ElementsDoneIndicator">
+          <div></div>
+          <p>Done Simulating</p>
+        </div>
+
+        <div class="remainingElementsIndicator">
+          <div></div>
+          <p>Remaining Element</p>
+        </div>
+
+      </div>
+      <object type="text/html" data="SBoxTable.html"></object>
+      <p> = </p>
+      <div class="subytetabel" id="insideSubByteNewStateArray">
+        <table>
+          <!-- <th colspan="4">OutPut</th> -->
+          <P>Output</P>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+
+        </table>
+      </div>
+    </div>
+    <p>our state array is 4 X 4 matrix indexing from 0 to 3 select the element of row <span>0</span> and column
+      <span>0</span> from state array</p>
+    <p>i.e<span>0</span> since value is <span>0</span> we will search for row<span>0</span> and column<span>0</span> in
+      the S-box as you can see int highlighted part</p>
+    <p>put the highlighted value inside the output array from the s box</p>
+    <button>Fill All value</button>
+    <button onclick="insideSBox()">Next</button>
+    <button onclick="insideSBoxReset()">Reset</button>
   </div>
   <div class="aesShiftRowModal">
-    
+    <div class="aesShiftRowModalDiv">
+      <div class="insideShiftRowsTable1">
+        <p>State Table</p>
+        <table>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+        <table>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+        <table>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+        <table>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+        <p> row 0 left Shift Element by 0 element</p>
+        <p>row 1 left Shift Element by 1 element</p>
+        <p>row 2 left Shift Element by 2 element</p>
+        <p>row 3 left Shift Element by 3 element</p>
+      </div>
+      <div class="insideShiftRowsTable2">
+        <P>New State Table</P>
+        <table>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+      </div>
+    </div>
   </div>
   <div class="aesMixColModal">
-    
+    <div class="insideMixColumndiv">
+      <div class="insideMixColumndivTable">
+        <table>
+          <tr>
+            <td>02</td>
+            <td>03</td>
+            <td>01</td>
+            <td>01</td>
+          </tr>
+          <tr>
+            <td>01</td>
+            <td>02</td>
+            <td>03</td>
+            <td>01</td>
+          </tr>
+          <tr>
+            <td>01</td>
+            <td>01</td>
+            <td>02</td>
+            <td>03</td>
+          </tr>
+          <tr>
+            <td>03</td>
+            <td>01</td>
+            <td>01</td>
+            <td>02</td>
+          </tr>
+        </table>
+        <h1>*</h1>
+        <table>
+          <tr>
+            <td>63</td>
+            <td>eb</td>
+            <td>9f</td>
+            <td>a0</td>
+          </tr>
+          <tr>
+            <td>2f</td>
+            <td>93</td>
+            <td>92</td>
+            <td>c0</td>
+          </tr>
+          <tr>
+            <td>af</td>
+            <td>c7</td>
+            <td>ab</td>
+            <td>30</td>
+          </tr>
+          <tr>
+            <td>a2</td>
+            <td>20</td>
+            <td>cb</td>
+            <td>2b</td>
+          </tr>
+        </table>
+        <h1>=</h1>
+        <table>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+      </div>
+      <div class="insideMixColumndivTheory">
+        <h6>Matrix Multiplication</h6>
+        <p>elem(0,0) =</p>
+        <p>binary => </p>
+        <p>convert binary into Polynomial</p>
+        <span>(x)(x^6 + x^5 + x +1) +</span>
+        <span>(x+1)(x^7 + x^4 + x^3 + x^2)</span>
+        <span>(1)(x^6 + x^5 + x^4 + x^3 + x + 1)</span>
+        <span>(1)(x^7 + x^6 + x^3 + x)</span>
+        <p>opning the bracket and after solving we remain below ploynomial</p>
+        <p></p>
+        <p>if there is x^8 in the final ans then substitute the x^8 with x^4 + x^3 + x + 1 it is irreduceable polynomial</p>
+        <p></p>
+
+
+      </div>
+      <div class="insideMixColumndivButton">
+        <button onclick="mixColumnColumnNGenerator()">Next</button>
+        <button onclick="insideMixedColReset()">Reset</button>
+      </div>
+
+    </div>
+
   </div>
   <div class="aesXorKeyModal">
-    
+
   </div>
   <div class="aesLastSubByteModal">
-    
+
   </div>
   <div class="aesLastShiftRowsModal">
-    
+
   </div>
   <div class="aesLastXorKeyModal">
-    
+
   </div>
   <div class="aes">
     <div class="aesMenu">
@@ -253,21 +520,21 @@
               <p>Hexa decimal value is converted into Base64 </p>
               <span></span>
             </div>
-            <button type="button" onclick="">Reset</button>
+            <button type="button" onclick="resetSimulationInitialConfiguration()">Reset</button>
 
           </div>
         </div>
       </div>
 
       <div class="aes-content__aes" id="aes_2" data-aes-info>
-        
-        <div class="aesCipherDecipher">
+
+        <div class="aesCipherDecipherSimulator">
           <!-- <div class="aesSimulate"> -->
-            <div class="simulationStringDiv">
-              <span>Note String is converted into corresponding hexadecimal value</span>
-              <p></p>
-            </div>
-          
+          <div class="simulationStringDiv">
+            <span>Note String is converted into corresponding hexadecimal value</span>
+            <p></p>
+          </div>
+
           <hr class="verticalLine1">
           <hr class="horizontalLine1">
           <hr class="verticalLine2">
@@ -375,12 +642,12 @@
           <!-- </div> -->
           <div class="aesSimulationBottomDiv">
             <button onclick="openAllValueModal()">All Value</button>
-          <div class="aesSimulateButton">
-            <button type="button" id="aesNextButton">Next</button>
-            <button type="button" onclick="">Prev</button>
-            <button type="button" onclick="aesAnimationSkipStep()">Skip Steps</button>
+            <div class="aesSimulateButton">
+              <button type="button" id="aesNextButton">Next</button>
+              <button type="button" onclick="aesAnimationSkipStep()">Skip Steps</button>
+              <button type="button" onclick="aesAnimationReset()">Reset</button>
+            </div>
           </div>
-        </div>
         </div>
       </div>
       <div class="aes-content__aes" id="aes_3" data-aes-info>

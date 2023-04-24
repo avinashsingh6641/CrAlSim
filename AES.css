@@ -636,7 +636,50 @@
     position:absolute;
     /* margin-left: 0.5rem; */
 }
-
+.insideXorRoundAndKey{
+    width:70%;
+    height:50%;
+    display: flex;
+    flex-direction: row;
+    justify-content:space-around;
+    align-items: center;
+    margin-left: 8rem;
+}
+.insideXorRoundAndKey img{
+    width: 2rem;
+    height: 2rem;
+    object-fit: cover;
+}
+.insideXorRoundAndKey table tr td{
+   background-color:white;
+   border: 1px solid black;
+   width:2rem;
+   height:2rem;
+   font-size: large;
+   color: black;
+}
+.insideXorRoundAndKeyCalculation{
+    display: flex;
+    flex-direction:column;
+    width:100%;
+    height:30%;
+    align-items: center;
+}
+.insideXorRoundAndKeyCalculation p:nth-child(3){
+    border-bottom: 1px solid black;
+}
+.insideXorRoundAndKeyButtons{
+    width:100%;
+    height:20%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+}
+.insideXorRoundAndKeyButtons button{
+    padding:0.5rem 1rem;
+    margin-right:5rem;
+}
 .simulationStringDiv{
     width:100%;
     height:4rem;
@@ -751,11 +794,11 @@
     align-items: center;
 }
 .insideMixColumndivTable table tr td{
-   width: 2rem;
-   height: 2rem;
+   width: 1.5rem;
+   height: 1.5rem;
    background-color: white;
    border:1px solid black;
-   font-size: large;
+   font-size:small;
    color: black;
 }
 .insideMixColumndivTheory{

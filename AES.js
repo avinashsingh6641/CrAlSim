@@ -330,6 +330,28 @@ function generateAesCipherText() {
 
 //let cipherWholeString ="";
 function resetSimulationInitialConfiguration(){
+  aesStateArray.classList.remove("aesFirstMoveAnimation");
+
+  aesStateArray.classList.remove("aesSubBytesMoveAnimation");
+  aesStateArray.classList.remove("aesShiftrowMoveAnimation");
+  aesStateArray.classList.remove("aesMixColMoveAnimation");
+  aesStateArray.classList.remove("aesXorKeyMoveAnimation");
+
+  aesStateArray.classList.remove("aesTraverseBackMoveAnimation");
+  aesStateArray.classList.remove("aesLastRoundSubByteMoveAnimation");
+  aesStateArray.classList.remove("aesLastRoundShiftRowsMoveAnimation");
+  aesStateArray.classList.remove("aesLastRoundXorKeyMoveAnimation");
+
+  roundOneKeyTable.classList.remove("aesKeyMoveAnimation");
+  theRoundKeyTable.classList.remove("aesKeyMoveAnimation");
+  roundKeyLastTable.classList.remove("aesKeyMoveAnimation");
+  
+  aesRoundCounter = 1;
+  aesFunctionCount = 0;
+  theRoundSubCount = 1;
+  aesLastRoundSubRound = 1;
+  ch3.innerHTML = 0;
+
   let Plaintext = document.getElementById("aesplaintext");
   let Ciphertext = document.getElementById("aesciphertext");
   let Key = document.getElementById("aeskey");
@@ -368,7 +390,7 @@ function resetSimulationInitialConfiguration(){
   while(LastRoundTable.rows[0]){
     LastRoundTable.deleteRow(0);
   }
-  aesAnimationReset();
+  // aesAnimationReset();
   
   
 }
@@ -1039,7 +1061,7 @@ function aesSimulateRound0() {
 function aesSimulateNRoundSubByte() {
   aesStateArray.classList.remove("aesTraverseBackMoveAnimation");
   aesStateArray.classList.add("aesSubBytesMoveAnimation");
-  fillInsideSboxTable();
+  insideSboxTheRoundFillTable();
   setTimeout(() => {
     aesAnimationStateArr.forEach((rows) => {
       sBoxByteSubstitution(rows);
@@ -1048,7 +1070,10 @@ function aesSimulateNRoundSubByte() {
     updateSimulationStateArray();
   }, 1000);
   setTimeout(()=>{
-    insideSBoxReset();
+    if(insideSboxStateRowIndex>0 || insideSboxStateColumnIndex>0){
+      insideSboxResetButtonTheRound();
+    };
+    
   },2000);
   theRoundSubCount++;
 }
@@ -1158,6 +1183,8 @@ function aesSimulateNRoundTraverseBack() {
 
 function aesLastRoundSubByte() {
   aesStateArray.classList.add("aesLastRoundSubByteMoveAnimation");
+  // insideSboxResetButtonTheRound();
+  insideSboxLastRoundFillTable();
   setTimeout(() => {
     aesAnimationStateArr.forEach((rows) => {
       sBoxByteSubstitution(rows);
@@ -1344,7 +1371,7 @@ function aesAnimationReset(){
   aesStateArray.classList.remove("aesTraverseBackMoveAnimation");
   aesStateArray.classList.remove("aesLastRoundSubByteMoveAnimation");
   aesStateArray.classList.remove("aesLastRoundShiftRowsMoveAnimation");
-  aesStateArray.classList.remove("aesLastRoundXorKeyMoveAnimation{");
+  aesStateArray.classList.remove("aesLastRoundXorKeyMoveAnimation");
 
   roundOneKeyTable.classList.remove("aesKeyMoveAnimation");
   theRoundKeyTable.classList.remove("aesKeyMoveAnimation");
@@ -1560,14 +1587,28 @@ function insideXorKeyTableNextStep(div,r,c){
 }
 
 // inside SBox all implementation inclusing reset
-let insideSboxRowIndex = 0;
-let insideSboxColumnIndex = 0;
+let insideSboxStateRowIndex = 0;
+let insideSboxStateColumnIndex = 0;
+
+let sboxLastRoundStateRowIndex = 0;
+let sboxLastRoundStateColumnIndex = 0;
+
 let sboxRow =0;
 let sboxColumn =0;
+let sboxRowLastRound =0;
+let sboxColumnLastRound =0;
+function insideSboxTheRoundFillTable(){
+  const insideSubByte = document.getElementById('insideSubByteTheRound');
+  fillInsideSboxTable(insideSubByte);
 
-function fillInsideSboxTable(){
-  const insideSubByte = document.getElementsByClassName('aesSubByteModalSubDiv')[0];
-  const insideSubByteTable = insideSubByte.getElementsByTagName('table')[0];
+}
+function insideSboxLastRoundFillTable(){
+  const insideSubByte = document.getElementById('insideSubByteLastRound');
+  fillInsideSboxTable(insideSubByte);
+
+}
+function fillInsideSboxTable(div){
+  const insideSubByteTable = div.getElementsByTagName('table')[0];
     for(let i = 0; i<4;i++){
       let insideSubByteTableTr = insideSubByteTable.getElementsByTagName('tr')[i];
       for(let j= 0 ;j<4 ;j++){
@@ -1578,16 +1619,110 @@ function fillInsideSboxTable(){
 
 }
 
-function insideSBoxReset(){
-  clearPreviousStepSBoxCss(sboxRow,sboxColumn);
-  insideSboxRowIndex = 0;
-  insideSboxColumnIndex = 0;
+function insideSboxNextButtonTheRound(){
+  const insideSboxStateArray =  document.getElementById('insideSubByteTheRound');
+  const insideSboxStateArraytable = insideSboxStateArray.getElementsByTagName('table')[0];
+  const objectTableTag =  insideSboxStateArray.getElementsByTagName('object')[0];
+  const outsideAccessSbox = objectTableTag.contentDocument;
+  const sBoxOusideAccess = outsideAccessSbox.getElementsByClassName('animationSBoxTable')[0];
+  const insideSbox_SBoxArraytable = sBoxOusideAccess.getElementsByTagName('table')[0];
+  let subByteNewState= document.getElementById('insideSubByteNewStateArrayTheRound');
+
+  clearPreviousStepCssStateArray(insideSboxStateArraytable,insideSboxStateRowIndex,insideSboxStateColumnIndex);
+
+  let insideSboxStateArraytabletr = insideSboxStateArraytable.getElementsByTagName('tr')[insideSboxStateRowIndex];
+  let insideSboxStateArraytabletrtd = insideSboxStateArraytabletr.getElementsByTagName('td')[insideSboxStateColumnIndex];
+  insideSboxStateArraytabletrtd.style.background = "yellow";
+
+  clearPreviousStepSBoxCss(sboxRow,sboxColumn,insideSbox_SBoxArraytable);
+  let stateValue = insideSboxStateArraytabletrtd.innerHTML;
+  if(stateValue.length == 1){
+    sboxRow = 0;
+    sboxColumn = parseInt(stateValue, 16); 
+  }else{
+    sboxRow = parseInt(stateValue.charAt(0), 16);
+    sboxColumn = parseInt(stateValue.charAt(1), 16);
+  }
+  insideSBox(insideSbox_SBoxArraytable,subByteNewState,insideSboxStateRowIndex,insideSboxStateColumnIndex,sboxRow,sboxColumn);
+  if(insideSboxStateColumnIndex>=3){
+    insideSboxStateRowIndex++;
+    insideSboxStateColumnIndex = 0;
+  }else{
+    insideSboxStateColumnIndex++;
+  }
+
+}
+
+function insideSboxNextButtonLastRound(){
+  const insideSboxStateArray =  document.getElementById('insideSubByteLastRound');
+  const insideSboxStateArraytable = insideSboxStateArray.getElementsByTagName('table')[0];
+  const objectTableTag =  insideSboxStateArray.getElementsByTagName('object')[0];
+  const outsideAccessSbox = objectTableTag.contentDocument;
+  const sBoxOusideAccess = outsideAccessSbox.getElementsByClassName('animationSBoxTable')[0];
+  const insideSbox_SBoxArraytable = sBoxOusideAccess.getElementsByTagName('table')[0];
+  let subByteNewState= document.getElementById('insideSubByteNewStateArrayLastRound');
+
+  clearPreviousStepCssStateArray(insideSboxStateArraytable,sboxLastRoundStateRowIndex,sboxLastRoundStateColumnIndex);
+  
+  let insideSboxStateArraytabletr = insideSboxStateArraytable.getElementsByTagName('tr')[sboxLastRoundStateRowIndex];
+  let insideSboxStateArraytabletrtd = insideSboxStateArraytabletr.getElementsByTagName('td')[sboxLastRoundStateColumnIndex];
+  insideSboxStateArraytabletrtd.style.background = "yellow";
+
+  clearPreviousStepSBoxCss(sboxRowLastRound,sboxColumnLastRound,insideSbox_SBoxArraytable);
+  let stateValue = insideSboxStateArraytabletrtd.innerHTML;
+  if(stateValue.length == 1){
+    sboxRowLastRound = 0;
+    sboxColumnLastRound = parseInt(stateValue, 16); 
+  }else{
+    sboxRowLastRound = parseInt(stateValue.charAt(0), 16);
+    sboxColumnLastRound = parseInt(stateValue.charAt(1), 16);
+  }
+  insideSBox(insideSbox_SBoxArraytable,subByteNewState,sboxLastRoundStateRowIndex,sboxLastRoundStateColumnIndex,sboxRowLastRound,sboxColumnLastRound);
+  if(sboxLastRoundStateColumnIndex>=3){
+    sboxLastRoundStateRowIndex++;
+    sboxLastRoundStateColumnIndex = 0;
+  }else{
+    sboxLastRoundStateColumnIndex++;
+  }
+
+}
+
+function insideSboxResetButtonTheRound(){
+  let insideSboxStateArray =  document.getElementById('insideSubByteTheRound');
+  // const insideSboxStateArraytable = insideSboxStateArray.getElementsByTagName('table')[0];
+  let objectTableTag =  insideSboxStateArray.getElementsByTagName('object')[0];
+  let outsideAccessSbox = objectTableTag.contentDocument;
+  let sBoxOusideAccess = outsideAccessSbox.getElementsByClassName('animationSBoxTable')[0];
+  let insideSbox_SBoxArraytable = sBoxOusideAccess.getElementsByTagName('table')[0];
+  let subByteNewState= document.getElementById('insideSubByteNewStateArrayTheRound');
+  insideSBoxReset(insideSboxStateArray,insideSbox_SBoxArraytable,subByteNewState,sboxRow,sboxColumn);
+  insideSboxStateRowIndex = 0;
+  insideSboxStateColumnIndex = 0;
   sboxRow =0;
   sboxColumn =0;
-  const insideSboxStateArray =  document.getElementsByClassName('subytetabel')[0];
-  const insideSboxStateArraytable = insideSboxStateArray.getElementsByTagName('table')[0];
-  let subByteNewState= document.getElementById('insideSubByteNewStateArray');
-  let subByteNewStateTable = subByteNewState.getElementsByTagName('table')[0];
+  
+}
+function insideSboxResetButtonLastRound(){
+  let insideSboxStateArray =  document.getElementById('insideSubByteLastRound');
+  // const insideSboxStateArraytable = insideSboxStateArray.getElementsByTagName('table')[0];
+  let objectTableTag =  insideSboxStateArray.getElementsByTagName('object')[0];
+  let outsideAccessSbox = objectTableTag.contentDocument;
+  let sBoxOusideAccess = outsideAccessSbox.getElementsByClassName('animationSBoxTable')[0];
+  let insideSbox_SBoxArraytable = sBoxOusideAccess.getElementsByTagName('table')[0];
+  let subByteNewState= document.getElementById('insideSubByteNewStateArrayLastRound');
+  insideSBoxReset(insideSboxStateArray,insideSbox_SBoxArraytable,subByteNewState,sboxRowLastRound,sboxColumnLastRound);
+  sboxLastRoundStateRowIndex = 0;
+  sboxLastRoundStateColumnIndex = 0;
+  sboxRowLastRound =0;
+  sboxColumnLastRound =0;
+  
+}
+
+function insideSBoxReset(stateArray,sboxTable,newState,r,c){
+  clearPreviousStepSBoxCss(r,c,sboxTable);
+
+  const insideSboxStateArraytable = stateArray.getElementsByTagName('table')[0];
+  let subByteNewStateTable = newState.getElementsByTagName('table')[0];
   
   for(let i = 0;i<4;i++){
     let insideSboxStateArraytabletr = insideSboxStateArraytable.getElementsByTagName('tr')[i];
@@ -1602,26 +1737,24 @@ function insideSBoxReset(){
   
 
 }
-function clearPreviousStepCssStateArray(){
-  let clearRowIndex = insideSboxRowIndex;
-  let clearColumnIndex = insideSboxColumnIndex;
+function clearPreviousStepCssStateArray(stateTable,r,c){
+  let clearRowIndex = r;
+  let clearColumnIndex = c;
 
   // clear code for state array 
-  if(insideSboxRowIndex ==0 && insideSboxColumnIndex>0){
-    clearRowIndex = insideSboxRowIndex;
-    clearColumnIndex = insideSboxColumnIndex-1;
+  if(r ==0 && c>0){
+    clearRowIndex = r;
+    clearColumnIndex = c-1;
 
-  }else if(insideSboxRowIndex > 0 && insideSboxColumnIndex==0){
-    clearRowIndex = insideSboxRowIndex-1;
+  }else if(r > 0 && c==0){
+    clearRowIndex = r-1;
     clearColumnIndex =3;
-  }else if(insideSboxRowIndex > 0 && insideSboxColumnIndex>0){
-    clearRowIndex = insideSboxRowIndex;
-    clearColumnIndex = insideSboxColumnIndex-1;
+  }else if(r > 0 && c>0){
+    clearRowIndex = r;
+    clearColumnIndex = c-1;
   }
-  const insideSboxStateArray =  document.getElementsByClassName('subytetabel')[0];
-  const insideSboxStateArraytable = insideSboxStateArray.getElementsByTagName('table')[0];
 
-  let insideSboxStateArraytabletr = insideSboxStateArraytable.getElementsByTagName('tr')[clearRowIndex];
+  let insideSboxStateArraytabletr = stateTable.getElementsByTagName('tr')[clearRowIndex];
   let insideSboxStateArraytabletrtd = insideSboxStateArraytabletr.getElementsByTagName('td')[clearColumnIndex];
 
   insideSboxStateArraytabletrtd.style.background = "none";
@@ -1630,30 +1763,26 @@ function clearPreviousStepCssStateArray(){
 
 
 }
-let insideSbox_sBoxArray;
-let objectTableTag;
-let outsideAccessSbox;
-let sBoxOusideAccess;
-let insideSbox_SBoxArraytable;
 
-function clearPreviousStepSBoxCss(r,c){
-  // if(r==0 && c==0){
-  //   let firstRowtr = div.getElementsByTagName('tr')[r];
-  //   let firstcoltrtd = firstRowtr.getElementsByTagName('td')[c];
-  //   firstcoltrtd.style.background = "none";
-  // }
-  if(r>0 || c>0){
-    let insideSbox_SBoxArraytabletr = insideSbox_SBoxArraytable.getElementsByTagName('tr')[r];
+function clearPreviousStepSBoxCss(r,c,sboxTable){
+  if(r==0 && c==0){
+    let firstRowtr = sboxTable.getElementsByTagName('tr')[r];
+    let firstcoltrtd = firstRowtr.getElementsByTagName('td')[c];
+    firstcoltrtd.style.background = "none";
+  }
+  // let sboxTable.getElementsByTagName('table')[0];
+  else if(r>0 || c>0){
+    let insideSbox_SBoxArraytabletr = sboxTable.getElementsByTagName('tr')[r];
     let insideSbox_SBoxArraytabletrtd = insideSbox_SBoxArraytabletr.getElementsByTagName('td')[c];
     
-  for(let i = 0;i<sboxColumn;i++){
-    let highLightedRow =insideSbox_SBoxArraytable.getElementsByTagName('tr')[sboxRow];
+  for(let i = 0;i<c;i++){
+    let highLightedRow =sboxTable.getElementsByTagName('tr')[r];
      let highLightedtrtd=highLightedRow.getElementsByTagName('td')[i];
       highLightedtrtd.style.background = "none";
   }
-  for(let i = 0;i<sboxRow;i++){
-    let highlightedColumntr = insideSbox_SBoxArraytable.getElementsByTagName('tr')[i];
-    let highLightedColumntrtd = highlightedColumntr.getElementsByTagName('td')[sboxColumn];
+  for(let i = 0;i<r;i++){
+    let highlightedColumntr = sboxTable.getElementsByTagName('tr')[i];
+    let highLightedColumntrtd = highlightedColumntr.getElementsByTagName('td')[c];
     highLightedColumntrtd.style.background = "none";
   }
   insideSbox_SBoxArraytabletrtd.style.background = "none";
@@ -1663,70 +1792,29 @@ function clearPreviousStepSBoxCss(r,c){
 
 }
 
-function insideSBox(){
-  
-  const insideSboxStateArray =  document.getElementsByClassName('subytetabel')[0];
-  const insideSboxStateArraytable = insideSboxStateArray.getElementsByTagName('table')[0];
+function insideSBox(sboxTable,newState,r,c,sr,sc){
 
-
-  insideSbox_sBoxArray =  document.getElementsByClassName('aesSubByteModalSubDiv')[0];
-  objectTableTag =  insideSbox_sBoxArray.getElementsByTagName('object')[0];
-  outsideAccessSbox = objectTableTag.contentDocument;
-  sBoxOusideAccess = outsideAccessSbox.getElementsByClassName('animationSBoxTable')[0];
-  insideSbox_SBoxArraytable = sBoxOusideAccess.getElementsByTagName('table')[0];
-  
-  // const insideSbox_SBoxArraytable = objectTableTag.getElementsByTagName('table')[0];
-  clearPreviousStepCssStateArray();
-
-  let insideSboxStateArraytabletr = insideSboxStateArraytable.getElementsByTagName('tr')[insideSboxRowIndex];
-  let insideSboxStateArraytabletrtd = insideSboxStateArraytabletr.getElementsByTagName('td')[insideSboxColumnIndex];
-
-  
-
-  insideSboxStateArraytabletrtd.style.background = "yellow";
-  clearPreviousStepSBoxCss(sboxRow,sboxColumn);  //clearing previous css before entering new css
-
-  let stateValue = insideSboxStateArraytabletrtd.innerHTML;
-  // console.log(stateValue);
-  
-  
-  if(stateValue.length == 1){
-    sboxRow = 0;
-    sboxColumn = parseInt(stateValue, 16);
-    
-  }else{
-    sboxRow = parseInt(stateValue.charAt(0), 16);
-    sboxColumn = parseInt(stateValue.charAt(1), 16);
-  }
-
-  let insideSbox_SBoxArraytabletr = insideSbox_SBoxArraytable.getElementsByTagName('tr')[sboxRow];
-  let insideSbox_SBoxArraytabletrtd = insideSbox_SBoxArraytabletr.getElementsByTagName('td')[sboxColumn];
-  for(let i = 0;i<sboxColumn;i++){
-    let highLightedRow =insideSbox_SBoxArraytable.getElementsByTagName('tr')[sboxRow];
+  let insideSbox_SBoxArraytabletr = sboxTable.getElementsByTagName('tr')[sr];
+  let insideSbox_SBoxArraytabletrtd = insideSbox_SBoxArraytabletr.getElementsByTagName('td')[sc];
+  for(let i = 0;i<sc;i++){
+    let highLightedRow =sboxTable.getElementsByTagName('tr')[sr];
      let highLightedtrtd=highLightedRow.getElementsByTagName('td')[i];
       highLightedtrtd.style.background = "lightgreen";
   }
-  for(let i = 0;i<sboxRow;i++){
-    let highlightedColumntr = insideSbox_SBoxArraytable.getElementsByTagName('tr')[i];
-    let highLightedColumntrtd = highlightedColumntr.getElementsByTagName('td')[sboxColumn];
+  for(let i = 0;i<sr;i++){
+    let highlightedColumntr = sboxTable.getElementsByTagName('tr')[i];
+    let highLightedColumntrtd = highlightedColumntr.getElementsByTagName('td')[sc];
     highLightedColumntrtd.style.background = "lightgreen";
   }
   // console.log(sboxRow,sboxColumn);
   insideSbox_SBoxArraytabletrtd.style.background = "green";
 
   let substitutedValue = insideSbox_SBoxArraytabletrtd.innerHTML;
-  let subByteNewState= document.getElementById('insideSubByteNewStateArray');
-  let subByteNewStateTable = subByteNewState.getElementsByTagName('table')[0];
-  let subByteNewStateTabletr = subByteNewStateTable.getElementsByTagName('tr')[insideSboxRowIndex];
-  let subByteNewStateTabletrtd = subByteNewStateTabletr.getElementsByTagName('td')[insideSboxColumnIndex];
-  subByteNewStateTabletrtd.innerHTML = `${substitutedValue}`;
   
-  if(insideSboxColumnIndex>=3){
-    insideSboxRowIndex++;
-    insideSboxColumnIndex = 0;
-  }else{
-    insideSboxColumnIndex++;
-  }
+  let subByteNewStateTable = newState.getElementsByTagName('table')[0];
+  let subByteNewStateTabletr = subByteNewStateTable.getElementsByTagName('tr')[r];
+  let subByteNewStateTabletrtd = subByteNewStateTabletr.getElementsByTagName('td')[c];
+  subByteNewStateTabletrtd.innerHTML = `${substitutedValue}`;
   
 }
 

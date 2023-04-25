@@ -288,7 +288,7 @@
      </div>
   </div>
   <div class="aesSubByteModal">
-    <div class="aesSubByteModalSubDiv">
+    <div class="aesSubByteModalSubDiv" id = "insideSubByteTheRound">
 
       <div class="subytetabel">
         <table>
@@ -339,7 +339,7 @@
       </div>
       <object type="text/html" data="SBoxTable.html"></object>
       <p> = </p>
-      <div class="subytetabel" id="insideSubByteNewStateArray">
+      <div class="subytetabel" id="insideSubByteNewStateArrayTheRound">
         <table>
           <!-- <th colspan="4">OutPut</th> -->
           <P>Output</P>
@@ -377,9 +377,9 @@
     <p>i.e<span>0</span> since value is <span>0</span> we will search for row<span>0</span> and column<span>0</span> in
       the S-box as you can see int highlighted part</p>
     <p>put the highlighted value inside the output array from the s box</p>
-    <button>Fill All value</button>
-    <button onclick="insideSBox()">Next</button>
-    <button onclick="insideSBoxReset()">Reset</button>
+    <!-- <button>Fill All value</button> -->
+    <button onclick="insideSboxNextButtonTheRound()">Next</button>
+    <button onclick="insideSboxResetButtonTheRound()">Reset</button>
   </div>
   <div class="aesShiftRowModal">
     <div class="aesShiftRowModalDiv">
@@ -660,6 +660,92 @@
 
   </div>
   <div class="aesLastSubByteModal">
+    <div class="aesSubByteModalSubDiv" id="insideSubByteLastRound">
+
+      <div class="subytetabel">
+        <table>
+          <!-- <th colspan="4">State Array</th> -->
+          <p>State Array</p>
+          <tr>
+            <td>1</td>
+            <td>3a</td>
+            <td>8c</td>
+            <td>21</td>
+
+          </tr>
+          <tr>
+            <td>33</td>
+            <td>3e</td>
+            <td>b0</td>
+            <td>e2</td>
+          </tr>
+          <tr>
+            <td>3d</td>
+            <td>b8</td>
+            <td>8e</td>
+            <td>4</td>
+          </tr>
+          <tr>
+            <td>bc</td>
+            <td>4d</td>
+            <td>1c</td>
+            <td>a7</td>
+          </tr>
+
+        </table>
+        <div class="currentlyActiveStepIndicator">
+          <div></div>
+          <p> Currently Active</p>
+        </div>
+
+        <div class="ElementsDoneIndicator">
+          <div></div>
+          <p>Done Simulating</p>
+        </div>
+
+        <div class="remainingElementsIndicator">
+          <div></div>
+          <p>Remaining Element</p>
+        </div>
+
+      </div>
+      <object type="text/html" data="SBoxTable.html"></object>
+      <p> = </p>
+      <div class="subytetabel" id="insideSubByteNewStateArrayLastRound">
+        <table>
+          <!-- <th colspan="4">OutPut</th> -->
+          <P>Output</P>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+
+        </table>
+      </div>
+    </div>
+    <button onclick="insideSboxNextButtonLastRound()">Next</button>
+    <button onclick="insideSboxResetButtonLastRound()">Reset</button>
 
   </div>
   <div class="aesLastShiftRowsModal">

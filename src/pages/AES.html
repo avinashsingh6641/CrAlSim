@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<link rel="stylesheet" href="../styles/AES.css">
+<script src="../scripts/AES.js"></script>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CrAlSim</title>
+<link rel="stylesheet" href="../styles/Algorithm.css">
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+    integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous">
+    </script>
+</head>
+
+<body>
+  <div class="aesBackdrop"
+    onclick="closeSubByteModal();closeAllValueModal();closeShiftRowsModal();closeMixColModal();closeXorKeyModal();closeFirstXorKeyModal();closeLastSubByteModal();closeLastShiftRowsModal();closeLastXorKeyModal()">
+  </div>
+  <div class="aesModal">
+    <div class="aesHeadingValue">
+      <p>Start of Round</p>
+      <p>After SubBytes</p>
+      <p>After ShiftRows</p>
+      <p>After MixColumns</p>
+      <p>Round Key</p>
+    </div>
+    <div class="aesTransformedValueTable">
+      <div class="aesRoundValue">
+        <h3>Round-0</h3>
+        <table></table>
+        <table></table>
+        <table></table>
+        <table></table>
+        <div class="aesXorLogo">
+          <hr>
+          <hr>
+        </div>
+        <table></table>
+        <h4>=</h4>
+      </div>
+
+      <div class="aesRoundValue">
+        <h3>Round-1</h3>
+        <table></table>
+        <table></table>
+        <table></table>
+        <table></table>
+        <div class="aesXorLogo">
+          <hr>
+          <hr>
+        </div>
+        <table></table>
+        <h4>=</h4>
+      </div>
+
+      <div class="aesRoundValue">
+        <h3>Round-2</h3>
+        <table></table>
+        <table></table>
+        <table></table>
+        <table></table>
+        <div class="aesXorLogo">
+          <hr>
+          <hr>
+        </div>
+        <table></table>
+        <h4>=</h4>
+      </div>
+
+      <div class="aesRoundValue">
+        <h3>Round-3</h3>
+        <table></table>
+        <table></table>
+        <table></table>
+        <table></table>
+        <div class="aesXorLogo">
+          <hr>
+          <hr>
+        </div>
+        <table></table>
+        <h4>=</h4>
+      </div>
+
+      <div class="aesRoundValue">
+        <h3>Round-4</h3>
+        <table></table>
+        <table></table>
+        <table></table>
+        <table></table>
+        <div class="aesXorLogo">
+          <hr>
+          <hr>
+        </div>
+        <table></table>
+        <h4>=</h4>
+      </div>
+
+      <div class="aesRoundValue">
+        <h3>Round-5</h3>
+        <table></table>
+        <table></table>
+        <table></table>
+        <table></table>
+        <div class="aesXorLogo">
+          <hr>
+          <hr>
+        </div>
+        <table></table>
+        <h4>=</h4>
+      </div>
+
+      <div class="aesRoundValue">
+        <h3>Round-6</h3>
+        <table></table>
+        <table></table>
+        <table></table>
+        <table></table>
+        <div class="aesXorLogo">
+          <hr>
+          <hr>
+        </div>
+        <table></table>
+        <h4>=</h4>
+      </div>
+
+      <div class="aesRoundValue">
+        <h3>Round-7</h3>
+        <table></table>
+        <table></table>
+        <table></table>
+        <table></table>
+        <div class="aesXorLogo">
+          <hr>
+          <hr>
+        </div>
+        <table></table>
+        <h4>=</h4>
+      </div>
+
+      <div class="aesRoundValue">
+        <h3>Round-8</h3>
+        <table></table>
+        <table></table>
+        <table></table>
+        <table></table>
+        <div class="aesXorLogo">
+          <hr>
+          <hr>
+        </div>
+        <table></table>
+        <h4>=</h4>
+      </div>
+
+      <div class="aesRoundValue">
+        <h3>Round-9</h3>
+        <table></table>
+        <table></table>
+        <table></table>
+        <table></table>
+        <div class="aesXorLogo">
+          <hr>
+          <hr>
+        </div>
+        <table></table>
+        <h4>=</h4>
+      </div>
+
+      <div class="aesRoundValue">
+        <h3>Round-10</h3>
+        <table></table>
+        <table></table>
+        <table></table>
+        <table></table>
+        <div class="aesXorLogo">
+          <hr>
+          <hr>
+        </div>
+        <table></table>
+        <h4>=</h4>
+      </div>
+      <div class="finalOutputValue">
+        <h6>Final OutPut</h6>
+        <table></table>
+      </div>
+    </div>
+    <div class="aesModalButton">
+      <button onclick="closeAllValueModal()">Close</button>
+    </div>
+
+  </div>
+  <div class="aesFirstRoundXorKeyModal">
+     <div class="insideXorRoundAndKey" id ="insideXorKey0thRound">
+      <table>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
+      <img src="../assets/XorImage.jpg">
+      <table>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
+      <h3>=</h3>
+      <table>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
+     </div>
+     <div class="insideXorRoundAndKeyCalculation" style="width: 100%;">
+     </div>
+     <div class="insideXorRoundAndKeyButtons">
+        <button onclick="insideXorKeyZerothRound()">Next</button>
+        <button onclick="insideXorKeyZerothRoundReset()">Reset</button>
+     </div>
+  </div>
+  <div class="aesSubByteModal">
+    <div class="aesSubByteModalSubDiv" id = "insideSubByteTheRound">
+
+      <div class="subytetabel">
+        <table>
+          <!-- <th colspan="4">State Array</th> -->
+          <p>State Array</p>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+
+        </table>
+        <div class="currentlyActiveStepIndicator">
+          <div></div>
+          <p> Currently Active</p>
+        </div>
+
+        <div class="ElementsDoneIndicator">
+          <div></div>
+          <p>Done Simulating</p>
+        </div>
+
+        <div class="remainingElementsIndicator">
+          <div></div>
+          <p>Remaining Element</p>
+        </div>
+
+      </div>
+      <object type="text/html" data="SBoxTable.html"></object>
+      <p> = </p>
+      <div class="subytetabel" id="insideSubByteNewStateArrayTheRound">
+        <table>
+          <!-- <th colspan="4">OutPut</th> -->
+          <P>Output</P>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="sbox-step-explanation" id="sboxStepExplanationTheRound">
+      <div class="step-desc-card">
+        <div class="step-desc-header">Simulation Initialized</div>
+        <div class="step-desc-body">
+          <p>Click the <strong>Next</strong> button to begin the byte substitution process step-by-step for each of the 16 bytes in the State Array.</p>
+        </div>
+      </div>
+    </div>
+    <button onclick="insideSboxNextButtonTheRound()">Next</button>
+    <button onclick="insideSboxResetButtonTheRound()">Reset</button>
+  </div>
+  <div class="aesShiftRowModal">
+    <div class="aesShiftRowModalDiv">
+      <div class="insideShiftRowsTable1">
+        <p>State Table</p>
+        <table>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+        <table>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+        <table>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+        <table>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+        <p> row 0 left Shift Element by 0 element</p>
+        <p>row 1 left Shift Element by 1 element</p>
+        <p>row 2 left Shift Element by 2 element</p>
+        <p>row 3 left Shift Element by 3 element</p>
+      </div>
+      <div class="insideShiftRowsTable2">
+        <P>New State Table</P>
+        <table>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="aesMixColModal">
+    <div class="insideMixColumndiv">
+      <div class="insideMixColumndivTable">
+        <table>
+          <tr>
+            <td>02</td>
+            <td>03</td>
+            <td>01</td>
+            <td>01</td>
+          </tr>
+          <tr>
+            <td>01</td>
+            <td>02</td>
+            <td>03</td>
+            <td>01</td>
+          </tr>
+          <tr>
+            <td>01</td>
+            <td>01</td>
+            <td>02</td>
+            <td>03</td>
+          </tr>
+          <tr>
+            <td>03</td>
+            <td>01</td>
+            <td>01</td>
+            <td>02</td>
+          </tr>
+        </table>
+        <h1>*</h1>
+        <table>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+        <h1>=</h1>
+        <table>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+      </div>
+      <div class="insideMixColumndivTheory" id="mixColSimulationExplanation">
+        <div class="step-desc-card" style="margin-top: 0;">
+          <div class="step-desc-header">Simulation Initialized</div>
+          <div class="step-desc-body">
+            <p>Click the <strong>Next</strong> button to begin the column mixing process step-by-step for each cell in the State Array.</p>
+          </div>
+        </div>
+      </div>
+      <div class="insideMixColumndivButton">
+        <button onclick="mixColumnColumnNGenerator()">Next</button>
+        <button onclick="insideMixedColReset()">Reset</button>
+      </div>
+
+    </div>
+
+  </div>
+  <div class="aesXorKeyModal">
+    <div class="insideXorRoundAndKey" id="insideXorKeytheRound">
+      <table>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
+      <img src="../assets/XorImage.jpg">
+      <table>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
+      <h3>=</h3>
+      <table>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
+     </div>
+     <div class="insideXorRoundAndKeyCalculation" style="width: 100%;">
+     </div>
+     <div class="insideXorRoundAndKeyButtons">
+        <button onclick="insideXorKeyTheRound()">Next</button>
+        <button onclick="insideXorKeyTheRoundReset()">Reset</button>
+     </div>
+
+  </div>
+  <div class="aesLastSubByteModal">
+    <div class="aesSubByteModalSubDiv" id="insideSubByteLastRound">
+
+      <div class="subytetabel">
+        <table>
+          <!-- <th colspan="4">State Array</th> -->
+          <p>State Array</p>
+          <tr>
+            <td>1</td>
+            <td>3a</td>
+            <td>8c</td>
+            <td>21</td>
+
+          </tr>
+          <tr>
+            <td>33</td>
+            <td>3e</td>
+            <td>b0</td>
+            <td>e2</td>
+          </tr>
+          <tr>
+            <td>3d</td>
+            <td>b8</td>
+            <td>8e</td>
+            <td>4</td>
+          </tr>
+          <tr>
+            <td>bc</td>
+            <td>4d</td>
+            <td>1c</td>
+            <td>a7</td>
+          </tr>
+
+        </table>
+        <div class="currentlyActiveStepIndicator">
+          <div></div>
+          <p> Currently Active</p>
+        </div>
+
+        <div class="ElementsDoneIndicator">
+          <div></div>
+          <p>Done Simulating</p>
+        </div>
+
+        <div class="remainingElementsIndicator">
+          <div></div>
+          <p>Remaining Element</p>
+        </div>
+
+      </div>
+      <object type="text/html" data="SBoxTable.html"></object>
+      <p> = </p>
+      <div class="subytetabel" id="insideSubByteNewStateArrayLastRound">
+        <table>
+          <!-- <th colspan="4">OutPut</th> -->
+          <P>Output</P>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+
+        </table>
+      </div>
+    </div>
+    <div class="sbox-step-explanation" id="sboxStepExplanationLastRound">
+      <div class="step-desc-card">
+        <div class="step-desc-header">Simulation Initialized</div>
+        <div class="step-desc-body">
+          <p>Click the <strong>Next</strong> button to begin the byte substitution process step-by-step for each of the 16 bytes in the State Array.</p>
+        </div>
+      </div>
+    </div>
+    <button onclick="insideSboxNextButtonLastRound()">Next</button>
+    <button onclick="insideSboxResetButtonLastRound()">Reset</button>
+
+  </div>
+  <div class="aesLastShiftRowsModal">
+
+  </div>
+  <div class="aesLastXorKeyModal">
+    <div class="insideXorRoundAndKey" id ="insideXorKeyLastRound">
+      <table>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
+      <img src="../assets/XorImage.jpg">
+      <table>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
+      <h3>=</h3>
+      <table>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
+     </div>
+     <div class="insideXorRoundAndKeyCalculation" style="width: 100%;">
+     </div>
+     <div class="insideXorRoundAndKeyButtons">
+        <button onclick="insideXorKeyLastRound()">Next</button>
+        <button onclick="insideXorKeyLastRoundReset()">Reset</button>
+     </div>
+
+  </div>
+  <div class="aes">
+    <div class="aesMenu">
+
+      <span class="active2 activeaestab" data-aes-value="#aes_1">Cipher/Decipher</span>
+      <span data-aes-value="#aes_2">simulator</span>
+      <span data-aes-value="#aes_3">Theory</span>
+
+    </div>
+
+    <div class="aes-content">
+      <div class="aes-content__aes active2" id="aes_1" data-aes-info>
+        <div class="aesCipherDecipher">
+
+          <div class="aesContainer">
+            <h1>Generate Cipher</h1>
+            <p>Key should be 128 bit <span>i.e of 16 Characters</span></p>
+            <div class="aeskey">
+
+              <label for="aeskey">128 bit Key:</label>
+              <input type="text" id="aeskey" placeholder="Enter 128 bit key">
+            </div>
+
+            <div class="aesplaintext">
+              <label for="aesplaintext">Plain Text:</label>
+              <input type="text" id="aesplaintext" placeholder="Enter plain text " value="">
+              <button type="button" onclick="aesEncrypt()">Encrypt</button>
+            </div>
+
+            <div class="aesciphertext">
+              <label for="aesciphertext">Cipher Text:</label>
+              <input type="text" id="aesciphertext" value="" placeholder="Enter Cipher text">
+              <button type="button" onclick="aesDecrypt()">Decrypt</button>
+            </div>
+            <hr>
+            <div class="aesTransformedTable">
+              <span>
+                <div class="transformed-table-title">Final Output Conversion Table</div>
+                <div class="block-container">
+                  <table class="aes-trans-table byte-table">
+                    <tr><th>Hex</th></tr>
+                    <tr><th>Binary</th></tr>
+                  </table>
+                  <div class="split-indicator">
+                    <span>Split into 6-bit chunks</span>
+                    <i class="fa fa-arrow-down"></i>
+                  </div>
+                  <table class="aes-trans-table b64-table">
+                    <tr><th>6-Bit Binary</th></tr>
+                    <tr><th>Base64 Char</th></tr>
+                  </table>
+                </div>
+              </span>
+            </div>
+            <button type="button" onclick="resetSimulationInitialConfiguration()">Reset</button>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="aes-content__aes" id="aes_2" data-aes-info>
+
+        <div class="aesCipherDecipherSimulator">
+          <!-- <div class="aesSimulate"> -->
+          <div class="simulationStringDiv">
+            <span>Note String is converted into corresponding hexadecimal value</span>
+            <p></p>
+          </div>
+
+          <svg id="aesSimulatorSvg" class="aesSimulatorSvg">
+            <path id="svgMainVerticalLine" d="" stroke="#2c3e50" stroke-width="2" fill="none" />
+            <path id="svgLoopBackLine" d="" stroke="#2c3e50" stroke-width="2" stroke-dasharray="5,5" fill="none" />
+          </svg>
+          <div class="aesStateArray">
+            <table>
+              <tr>
+              </tr>
+              <tr>
+              </tr>
+              <tr>
+              </tr>
+              <tr>
+              </tr>
+            </table>
+          </div>
+          <div class="aesFirstRoundMajorDiv">
+            <div class="roundsText">
+              <p>Initial Round</p>
+            </div>
+            <div class="aesFirstRound">
+              <p onclick="openFirstXorKeyModal()">AddRoundKey</p>
+            </div>
+            <div class="firstRoundKey">
+              <p>Round Key 0</p>
+              <table>
+                <tr>
+
+                </tr>
+                <tr>
+
+                </tr>
+                <tr>
+
+                </tr>
+                <tr>
+
+                </tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="aesTheRoundsMajorDiv">
+            <div class="roundsText">
+              <div class="counter">
+                <p>Round Count</p>
+                <h3>0</h3>
+              </div>
+              <p>9 Main Rounds</p>
+            </div>
+            <div class="aesTheRounds">
+              <p onclick="openSubByteModal()">1-SubBytes</p>
+              <p onclick="openShiftRowsModal()">2-ShiftRows</p>
+              <p onclick="openMixColModal()">3-MixColumns</p>
+              <p onclick="openXorKeyModal()">4-AddRoundKey</p>
+            </div>
+
+            <div class="roundKey">
+              <p>Round Key 1-9</p>
+              <hr>
+              <table>
+                <tr>
+
+                </tr>
+                <tr>
+
+                </tr>
+                <tr>
+
+                </tr>
+                <tr>
+
+                </tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="aesLastRoundMajorDiv">
+            <div class="roundsText">
+              <p>Final Round</p>
+            </div>
+            <div class="aesLastRound">
+              <p onclick="openLastSubByteModal()">1-SubBytes</p>
+              <p onclick="openLastShiftRowsModal()">2-ShiftRows</p>
+              <p onclick="openLastXorKeyModal()">3-AddRoundKey</p>
+            </div>
+            <div class="lastRoundKey">
+              <p>Round Key 10</p>
+              <table>
+                <tr>
+
+                </tr>
+                <tr>
+
+                </tr>
+                <tr>
+
+                </tr>
+                <tr>
+
+                </tr>
+              </table>
+            </div>
+          </div>
+          <!-- </div> -->
+          <div class="aesSimulationBottomDiv">
+            <button onclick="openAllValueModal()">All Value</button>
+            <div class="aesSimulateButton">
+              <button type="button" id="aesNextButton">Next</button>
+              <button type="button" onclick="aesAnimationSkipStep()">Skip Steps</button>
+              <button type="button" onclick="aesAnimationReset()">Reset</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="aes-content__aes" id="aes_3" data-aes-info>
+        <div class="aes-theory-container">
+          <div class="aes-theory-header">
+            <h2>Understanding Advanced Encryption Standard (AES)</h2>
+            <p>AES is a symmetric-key block cipher standardized by NIST in 2001. It processes data in 128-bit blocks using a 4x4 state matrix of bytes. The encryption is iterative, consisting of multiple rounds (10 rounds for 128-bit keys).</p>
+          </div>
+          
+          <div class="aes-theory-flow">
+            <h3>The Four Core Transformations per Round</h3>
+            <p>Click on any transformation step below to view its visual explanation, mathematical background, and the actual JavaScript code used in this simulator.</p>
+            
+            <div class="aes-steps-grid">
+              <!-- SubBytes -->
+              <div class="aes-step-card" onclick="openTheoryStepModal('subbytes')">
+                <div class="aes-step-badge">Step 1</div>
+                <h4>SubBytes</h4>
+                <p>Non-linear byte substitution using a lookup table (S-Box).</p>
+                <button class="aes-learn-btn">Explore Code & Theory</button>
+              </div>
+
+              <!-- ShiftRows -->
+              <div class="aes-step-card" onclick="openTheoryStepModal('shiftrows')">
+                <div class="aes-step-badge">Step 2</div>
+                <h4>ShiftRows</h4>
+                <p>Cyclic left shift permutation of the state matrix rows.</p>
+                <button class="aes-learn-btn">Explore Code & Theory</button>
+              </div>
+
+              <!-- MixColumns -->
+              <div class="aes-step-card" onclick="openTheoryStepModal('mixcolumns')">
+                <div class="aes-step-badge">Step 3</div>
+                <h4>MixColumns</h4>
+                <p>Column-wise matrix multiplication over Galois Field GF(2^8).</p>
+                <button class="aes-learn-btn">Explore Code & Theory</button>
+              </div>
+
+              <!-- AddRoundKey -->
+              <div class="aes-step-card" onclick="openTheoryStepModal('addroundkey')">
+                <div class="aes-step-badge">Step 4</div>
+                <h4>AddRoundKey</h4>
+                <p>Bitwise XOR operation between the state matrix and the round key.</p>
+                <button class="aes-learn-btn">Explore Code & Theory</button>
+              </div>
+            </div>
+          </div>
+          
+          <div class="aes-theory-details">
+            <h3>AES Round Structure</h3>
+            <div class="aes-round-summary">
+              <div class="round-phase">
+                <strong>Initial Round (Round 0)</strong>
+                <span>AddRoundKey only</span>
+              </div>
+              <div class="round-phase-arrow">→</div>
+              <div class="round-phase">
+                <strong>Standard Rounds (1 to 9)</strong>
+                <span>SubBytes, ShiftRows, MixColumns, AddRoundKey</span>
+              </div>
+              <div class="round-phase-arrow">→</div>
+              <div class="round-phase">
+                <strong>Final Round (Round 10)</strong>
+                <span>SubBytes, ShiftRows, AddRoundKey (No MixColumns)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Connected AES Encryption Flow & Walkthrough Example Section -->
+          <div class="aes-flow-section">
+            <h3>Connected AES Encryption Flow & Walkthrough Example</h3>
+            <p class="flow-intro">Below is a detailed walkthrough of how a single 16-byte block of plaintext travels through the entire AES encryption flow, using a concrete example to show how the state array transforms at each round.</p>
+            
+            <div class="flow-timeline">
+              <!-- Phase 1: Input Setup -->
+              <div class="flow-step-card initial-round">
+                <div class="flow-step-title">
+                  <span>Input & Key Representation</span>
+                  <span class="flow-step-badge badge-initial">Input Phase</span>
+                </div>
+                <div class="flow-step-content">
+                  <p>A 16-character string is converted to a 4x4 matrix of hexadecimal byte values called the <strong>State Array</strong>. The same is done for the 16-character secret key. We map characters column-by-column into the matrices.</p>
+                  <p><strong>Example:</strong> Plaintext <code>"Two One Nine Two"</code> and Key <code>"Thats my Kung Fu"</code>.</p>
+                  <div class="matrix-container">
+                    <div class="matrix-block">
+                      <div class="matrix-block-title">Plaintext (State Array)</div>
+                      <table class="matrix-table">
+                        <tr><td>54</td><td>4f</td><td>4e</td><td>20</td></tr>
+                        <tr><td>77</td><td>6e</td><td>69</td><td>54</td></tr>
+                        <tr><td>6f</td><td>65</td><td>6e</td><td>77</td></tr>
+                        <tr><td>20</td><td>20</td><td>65</td><td>6f</td></tr>
+                      </table>
+                    </div>
+                    <div class="matrix-operator">&amp;</div>
+                    <div class="matrix-block">
+                      <div class="matrix-block-title">Cipher Key</div>
+                      <table class="matrix-table">
+                        <tr><td>54</td><td>73</td><td>20</td><td>67</td></tr>
+                        <tr><td>68</td><td>20</td><td>4b</td><td>20</td></tr>
+                        <tr><td>61</td><td>6d</td><td>75</td><td>46</td></tr>
+                        <tr><td>74</td><td>79</td><td>6e</td><td>75</td></tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Phase 2: Round 0 -->
+              <div class="flow-step-card initial-round">
+                <div class="flow-step-title">
+                  <span>Round 0: Initial Key Addition</span>
+                  <span class="flow-step-badge badge-initial">Round 0</span>
+                </div>
+                <div class="flow-step-content">
+                  <p>In Round 0, the only operation is <strong>AddRoundKey</strong>. We perform a bitwise XOR (e.g. <code>54 ^ 54 = 00</code>) between the State Array and the Initial Key (Round Key 0).</p>
+                  <div class="matrix-container">
+                    <div class="matrix-block">
+                      <div class="matrix-block-title">State Array</div>
+                      <table class="matrix-table">
+                        <tr><td>54</td><td>4f</td><td>4e</td><td>20</td></tr>
+                        <tr><td>77</td><td>6e</td><td>69</td><td>54</td></tr>
+                        <tr><td>6f</td><td>65</td><td>6e</td><td>77</td></tr>
+                        <tr><td>20</td><td>20</td><td>65</td><td>6f</td></tr>
+                      </table>
+                    </div>
+                    <div class="matrix-operator">⊕</div>
+                    <div class="matrix-block">
+                      <div class="matrix-block-title">Round Key 0</div>
+                      <table class="matrix-table">
+                        <tr><td>54</td><td>73</td><td>20</td><td>67</td></tr>
+                        <tr><td>68</td><td>20</td><td>4b</td><td>20</td></tr>
+                        <tr><td>61</td><td>6d</td><td>75</td><td>46</td></tr>
+                        <tr><td>74</td><td>79</td><td>6e</td><td>75</td></tr>
+                      </table>
+                    </div>
+                    <div class="matrix-operator">=</div>
+                    <div class="matrix-block">
+                      <div class="matrix-block-title">Result State</div>
+                      <table class="matrix-table">
+                        <tr><td>00</td><td>3c</td><td>6e</td><td>47</td></tr>
+                        <tr><td>1f</td><td>4e</td><td>22</td><td>74</td></tr>
+                        <tr><td>0e</td><td>08</td><td>1b</td><td>31</td></tr>
+                        <tr><td>54</td><td>59</td><td>0b</td><td>1a</td></tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Phase 3: Round 1-9 -->
+              <div class="flow-step-card">
+                <div class="flow-step-title">
+                  <span>Rounds 1 to 9: Standard Iterative Transformations</span>
+                  <span class="flow-step-badge badge-standard">Rounds 1-9</span>
+                </div>
+                <div class="flow-step-content">
+                  <p>Each of these 9 rounds passes the state through 4 consecutive stages:</p>
+                  <ol style="margin-left: 1.5rem; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                    <li><strong>SubBytes:</strong> Replace bytes using the <span class="interactive-link" style="color: #6d28d9; text-decoration: underline; cursor: pointer; font-weight: bold;" onclick="openTheoryStepModal('subbytes')">S-Box</span>. (e.g. <code>00 -> 63</code>, <code>3c -> eb</code>).</li>
+                    <li><strong>ShiftRows:</strong> Cyclically shift Row 1 left by 1, Row 2 left by 2, Row 3 left by 3.</li>
+                    <li><strong>MixColumns:</strong> Matrix multiplication over GF(2^8) to mix column values together.</li>
+                    <li><strong>AddRoundKey:</strong> XOR with the Round Key derived via Key Expansion.</li>
+                  </ol>
+                  <p><strong>Example (Round 1 intermediate states):</strong></p>
+                  <div class="matrix-container">
+                    <div class="matrix-block">
+                      <div class="matrix-block-title">After SubBytes</div>
+                      <table class="matrix-table">
+                        <tr><td>63</td><td>eb</td><td>9f</td><td>a0</td></tr>
+                        <tr><td>c0</td><td>2f</td><td>93</td><td>92</td></tr>
+                        <tr><td>ab</td><td>30</td><td>af</td><td>c7</td></tr>
+                        <tr><td>20</td><td>cb</td><td>2b</td><td>a2</td></tr>
+                      </table>
+                    </div>
+                    <div class="matrix-operator">→</div>
+                    <div class="matrix-block">
+                      <div class="matrix-block-title">After ShiftRows</div>
+                      <table class="matrix-table">
+                        <tr><td>63</td><td>eb</td><td>9f</td><td>a0</td></tr>
+                        <tr><td>2f</td><td>93</td><td>92</td><td>c0</td></tr>
+                        <tr><td>af</td><td>c7</td><td>ab</td><td>30</td></tr>
+                        <tr><td>a2</td><td>20</td><td>cb</td><td>2b</td></tr>
+                      </table>
+                    </div>
+                    <div class="matrix-operator">→</div>
+                    <div class="matrix-block">
+                      <div class="matrix-block-title">After MixColumns</div>
+                      <table class="matrix-table">
+                        <tr><td>ba</td><td>78</td><td>72</td><td>40</td></tr>
+                        <tr><td>75</td><td>a8</td><td>cf</td><td>e7</td></tr>
+                        <tr><td>85</td><td>7e</td><td>11</td><td>8c</td></tr>
+                        <tr><td>1e</td><td>51</td><td>8c</td><td>ff</td></tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Phase 4: Round 10 -->
+              <div class="flow-step-card final-round">
+                <div class="flow-step-title">
+                  <span>Round 10: Final Round (No MixColumns)</span>
+                  <span class="flow-step-badge badge-final">Round 10</span>
+                </div>
+                <div class="flow-step-content">
+                  <p>In the final round, we perform <strong>SubBytes</strong>, <strong>ShiftRows</strong>, and XORing with <strong>Round Key 10</strong>. We skip <strong>MixColumns</strong> to prevent it from neutralizing the diffusion gained in the previous rounds.</p>
+                  <p>The resulting 16-byte state is read column-by-column to yield the final ciphertext.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dynamic Code/Theory Viewer Modal -->
+        <div id="theoryModal" class="aes-theory-modal" style="display: none;">
+          <div class="aes-theory-modal-content">
+            <span class="aes-theory-modal-close" onclick="closeTheoryStepModal()">&times;</span>
+            <h2 id="theoryModalTitle">Step Name</h2>
+            <hr>
+            <div class="aes-theory-modal-body" id="theoryModalBody">
+              <div class="theory-explanation-section">
+                <h3>How it Works</h3>
+                <p id="theoryModalDesc"></p>
+                <div class="theory-illustration" id="theoryModalIllustration"></div>
+              </div>
+              <div class="theory-code-section">
+                <h3>Simulator Source Code</h3>
+                <pre><code id="theoryModalCode"></code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script type="text/javascript">
+    const aestabs = document.querySelectorAll('[data-aes-value]')
+    const aestabInfos = document.querySelectorAll('[data-aes-info]')
+
+    aestabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = document
+          .querySelector(tab.dataset.aesValue);
+
+        aestabInfos.forEach(aesInfo => {
+          aesInfo.classList.remove('active2')
+        })
+        target.classList.add('active2');
+        target.classList.add('activeaestab');
+      })
+    })
+  </script>
+
+  <script type="text/javascript">
+    $(document).on('click', 'span', function () {
+      $(this).addClass('activeaestab').siblings().removeClass('activeaestab')
+    });
+  </script>
+
+</body>
+
+</html>

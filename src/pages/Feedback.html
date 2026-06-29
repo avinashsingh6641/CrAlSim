@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../styles/Feedback.css" />
+    <title>CrAlSim</title>
+    <!-- Add FontAwesome and Google Fonts for design matching -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <!-- Google reCAPTCHA v2 script -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script>
+      // Configure your AWS API Gateway Endpoint or Lambda Function URL here
+      const AWS_API_ENDPOINT = "YOUR_AWS_API_GATEWAY_ENDPOINT_HERE";
+
+      function countWords(str) {
+        return str.trim().split(/\s+/).filter(word => word.length > 0).length;
+      }
+
+      function handleWordCount() {
+        const textarea = document.getElementById("suggestions");
+        const counter = document.getElementById("wordCounter");
+        const count = countWords(textarea.value);
+        
+        counter.innerText = `${count} / 500 words`;
+        
+        if (count > 500) {
+          counter.classList.add("exceeded");
+        } else {
+          counter.classList.remove("exceeded");
+        }
+      }
+
+      function sendEmail(event) {
+        if (event) event.preventDefault();
+
+        const name = document.getElementById("text").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const suggestions = document.getElementById("suggestions").value.trim();
+        const recaptchaResponse = typeof grecaptcha !== 'undefined' ? grecaptcha.getResponse() : "";
+
+        if (!name || !email || !suggestions) {
+          alert("Please fill in all fields.");
+          return false;
+        }
+
+        const count = countWords(suggestions);
+        if (count > 500) {
+          alert("Your message exceeds the 500-word limit. Please shorten your feedback.");
+          return false;
+        }
+
+        // Only enforce recaptcha validation check if a key has been configured (i.e. not the placeholder value)
+        const isRecaptchaWidgetConfigured = document.querySelector(".g-recaptcha") && 
+                                            document.querySelector(".g-recaptcha").getAttribute("data-sitekey") !== "YOUR_RECAPTCHA_SITE_KEY";
+        
+        if (isRecaptchaWidgetConfigured && !recaptchaResponse) {
+          alert("Please complete the reCAPTCHA verification to prevent automated spam.");
+          return false;
+        }
+
+        const payload = {
+          name: name,
+          email: email,
+          suggestions: suggestions,
+          recaptchaToken: recaptchaResponse || "bypass-for-demo-mode"
+        };
+
+        const submitBtn = document.getElementById("submitBtn");
+        submitBtn.disabled = true;
+        submitBtn.innerText = "Sending...";
+
+        // Check if endpoint is configured (and not the default placeholder)
+        if (AWS_API_ENDPOINT && AWS_API_ENDPOINT !== "YOUR_AWS_API_GATEWAY_ENDPOINT_HERE") {
+          fetch(AWS_API_ENDPOINT, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+          })
+          .then(response => response.json().then(data => ({ status: response.status, body: data })))
+          .then(res => {
+            submitBtn.disabled = false;
+            submitBtn.innerText = "Send Feedback";
+            if (res.status === 200) {
+              alert("Feedback sent successfully via AWS!");
+              document.querySelector("form").reset();
+              if (typeof grecaptcha !== 'undefined') grecaptcha.reset();
+              handleWordCount();
+            } else {
+              alert("Failed to send feedback: " + (res.body.error || "Please check API Gateway/Lambda configuration."));
+            }
+          })
+          .catch(error => {
+            console.error("Error sending feedback:", error);
+            submitBtn.disabled = false;
+            submitBtn.innerText = "Send Feedback";
+            alert("Error sending feedback. Please check your network or configuration.");
+          });
+        } else {
+          // Simulation/Demo mode
+          console.log("AWS Lambda Payload Simulation:", payload);
+          alert("Feedback submitted! (Demo Mode - Setup AWS_API_ENDPOINT in Feedback.html to connect to AWS Lambda & SES)");
+          document.querySelector("form").reset();
+          if (typeof grecaptcha !== 'undefined' && recaptchaResponse) grecaptcha.reset();
+          handleWordCount();
+          submitBtn.disabled = false;
+          submitBtn.innerText = "Send Feedback";
+        }
+        return false;
+      }
+    </script>
+  </head>
+  <body>
+    <section class="feedbackSection">
+      <div class="feedbackContainer">
+        <form onsubmit="return sendEmail(event);">
+          <div class="feedbackCard">
+            <h1>We'd Love Your Feedback</h1>
+            <p class="subtitle">Help us improve CrAlSim by sharing your thoughts or reporting issues.</p>
+            
+            <div class="feedbackField">
+              <label for="text">Full Name</label>
+              <div class="inputWrapper">
+                <i class="far fa-user inputIcon"></i>
+                <input id="text" type="text" placeholder="Enter your name" required />
+              </div>
+            </div>
+
+            <div class="feedbackField">
+              <label for="email">Email Address</label>
+              <div class="inputWrapper">
+                <i class="far fa-envelope inputIcon"></i>
+                <input id="email" type="email" placeholder="name@example.com" required />
+              </div>
+            </div>
+
+            <div class="feedbackField">
+              <div class="labelRow">
+                <label for="suggestions">Your Suggestions</label>
+                <span id="wordCounter" class="wordCounter">0 / 500 words</span>
+              </div>
+              <textarea id="suggestions" cols="15" rows="6" placeholder="Type your feedback here..." oninput="handleWordCount()" required></textarea>
+            </div>
+
+            <!-- Recaptcha Container -->
+            <div class="recaptchaContainer">
+              <div class="g-recaptcha" data-sitekey="YOUR_RECAPTCHA_SITE_KEY"></div>
+            </div>
+
+            <button type="submit" id="submitBtn">Send Feedback</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,196 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: 'Montserrat', sans-serif;
+}
+
+body {
+  background-color: #f8fafc;
+  color: #1e293b;
+}
+
+.feedbackSection {
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.feedbackContainer {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  justify-content: center;
+}
+
+.feedbackContainer form {
+  width: 100%;
+}
+
+.feedbackCard {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+  padding: 2.5rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.feedbackCard h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #3b0764;
+  text-align: center;
+}
+
+.subtitle {
+  color: #64748b;
+  font-size: 0.95rem;
+  text-align: center;
+  margin-top: -0.75rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+.feedbackField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.feedbackField label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #3b0764;
+  text-align: left;
+}
+
+.labelRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.wordCounter {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #64748b;
+  transition: color 0.2s;
+}
+
+.wordCounter.exceeded {
+  color: #ef4444;
+  font-weight: 700;
+}
+
+.inputWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.inputIcon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+  font-size: 1.1rem;
+}
+
+.feedbackCard input {
+  width: 100%;
+  height: 48px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 0 15px 0 45px;
+  font-size: 0.95rem;
+  color: #1e293b;
+  transition: all 0.2s ease;
+  background-color: #f8fafc;
+}
+
+.feedbackCard input:focus,
+.feedbackCard textarea:focus {
+  outline: none;
+  border-color: #6d28d9;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.15);
+}
+
+.feedbackCard textarea {
+  width: 100%;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 12px 15px;
+  font-size: 0.95rem;
+  color: #1e293b;
+  resize: vertical;
+  min-height: 120px;
+  background-color: #f8fafc;
+  transition: all 0.2s ease;
+}
+
+.recaptchaContainer {
+  display: flex;
+  justify-content: center;
+  margin: 0.5rem 0;
+}
+
+.feedbackCard button {
+  width: 100%;
+  height: 48px;
+  border: none;
+  border-radius: 8px;
+  background-color: #6d28d9;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 6px -1px rgba(109, 40, 217, 0.2), 0 2px 4px -1px rgba(109, 40, 217, 0.1);
+}
+
+.feedbackCard button:hover {
+  background-color: #5b21b6;
+  box-shadow: 0 10px 15px -3px rgba(109, 40, 217, 0.3), 0 4px 6px -4px rgba(109, 40, 217, 0.3);
+  transform: translateY(-1px);
+}
+
+.feedbackCard button:active {
+  transform: translateY(0);
+}
+
+.feedbackCard button:disabled {
+  background-color: #a78bfa;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 640px) {
+  .feedbackCard {
+    padding: 1.5rem;
+    gap: 1.2rem;
+  }
+  .feedbackCard h1 {
+    font-size: 1.5rem;
+  }
+  .subtitle {
+    font-size: 0.88rem;
+  }
+  .feedbackCard input, 
+  .feedbackCard textarea,
+  .feedbackCard button {
+    font-size: 0.88rem;
+  }
+}

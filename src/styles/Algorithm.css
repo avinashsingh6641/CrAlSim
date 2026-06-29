@@ -1,0 +1,162 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: 'Montserrat', sans-serif;
+}
+.algosection {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+.algobar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 18rem;
+  background-color: #ffffff;
+  border-right: 1px solid #e2e8f0;
+  flex-shrink: 0;
+  overflow-y: auto;
+}
+
+[data-tab-info] {
+  display: none;
+}
+
+.active[data-tab-info] {
+  display: block;
+}
+
+.tab-content {
+  font-size: 30px;
+  font-weight: bold;
+  color: rgb(82, 75, 75);
+  flex-grow: 1;
+  height: 100%;
+  overflow: hidden;
+  background-color: #f8fafc;
+}
+
+.tabs {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+}
+.tabs p {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 1.2rem 1rem 0.5rem 1.5rem;
+  color: #94a3b8;
+}
+
+.tabs span {
+  padding: 0.8rem 1.5rem 0.8rem 2.5rem;
+  width: 100%;
+  display: block;
+  font-size: 0.95rem;
+  color: #475569;
+  border-left: 4px solid transparent;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.tabs span:hover {
+  color: #6d28d9;
+  border-left: 4px solid #6d28d9;
+  background-color: rgba(109, 40, 217, 0.04);
+  padding-left: 2.7rem;
+}
+.tabs span.active {
+  color: #6d28d9;
+  font-weight: 700;
+  border-left: 4px solid #6d28d9;
+  background-color: rgba(109, 40, 217, 0.08);
+  padding-left: 2.7rem;
+}
+.name {
+  background-color: #3b0764;
+  width: 100%;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  border-bottom: 2px solid #6d28d9;
+}
+.name p {
+  color: #ffffff !important;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.AES,
+.DES,
+.Affine,
+.Additive,
+.tabs__tab,
+.Multiplicative,
+.RSA {
+  height: 100%;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .algosection {
+    flex-direction: column;
+    height: auto;
+  }
+  .algobar {
+    width: 100%;
+  }
+  .name {
+    width: 100%;
+    padding: 1rem;
+    text-align: center;
+  }
+  .name p {
+    font-size: 1.5rem !important;
+  }
+  .tabs {
+    flex-direction: row;
+    overflow-x: auto;
+    white-space: nowrap;
+    width: 100%;
+    background-color: #f7f7f7;
+    border-bottom: 2px solid #ddd;
+    padding: 5px 0;
+    scrollbar-width: none; /* Hide scrollbar Firefox */
+  }
+  .tabs::-webkit-scrollbar {
+    display: none; /* Hide scrollbar Chrome/Safari */
+  }
+  .tabs p {
+    display: none; /* Hide category labels on mobile for clean scrolling tabs list */
+  }
+  .tabs span {
+    display: inline-block;
+    width: auto;
+    padding: 10px 15px;
+    margin: 0 5px;
+    border-left: none !important;
+    border-bottom: 3px solid transparent;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  .tabs span.active,
+  .tabs span:hover {
+    border-bottom: 3px solid rgb(3, 153, 190);
+    background-color: rgb(235, 244, 245);
+    font-size: 1rem;
+    padding-left: 15px; /* override desktop hover padding-left */
+  }
+  .tab-content {
+    width: 100%;
+    height: auto;
+  }
+}

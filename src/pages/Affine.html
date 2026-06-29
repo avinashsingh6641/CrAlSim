@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="stylesheet" href="../styles/Affine.css"></link>
+  <script src="../scripts/Affine.js"></script>
+  
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CrAlSim</title>
+  <!-- <link rel="stylesheet" href="Algorithm.css"> -->
+  <!-- </link> -->
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+    integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous">
+    </script>
+</head>
+
+<body>
+  <div class="aff">
+    <div class="affMenu">
+
+      <span class="active3 activeaffinetab" data-aff-value="#aff_1">Cipher/Decipher</span>
+      <span data-aff-value="#aff_2">simulator</span>
+      <span data-aff-value="#aff_3">Theory</span>
+
+    </div>
+
+    <div class="aff-content">
+      <div class="aff-content__aff active3" id="aff_1" data-aff-info>
+        <div class="affineCipherDecipher">
+
+          <div class="affineContainer">
+            <h1>Generate Cipher</h1>
+            <p>Note key should be co-prime of Modulo m <span>i.e gcd of key and modulo m should be 1</span></p>
+
+            <div class="affinekey">
+              <label for="affinekey1">Key A:</label>
+              <input type="number" id="affinekey1" placeholder="A">
+
+              <label for="affinekey2">Key B:</label>
+              <input type="number" id="affinekey2" placeholder="B">
+            </div>
+
+            <div class="affineplaintext">
+              <label for="plaintext">Plain Text:</label>
+              <input type="text" id="plaintext" placeholder="Enter Message " value="">
+              <button type="button" onclick="generateCipher()">Encrypt</button>
+            </div>
+            <p id="message"></p>
+
+            <div class="affineciphertext">
+              <label for="ciphertext">Cipher Text:</label>
+              <input type="text" id="ciphertext" value="">
+              <button type="button" onclick="decipher()">Decrypt</button>
+            </div>
+            <hr>
+            <div class="affineotherfunction">
+              <button type="button" onclick="displayDiv()">Show Transformed Alphabets</button>
+              <button type="button" onclick="affineReset()">Reset</button>
+            </div>
+
+            <div class="affineShowTransformedAlphabets">
+              <table id="affinetable">
+                <tr>
+                  <th>Plain Text</th>
+
+                </tr>
+                <tr>
+                  <th>Value</th>
+
+                </tr>
+                <tr>
+                  <th>(ax+b)%26</th>
+
+                </tr>
+                <tr>
+                  <th>CipherText</th>
+
+                </tr>
+              </table>
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <div class="aff-content__aff" id="aff_2" data-aff-info>
+        <div class="affineCipherDecipher">
+          <div class="affineSimulator">
+            <div class="affineCalculation">
+              <div class="affineChangeColorString">
+
+              </div>
+              <div class="affineMainCalculationDiv">
+                <div class="affineMainCalculationValue">
+
+                  <div>
+                    <div class="affineA-BValue">
+                      <p></p>
+                      <p></p>
+                    </div>
+                    <div class="affineFormula">
+                      <p>(</p>
+                      <p>(</p>
+                      <p>X</p>
+                      <p>*</p>
+                      <p>A</p>
+                      <p>)</p>
+                      <p>+</p>
+                      <p>B</p>
+                      <p>)</p>
+                      <p>%</p>
+                      <p>m</p>
+                    </div>
+                  </div>
+
+                  <div class="affineCalcSection">
+                    
+                  </div>
+                </div>
+                <div class="affineMainCalculationOutputVal">
+                  <h6>Transformed Val</h6>
+                  <p>-</p>
+                </div>
+                <div class="affineMainCalculationOutputChar">
+                  <h6>Transformed Char</h6>
+                  <p>-</p>
+                </div>
+              </div>
+
+            </div>
+            <button type="button" id="affine-next-simulator">Next</button>
+            <div class="affineTableHeader">
+              <h1>Calculation</h1>
+              <h1>Transformed Value</h1>
+            </div>
+            <div class="affineSimulatorContent">
+              <table>
+
+              </table>
+            </div>
+            <button type="button" id="affine-sim-btn">Skip Steps</button>
+            <button type="button" id="affine-sim-reset">Reset</button>
+
+          </div>
+        </div>
+
+      </div>
+      <div class="aff-content__aff" id="aff_3" data-aff-info>
+        <div class="affineTheoryContainer">
+          <div class="affine-theory-card">
+            <h3>Understanding Affine Cipher</h3>
+            <p>The Affine Cipher is a <strong>monoalphabetic symmetric-key</strong> substitution cipher. It combines the operations of both the Multiplicative Cipher and the Additive Cipher into a single linear mathematical function: <code>f(x) = (A * x + B) % m</code>.</p>
+          </div>
+
+          <div class="affine-theory-card">
+            <h3>Mathematical Representation</h3>
+            <p>The encryption and decryption formulas are written using modular arithmetic over alphabet size <code>m = 26</code>:</p>
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem; margin-top: 0.5rem; font-size: 0.88rem; color: #334155;">
+              <p style="margin-bottom: 0.5rem;"><strong>Encryption Formula:</strong>
+                <br><code class="hex-badge">C = (A * P + B) % m</code>
+              </p>
+              <p style="margin-bottom: 0;"><strong>Decryption Formula:</strong>
+                <br><code class="hex-badge green-badge">P = (A' * (C - B)) % m</code>
+              </p>
+            </div>
+            <div style="margin-top: 0.8rem; font-size: 0.85rem; color: #64748b; line-height: 1.5;">
+              <strong>Variables:</strong>
+              <br>• <code>C</code> = Generated ciphertext character index
+              <br>• <code>P</code> = Plaintext character index
+              <br>• <code>A</code> = Multiplicative Key (must satisfy <code>gcd(A, m) = 1</code>)
+              <br>• <code>B</code> = Additive Key
+              <br>• <code>A'</code> = Modular Multiplicative Inverse of key <code>A</code> (such that <code>(A * A') % m = 1</code>)
+              <br>• <code>m</code> = Total alphabet size (26)
+            </div>
+          </div>
+
+          <div class="affine-theory-card">
+            <h3>Alphabet Reference Grid</h3>
+            <p style="margin-bottom: 0.8rem;">Reference table for converting characters to integers:</p>
+            <div style="display: flex; justify-content: center; margin-top: 0.5rem;">
+              <img src="../assets/referenceTable.png" style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+            </div>
+          </div>
+
+          <div class="affine-theory-card">
+            <h3>Special Relationship Cases</h3>
+            <p style="margin-bottom: 0.5rem;">The Affine Cipher is a generalization of two simpler ciphers:</p>
+            <ul style="margin-left: 1.5rem; line-height: 1.6; font-size: 0.9rem; color: #475569;">
+              <li>If <strong>A = 1</strong>: The cipher acts exactly as an <strong>Additive (Shift) Cipher</strong> since <code>C = (1 * P + B) % m => (P + B) % m</code>.</li>
+              <li>If <strong>B = 0</strong>: The cipher acts exactly as a <strong>Multiplicative Cipher</strong> since <code>C = (A * P + 0) % m => (A * P) % m</code>.</li>
+            </ul>
+          </div>
+
+          <div class="affine-theory-card">
+            <h3>Modulo Multiplicative Inverse (A')</h3>
+            <p>The inverse key <code>A'</code> is needed for decryption. It exists only if <code>gcd(A, m) = 1</code>. In English alphabet size 26, the coprime keys are limited to 12 possible values.</p>
+            <div style="display: flex; flex-direction: column; align-items: center; margin-top: 1rem;">
+              <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 0.5rem; text-align: center;"><strong>Modulo Inverse Lookup Map (A vs A')</strong></p>
+              <img src="../assets/moduloInverse.png" style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+            </div>
+          </div>
+
+          <div class="affine-theory-card" style="margin-bottom: 2rem;">
+            <h3>Step-by-Step Example</h3>
+            <div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 1.2rem; color: #166534; font-size: 0.88rem;">
+              <p style="margin-bottom: 0.5rem;"><strong>Parameters Setup:</strong></p>
+              <p style="margin-bottom: 0.5rem;">• Plaintext Message: <code>"hello"</code></p>
+              <p style="margin-bottom: 0.8rem;">• Keys: <code>A = 11, B = 13</code> (gcd(11, 26)=1)</p>
+
+              <p style="margin-bottom: 0.5rem; font-weight: bold; border-top: 1px solid #bbf7d0; padding-top: 0.5rem;">1. Encryption (Message = "hello"):</p>
+              <p style="margin-bottom: 0.4rem;">• First letter <code>h</code> has index value <code>7</code>.</p>
+              <p style="margin-bottom: 0.4rem;">• <code>C = (11 * 7 + 13) % 26 = (77 + 13) % 26 = 90 % 26 = 12 (m)</code>.</p>
+              <p style="margin-bottom: 0.8rem;">• Continuing for all letters gives ciphertext: <span class="hex-badge green-badge">"m..."</span></p>
+
+              <p style="margin-bottom: 0.5rem; font-weight: bold; border-top: 1px solid #bbf7d0; padding-top: 0.5rem;">2. Decryption:</p>
+              <p style="margin-bottom: 0.4rem;">• Find <code>A'</code>: Since <code>(11 * 19) % 26 = 1</code>, modular inverse key <code>A' = 19</code>.</p>
+              <p style="margin-bottom: 0.4rem;">• First ciphertext letter <code>m</code> has index value <code>12</code>.</p>
+              <p style="margin-bottom: 0;">• <code>P = (19 * (12 - 13)) % 26 = (19 * -1) % 26 = -19 % 26 = 7 (h)</code>.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script type="text/javascript">
+    const afftabs = document.querySelectorAll('[data-aff-value]')
+    const afftabInfos = document.querySelectorAll('[data-aff-info]')
+
+    afftabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = document
+          .querySelector(tab.dataset.affValue);
+
+        afftabInfos.forEach(affInfo => {
+          affInfo.classList.remove('active3')
+        })
+        target.classList.add('active3');
+        target.classList.add('activeaffinetab');
+      })
+    })
+  </script>
+
+  <script type="text/javascript">
+    $(document).on('click', 'span', function () {
+      $(this).addClass('activeaffinetab').siblings().removeClass('activeaffinetab')
+    });
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <script src="src/scripts/Multiplicative.js"></script>
+  </link>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="src/styles/Multiplicative.css">
+  </link>
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+    integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous">
+    </script>
+</head>
+
+<body>
+  <div class="multiplicative">
+    <div class="multiplicativeMenu">
+
+      <span class="active6 activemultiplicativetab" data-multiplicative-value="#multiplicative_1">Cipher/Decipher</span>
+      <!-- <span data-multiplicative-value="#multiplicative_2">simulator</span> -->
+      <span data-multiplicative-value="#multiplicative_3">Theory</span>
+
+    </div>
+
+    <div class="multiplicative-content">
+      <div class="multiplicative-content__multiplicative active6" id="multiplicative_1" data-multiplicative-info>
+        <div class="multiplicativeCipherDecipher">
+            <div class="multiplicativeMainDiv">
+                <div class="multiplicativeKeyInputFields">
+                   <label for="multiplicativeKeyField">Key:</label>
+                   <input type="text" id="multiplicativeKeyField" placeholder="Enter Key " value=""> 
+                   <span>Enter single string character only</span>
+                </div>
+   
+                <div class="multiplicativePlainInputFields">
+                   <label for="multiplicativePlainField">Plain Text:</label>
+                   <input type="text" id="multiplicativePlainField" placeholder="Enter Plain Text " value=""> 
+                   <button type="button" onclick="multiplicativeEncrypt()">Encrypt</button>
+                </div>
+   
+                <div class="multiplicativeCipherInputFields">
+                   <label for="multiplicativeCipherField">Cipher Text:</label>
+                   <input type="text" id="multiplicativeCipherField" placeholder="Enter Cipher Text " value=""> 
+                   <button type="button" onclick="multiplicativeDecrypt()">Decrypt</button>
+                </div>
+                <div class="multiplicativeTransformedValue">
+                  <h6>Reference Table for selecting Key Character</h6>
+                  <img src ="src/assets/referenceTable.png">
+                  <p>select the Key value such that gcd(M,26) should be 1</p>
+                  <p>Hence we are limited to certain values for Key (M) out of 26 i.e <span>1, 3, 5, 7, 9, 11, 15, 17, 19, 21, 23 and 25</span>
+                   (if the alphabet is 26 characters long)
+                </p>
+                </div>
+             </div>
+        </div>
+      </div>
+
+      <!-- <div class="multiplicative-content__multiplicative" id="multiplicative_2" data-multiplicative-info>
+        <div class="multiplicativeCipherDecipher">
+          <p>decipher</p>
+        </div>
+      </div> -->
+      <div class="multiplicative-content__multiplicative" id="multiplicative_3" data-multiplicative-info>
+        <div class="multiplicativeTheoryContainer">
+          <div class="multiplicative-theory-card">
+            <h3>Understanding Multiplicative Cipher</h3>
+            <p>The Multiplicative Cipher is a type of <strong>monoalphabetic symmetric-key</strong> cryptography. Unlike the Additive Cipher which shifts alphabet letters by addition, the Multiplicative Cipher multiplies each plaintext letter index by a secret key integer.</p>
+          </div>
+
+          <div class="multiplicative-theory-card">
+            <h3>Mathematical Formulas</h3>
+            <p>The encryption and decryption processes are performed using modular arithmetic:</p>
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem; margin-top: 0.5rem; font-size: 0.88rem; color: #334155;">
+              <p style="margin-bottom: 0.5rem;"><strong>Encryption Formula:</strong>
+                <br><code class="hex-badge">C = (P * K) % m</code>
+              </p>
+              <p style="margin-bottom: 0;"><strong>Decryption Formula:</strong>
+                <br><code class="hex-badge green-badge">P = (C * K') % m</code>
+              </p>
+            </div>
+            <div style="margin-top: 0.8rem; font-size: 0.85rem; color: #64748b; line-height: 1.5;">
+              <strong>Variables:</strong>
+              <br>• <code>C</code> = Generated cipher character index
+              <br>• <code>P</code> = Plaintext character index
+              <br>• <code>K</code> = Multiplicative Key (must be coprime to <code>m</code>)
+              <br>• <code>K'</code> = Modular Multiplicative Inverse of key <code>K</code> (such that <code>(K * K') % m = 1</code>)
+              <br>• <code>m</code> = Total alphabet size (26)
+            </div>
+          </div>
+
+          <div class="multiplicative-theory-card">
+            <h3>Alphabet Reference Grid</h3>
+            <p style="margin-bottom: 0.8rem;">Reference table for converting characters to integers:</p>
+            <div style="display: flex; justify-content: center; margin-top: 0.5rem;">
+               <img src="src/assets/referenceTable.png" style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+            </div>
+          </div>
+
+          <div class="multiplicative-theory-card">
+            <h3>Modulo Multiplicative Inverse (K')</h3>
+            <p>The decryption key <code>K'</code> is the multiplicative inverse of <code>K</code> modulo 26. A modulo inverse exists if and only if <code>gcd(K, 26) = 1</code> (coprime). This limits our key choices to 12 possible values: <strong>1, 3, 5, 7, 9, 11, 15, 17, 19, 21, 23, and 25</strong>.</p>
+            <div style="display: flex; flex-direction: column; align-items: center; margin-top: 1rem;">
+              <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 0.5rem; text-align: center;"><strong>Modulo Inverse Lookup Map (K vs K')</strong></p>
+               <img src="src/assets/moduloInverse.png" style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+            </div>
+          </div>
+
+          <div class="multiplicative-theory-card" style="margin-bottom: 2rem;">
+            <h3>Interactive Calculation Walkthrough</h3>
+            <div class="multiplicativeSteps" style="background-color: #faf5ff; border: 1px solid #e9d5ff; border-radius: 8px; padding: 1.2rem; color: #581c87; font-size: 0.88rem;">
+              <p style="font-weight: 600; margin-bottom: 0.5rem; color: #3b0764;">M(message) = hello</p>
+              <p style="font-weight: 600; margin-bottom: 0.8rem; color: #3b0764;">K(key) = l</p>
+              
+              <h4 style="color: #6b21a8; font-size: 1rem; margin-top: 1rem; margin-bottom: 0.5rem; border-bottom: 1px solid #e9d5ff; padding-bottom: 4px;">Encryption Steps</h4>
+              <p style="margin-bottom: 0.4rem; color: #581c87;"><strong>#Step 1:</strong> Convert plaintext characters to integers:</p>
+              <div style="overflow-x: auto; margin-bottom: 1rem; border: 1px solid #e9d5ff; border-radius: 6px; background: white;">
+                <table class="interactiveExampleTable" style="width: 100%; border-collapse: collapse; text-align: center;">
+                  <!-- Filled dynamically by JS -->
+                </table>
+              </div>
+
+              <p style="margin-bottom: 0.4rem; color: #581c87;"><strong>#Step 2:</strong> Multiply by key value modulo 26:</p>
+              <div style="overflow-x: auto; margin-bottom: 1rem; border: 1px solid #e9d5ff; border-radius: 6px; background: white;">
+                <table class="interactiveExampleTable" style="width: 100%; border-collapse: collapse; text-align: center;">
+                  <!-- Filled dynamically by JS -->
+                </table>
+              </div>
+
+              <p style="margin-bottom: 0.4rem; color: #581c87;"><strong>#Step 3:</strong> Convert integers back to characters:</p>
+              <div style="overflow-x: auto; margin-bottom: 1rem; border: 1px solid #e9d5ff; border-radius: 6px; background: white;">
+                <table class="interactiveExampleTable" style="width: 100%; border-collapse: collapse; text-align: center;">
+                  <!-- Filled dynamically by JS -->
+                </table>
+              </div>
+
+              <h3 style="font-size: 1rem; color: #15803d; background: #dcfce7; padding: 6px 12px; border-radius: 6px; display: inline-block; margin-bottom: 1.5rem; font-family: inherit; font-weight: 700;">Cipher text => </h3>
+
+              <h4 style="color: #6b21a8; font-size: 1rem; margin-top: 1rem; margin-bottom: 0.5rem; border-bottom: 1px solid #e9d5ff; padding-bottom: 4px;">Decryption Steps</h4>
+              <p style="margin-bottom: 0.4rem; color: #581c87;"><strong>#Step 4:</strong> Multiply by modular inverse modulo 26:</p>
+              <div style="overflow-x: auto; margin-bottom: 1rem; border: 1px solid #e9d5ff; border-radius: 6px; background: white;">
+                <table class="interactiveExampleTable" style="width: 100%; border-collapse: collapse; text-align: center;">
+                  <!-- Filled dynamically by JS -->
+                </table>
+              </div>
+
+              <p style="margin-bottom: 0.4rem; color: #581c87;"><strong>#Step 5:</strong> Convert indices back to plaintext letters:</p>
+              <div style="overflow-x: auto; margin-bottom: 1rem; border: 1px solid #e9d5ff; border-radius: 6px; background: white;">
+                <table class="interactiveExampleTable" style="width: 100%; border-collapse: collapse; text-align: center;">
+                  <!-- Filled dynamically by JS -->
+                </table>
+              </div>
+
+              <h3 style="font-size: 1rem; color: #3b0764; background: #f3e8ff; padding: 6px 12px; border-radius: 6px; display: inline-block; font-family: inherit; font-weight: 700;">Plain text => </h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script type="text/javascript">
+    const multiplicativetabs = document.querySelectorAll('[data-multiplicative-value]')
+    const multiplicativetabInfos = document.querySelectorAll('[data-multiplicative-info]')
+
+    multiplicativetabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = document
+          .querySelector(tab.dataset.multiplicativeValue);
+
+          multiplicativetabInfos.forEach(multiplicativeInfo => {
+            multiplicativeInfo.classList.remove('active6')
+        })
+        target.classList.add('active6');
+        target.classList.add('activemultiplicativetab');
+      })
+    })
+  </script>
+
+  <script type="text/javascript">
+    $(document).on('click', 'span', function () {
+      $(this).addClass('activemultiplicativetab').siblings().removeClass('activemultiplicativetab')
+    });
+  </script>
+
+</body>
+
+</html>

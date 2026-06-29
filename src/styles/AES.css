@@ -1,0 +1,1811 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
+[data-aes-info] {
+  display: none;
+}
+
+.active2[data-aes-info] {
+  display: block;
+}
+
+.aes {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.aesMenu {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: center;
+  gap: 3rem;
+  align-items: center;
+  cursor: pointer;
+  height: 3.5rem;
+  border-bottom: 1px solid #e2e8f0;
+  background-color: #ffffff;
+  flex-shrink: 0;
+}
+.aesMenu span {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #64748b;
+  padding: 1rem 1.5rem;
+  transition: all 0.2s ease-in-out;
+  border-bottom: 2px solid transparent;
+}
+.aes-content {
+  width: 100%;
+  flex-grow: 1;
+  height: 0;
+  overflow-y: auto;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+.aesMenu span:hover {
+  color: #6d28d9;
+}
+.aesMenu span.activeaestab {
+  color: #6d28d9;
+  border-bottom: 2px solid #6d28d9;
+  cursor: pointer;
+}
+.aes-content__aes {
+  width: 100%;
+  min-height: 100%;
+}
+.aesCipherDecipher {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(217, 251, 251);
+  flex-direction: column;
+  align-items: center;
+  /* position: relative; */
+}
+.aesCipherDecipherSimulator {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  /* background-color: rgb(217, 251, 251); */
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+/* input page css */
+.aesContainer {
+  margin: 2rem;
+  width: 80%;
+  height: 80%;
+  background-color: rgb(228, 206, 248);
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.aesContainer h1 {
+  font-family: sans-serif;
+  font-weight: bold;
+  font-size: large;
+  padding: 1rem 1rem;
+}
+.aesContainer p {
+  margin-left: 1rem;
+  color: red;
+}
+.aesContainer span {
+  color: rgb(4, 126, 126);
+}
+.aesContainer label {
+  font-family: sans-serif;
+  font-weight: bold;
+  font-size: large;
+  margin-left: 2rem;
+}
+
+.aeskey,
+.aesplaintext,
+.aesciphertext {
+  display: flex;
+  flex-direction: row;
+  margin-top: 1.5rem;
+}
+.aeskey input,
+.aesplaintext input,
+.aesciphertext input {
+  margin-left: 2rem;
+  width: 25rem;
+  height: 2.5rem;
+  border-radius: 2rem;
+  border: none;
+  text-align: center;
+}
+.aesplaintext button,
+.aesciphertext button {
+  margin-left: 2rem;
+  width: 4rem;
+  height: 2rem;
+  cursor: pointer;
+}
+
+.aesContainer hr {
+  margin-top: 1rem;
+}
+
+.aesContainer button {
+  width: 4rem;
+  height: 2rem;
+  align-self: flex-end;
+  margin-right: 2rem;
+  margin-top: 1rem;
+}
+
+.aesTransformedTable {
+  margin-top: 0.5rem;
+  width: 95%;
+  max-height: 28rem;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  align-self: center;
+  scroll-behavior: smooth;
+  background-color: rgb(197, 148, 243);
+  padding: 1rem 0;
+  border-radius: 8px;
+}
+.aesTransformedTable p {
+  align-self: center;
+  justify-self: center;
+  position: absolute;
+}
+.aesTransformedTable span {
+  width: 100%;
+}
+
+/* simulator css */
+.aesStateArray table tr td {
+  background-color: black;
+  height: 1rem;
+  color: white;
+}
+.aesSimulate {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(217, 251, 251);
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Responsive SVG simulator lines */
+.aesSimulatorSvg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+.aesSimulatorSvg path {
+  stroke: #2c3e50;
+  stroke-width: 2px;
+  transition: all 0.3s ease;
+}
+#svgLoopBackLine {
+  stroke-dasharray: 5, 5;
+}
+
+.aesInitialState {
+  margin: 1rem;
+}
+.aesInitialState td,
+tr {
+  width: 0.3rem;
+  height: 0.7rem;
+  font-size: 0.6rem;
+}
+.aesAddRoundKey {
+  width: 15rem;
+  height: 2rem;
+  border-radius: 1rem;
+  background-color: rgb(97, 245, 117);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.aesTheRoundsMajorDiv {
+  margin-top: 1rem;
+  border-top-style: dotted;
+  border-bottom-style: dotted;
+  width: 80%;
+  height: 40%;
+  z-index: 2;
+}
+.aesLastRoundMajorDiv {
+  width: 80%;
+  height: 40%;
+  justify-content: space-around;
+  z-index: 2;
+}
+.aesFirstRoundMajorDiv {
+  width: 80%;
+  height: 20%;
+  z-index: 2;
+}
+.firstRoundKey {
+  height: 80%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 22%;
+  align-self: center;
+  flex-direction: column;
+}
+.lastRoundKey {
+  height: 50%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 22%;
+  align-self: center;
+  flex-direction: column;
+}
+.aesTheRoundsMajorDiv,
+.aesLastRoundMajorDiv,
+.aesFirstRoundMajorDiv {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.roundKey,
+.firstRoundKey,
+.lastRoundKey {
+  border: 1px solid black;
+}
+.roundKey,
+.roundsText {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 22%;
+  height: 50%;
+  align-self: center;
+  flex-direction: column;
+}
+.roundKey table,
+.lastRoundKey table,
+.firstRoundKey table {
+  margin-bottom: 1rem;
+}
+.roundKey table tr td,
+.lastRoundKey table tr td,
+.firstRoundKey table tr td {
+  background-color: black;
+  height: 1rem;
+  color: white;
+}
+.counter {
+  display: flex;
+  flex-direction: column;
+  background-color: black;
+  align-items: center;
+  border-radius: 0.2rem;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.counter p {
+  font-size: small;
+}
+.counter p,
+.counter h3 {
+  color: white;
+}
+.aesTheRounds {
+  margin-top: 1rem;
+  width: 40%;
+  height: 40%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.aesTheRounds p,
+.aesLastRound p,
+.aesFirstRound p {
+  width: 100%;
+  max-width: 15rem;
+  height: 2.2rem;
+  border-radius: 1.1rem;
+  margin-top: 1.5rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  cursor: pointer;
+  text-align: center;
+}
+.aesFirstRound {
+  margin-top: 5rem;
+  width: 40%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.aesTheRounds p:first-child,
+.aesLastRound p:first-child {
+  background-color: rgb(83, 178, 225);
+}
+
+.aesTheRounds p:nth-child(2),
+.aesLastRound p:nth-child(2) {
+  background-color: rgb(248, 100, 94);
+}
+.aesTheRounds p:nth-child(3) {
+  background-color: rgb(232, 246, 106);
+}
+.aesTheRounds p:last-child,
+.aesLastRound p:last-child,
+.aesFirstRound p {
+  background-color: rgb(97, 245, 117);
+}
+.aesLastRound {
+  margin-top: 1rem;
+  width: 40%;
+  height: 40%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.aesStateArray {
+  position: absolute;
+  z-index: 5;
+  transition: all 0.5s ease-in-out;
+}
+.aesSimulationBottomDiv {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+}
+.aesSimulationBottomDiv button {
+  width: fit-content;
+  height: 2rem;
+  margin-left: 2rem;
+}
+.aesSimulateButton {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: flex-end;
+}
+.aesSimulateButton button {
+  margin-bottom: 1rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+/* aes animation */
+
+.aesFirstMoveAnimation {
+  animation-fill-mode: forwards;
+  animation-name: slide;
+  animation-duration: 3s;
+}
+.aesSubBytesMoveAnimation {
+  animation-fill-mode: forwards;
+  animation-name: sub-byte;
+  animation-duration: 3s;
+}
+.aesShiftrowMoveAnimation {
+  animation-fill-mode: forwards;
+  animation-name: shift-row;
+  animation-duration: 2.5s;
+}
+.aesMixColMoveAnimation {
+  animation-fill-mode: forwards;
+  animation-name: mix-col;
+  animation-duration: 2.5s;
+}
+.aesXorKeyMoveAnimation {
+  animation-fill-mode: forwards;
+  animation-name: xor-key;
+  animation-duration: 2.5s;
+}
+.aesTraverseBackMoveAnimation {
+  animation-fill-mode: forwards;
+  animation-name: traverse-back;
+  animation-duration: 3s;
+}
+.aesLastRoundSubByteMoveAnimation {
+  animation-fill-mode: forwards;
+  animation-name: last-round-sub-byte;
+  animation-duration: 3s;
+}
+.aesLastRoundShiftRowsMoveAnimation {
+  animation-fill-mode: forwards;
+  animation-name: last-round-shift-rows;
+  animation-duration: 3s;
+}
+.aesLastRoundXorKeyMoveAnimation {
+  animation-fill-mode: forwards;
+  animation-name: last-round-xor-key;
+  animation-duration: 3s;
+}
+
+.aesKeyMoveAnimation {
+  animation-name: move-key-aes;
+  animation-duration: 2s;
+}
+
+@keyframes move-key-aes {
+  0% {
+    transform: translateY(0rem);
+    opacity: 1;
+  }
+  30% {
+    transform: translateY(3.5rem);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(3.5rem) translateX(-20rem);
+    opacity: 0;
+  }
+}
+@keyframes slide {
+  0% {
+    transform: translateY(0rem);
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(7rem);
+    opacity: 1;
+  }
+}
+
+@keyframes sub-byte {
+  0% {
+    transform: translateY(7rem);
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(12rem);
+    opacity: 1;
+  }
+}
+@keyframes shift-row {
+  0% {
+    transform: translateY(12rem);
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(14.8rem);
+    opacity: 1;
+  }
+}
+@keyframes mix-col {
+  0% {
+    transform: translateY(14.8rem);
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(17.8rem);
+    opacity: 1;
+  }
+}
+@keyframes xor-key {
+  0% {
+    transform: translateY(17.8rem);
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(20.5rem);
+    opacity: 1;
+  }
+}
+@keyframes traverse-back {
+  0% {
+    transform: translateY(20.5rem);
+  }
+  35% {
+    transform: translateX(11rem) translateY(20.5rem);
+  }
+  70% {
+    transform: translateX(11rem) translateY(7rem);
+  }
+  100% {
+    transform: translateY(7rem) translateX(0rem);
+  }
+}
+@keyframes last-round-sub-byte {
+  0% {
+    transform: translateY(20.5rem);
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(27rem);
+    opacity: 1;
+  }
+}
+@keyframes last-round-shift-rows {
+  0% {
+    transform: translateY(27rem);
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(30rem);
+    opacity: 1;
+  }
+}
+@keyframes last-round-xor-key {
+  0% {
+    transform: translateY(30rem);
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(33rem);
+    opacity: 1;
+  }
+}
+
+.aesBackdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 115%;
+  width: 100%;
+  z-index: 10;
+  background-color: rgb(15, 15, 15);
+  opacity: 0.6;
+  display: none;
+}
+.aesModal {
+  position: absolute;
+  width: 75%;
+  height: 75%;
+  z-index: 11;
+  top: 15%;
+  left: 12.5%;
+  display: none;
+  background-color: white;
+  border-radius: 0.5rem;
+  overflow-y: auto;
+  padding: 1.5rem;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.15);
+}
+.aesSubByteModal,
+.aesShiftRowModal,
+.aesMixColModal,
+.aesXorKeyModal,
+.aesFirstRoundXorKeyModal,
+.aesLastSubByteModal,
+.aesLastShiftRowsModal,
+.aesLastXorKeyModal {
+  position: absolute;
+  width: 60%;
+  height: 75%;
+  z-index: 11;
+  top: 15%;
+  left: 20%;
+  display: none;
+  background-color: white;
+  border-radius: 0.5rem;
+  overflow-y: auto;
+  padding: 1.5rem;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.15);
+}
+
+.aesHeadingValue {
+  width: 100%;
+  height: 5%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.aesHeadingValue p {
+  color: black;
+}
+.aesHeadingValue :first-child {
+  margin-left: 14rem;
+}
+/* .aesHeadingValue :nth-child(3){
+    margin-right: 2rem;
+  } */
+.aesHeadingValue :nth-child(4) {
+  margin-right: 3rem;
+}
+.aesHeadingValue :last-child {
+  margin-right: 7.5rem;
+}
+
+.aesTransformedValueTable {
+  width: 100;
+  height: 80%;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+}
+.aesModalButton {
+  width: 100%;
+  height: 5%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-top: 3rem;
+}
+.aesModalButton button {
+  width: 5rem;
+  height: 2rem;
+  margin-right: 2rem;
+}
+.aesRoundValue {
+  width: 100%;
+  height: 7rem;
+  border-bottom: 2px dotted black;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  /* margin:1rem; */
+}
+.aesRoundValue:nth-child(11) {
+  font-size: 1.6rem;
+}
+.finalOutputValue {
+  width: 100%;
+  height: 7rem;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+}
+.finalOutputValue h6 {
+  margin-bottom: 0.2rem;
+}
+.finalOutputValue table {
+  width: 5rem;
+}
+
+/* .aesRoundValue table{
+    margin:0rem 2.5rem;
+} */
+.aesRoundValue table tr td,
+.finalOutputValue table tr td {
+  background-color: #96d4d4;
+}
+.finalOutputValue tr td {
+  height: 1rem;
+}
+.aesRoundValue tr td {
+  height: 1.5rem;
+}
+.aesXorLogo {
+  width: 1rem;
+  height: 1rem;
+  border: 1px solid black;
+  border-radius: 0.5rem;
+  position: relative;
+}
+.aesXorLogo hr:first-child {
+  transform: rotate(90deg);
+  width: 100%;
+  color: 5px solid black;
+  top: 0.5rem;
+  position: absolute;
+  /* margin-left: 0.5rem; */
+}
+.aesXorLogo hr:last-child {
+  width: 100%;
+  color: 5px solid black;
+  top: 0.4rem;
+  position: absolute;
+  /* margin-left: 0.5rem; */
+}
+.insideXorRoundAndKey {
+  width: 70%;
+  height: 50%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  margin-left: 8rem;
+}
+.insideXorRoundAndKey img {
+  width: 2rem;
+  height: 2rem;
+  object-fit: cover;
+}
+.insideXorRoundAndKey table tr td {
+  background-color: white;
+  border: 1px solid black;
+  width: 2rem;
+  height: 2rem;
+  font-size: large;
+  color: black;
+}
+.insideXorRoundAndKeyCalculation {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 30%;
+  align-items: center;
+}
+.insideXorRoundAndKeyCalculation p:nth-child(3) {
+  border-bottom: 1px solid black;
+}
+.insideXorRoundAndKeyButtons {
+  width: 100%;
+  height: 20%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+}
+.insideXorRoundAndKeyButtons button {
+  padding: 0.5rem 1rem;
+  margin-right: 5rem;
+}
+.simulationStringDiv {
+  width: 100%;
+  height: 4rem;
+  /* background-color: aqua; */
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  border-bottom: 1px solid black;
+}
+.simulationStringDiv span {
+  color: red;
+  font-size: medium;
+}
+
+.aesSubByteModalSubDiv object {
+  width: 28rem;
+  height: 28rem;
+}
+.aesSubByteModalSubDiv {
+  width: 100%;
+  /* height:100%; */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
+.aesSubByteModal button {
+  padding: 0.5rem 1rem;
+  margin-left: 5rem;
+}
+.aesSubByteModalSubDiv table tr td {
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+  height: 1.5rem;
+}
+.aesSubByteModalSubDiv table th {
+  font-size: medium;
+  font-family: sans-serif;
+}
+.subytetabel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.subytetabel table tr td {
+  background-color: rgb(181, 179, 179);
+}
+.currentlyActiveStepIndicator,
+.ElementsDoneIndicator,
+.remainingElementsIndicator {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: row;
+}
+.currentlyActiveStepIndicator div,
+.ElementsDoneIndicator div,
+.remainingElementsIndicator div {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid black;
+  margin-right: 0.5rem;
+}
+.currentlyActiveStepIndicator div {
+  background-color: yellow;
+}
+.ElementsDoneIndicator div {
+  background-color: white;
+}
+.remainingElementsIndicator div {
+  background-color: rgb(181, 179, 179);
+}
+
+.aesShiftRowModalDiv {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+.insideShiftRowsTable1,
+.insideShiftRowsTable2 {
+  width: 25rem;
+  height: 20rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.insideShiftRowsTable1 table,
+.insideShiftRowsTable1 p {
+  margin-top: 1rem;
+}
+.insideShiftRowsTable1 table tr td,
+.insideShiftRowsTable2 table tr td {
+  width: 4rem;
+  height: 3rem;
+  font-size: large;
+}
+
+.insideMixColumndiv {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.insideMixColumndivTable {
+  width: 100%;
+  height: 30%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.insideMixColumndivTable table tr td {
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: white;
+  border: 1px solid black;
+  font-size: small;
+  color: black;
+}
+.insideMixColumndivTheory {
+  width: 100%;
+  height: 60%;
+  display: flex;
+  flex-direction: column;
+}
+.insideMixColumndivTheory span {
+  font-size: medium;
+}
+.insideMixColumndivButton {
+  width: 100%;
+  height: 10%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+.insideMixColumndivButton button {
+  padding: 0.5rem 1rem;
+  margin-right: 1rem;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .aes {
+    height: auto;
+    min-height: 100%;
+    padding: 15px 5px;
+  }
+  .aesContainer {
+    width: 95% !important;
+    height: auto !important;
+    padding: 20px 10px !important;
+    margin-top: 1rem !important;
+  }
+  .aeskey,
+  .aesplaintext,
+  .aesciphertext {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    margin-left: 0 !important;
+    margin-top: 1.5rem !important;
+    width: 100% !important;
+    padding: 0 5px !important;
+    gap: 8px !important;
+  }
+  .aeskey label,
+  .aesplaintext label,
+  .aesciphertext label {
+    font-size: 1.2rem !important;
+    text-align: left !important;
+  }
+  .aeskey input,
+  .aesplaintext input,
+  .aesciphertext input {
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    height: 2.6rem !important;
+  }
+  .aesplaintext button,
+  .aesciphertext button,
+  .aesContainer button {
+    width: 100% !important;
+    height: 2.6rem !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    border-radius: 1.3rem !important;
+    border: 1px solid #777 !important;
+    background-color: #fff !important;
+  }
+  .aesotherfunction {
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 10px !important;
+    align-items: stretch !important;
+  }
+  .aesotherfunction button {
+    width: 100% !important;
+    margin: 0 !important;
+  }
+  .aesShowTransformedAlphabets {
+    width: 100% !important;
+    overflow-x: auto !important;
+  }
+  .aesShowTransformedAlphabets table {
+    display: block !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+  }
+
+  /* Modals responsiveness */
+  .aesModal,
+  .aesFirstRoundXorKeyModal,
+  .aesSubByteModal,
+  .aesShiftRowModal,
+  .aesMixColModal,
+  .aesXorKeyModal,
+  .aesLastSubByteModal {
+    width: 95% !important;
+    left: 2.5% !important;
+    top: 5% !important;
+    height: 90% !important;
+    overflow: scroll !important;
+    padding: 10px !important;
+  }
+
+  .aesHeadingValue {
+    width: 100% !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+  }
+  .aesHeadingValue p {
+    font-size: 0.8rem !important;
+    padding: 0 5px !important;
+  }
+
+  .aesTransformedValueTable {
+    width: 100% !important;
+    overflow-x: auto !important;
+  }
+  .aesRoundValue {
+    width: 100% !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    height: auto !important;
+    gap: 10px !important;
+    padding: 15px 0 !important;
+    border-bottom: 2px solid #ccc !important;
+  }
+
+  .insideXorRoundAndKey {
+    flex-direction: column !important;
+    align-items: center !important;
+    height: auto !important;
+    gap: 15px !important;
+  }
+  .insideXorRoundAndKey img {
+    width: 3rem !important;
+    height: 3rem !important;
+    transform: rotate(
+      90deg
+    ) !important; /* rotate XOR image on vertical stack */
+  }
+
+  .aesSubByteModalSubDiv {
+    flex-direction: column !important;
+    align-items: center !important;
+    height: auto !important;
+    gap: 15px !important;
+  }
+  .aesSubByteModalSubDiv object {
+    width: 100% !important;
+    height: 250px !important;
+  }
+
+  .aesShiftRowModalDiv {
+    flex-direction: column !important;
+    align-items: center !important;
+    height: auto !important;
+    gap: 20px !important;
+  }
+  .insideShiftRowsTable1,
+  .insideShiftRowsTable2 {
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  .insideMixColumndivTable {
+    flex-direction: column !important;
+    height: auto !important;
+    gap: 10px !important;
+  }
+  .insideMixColumndivTheory {
+    height: auto !important;
+    padding: 10px !important;
+  }
+}
+
+/* Detailed Transformed Table styling */
+.aesTransformedTable::-webkit-scrollbar {
+  height: 8px;
+}
+.aesTransformedTable::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+}
+.aesTransformedTable::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+.aesTransformedTable::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.aes-trans-table {
+  border-collapse: collapse;
+  width: max-content;
+  margin: 1rem 0 1rem 2rem;
+  font-family: 'Montserrat', sans-serif;
+  background-color: #ffffff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.aes-trans-table th {
+  background-color: #4c1c8a; /* Deep matching violet */
+  color: #f3e8ff; /* Soft lavender text */
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem; /* Smaller font */
+  font-family: 'Inter', 'Montserrat', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-right: 2px solid #6d28d9;
+  text-align: left;
+  min-width: 8rem;
+}
+
+.aes-trans-table td {
+  padding: 0.4rem 0.6rem;
+  text-align: center;
+  border: 1px solid #e2e8f0;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
+}
+
+/* Byte Table: Hex and Binary */
+.byte-table tr:nth-child(1) td {
+  background-color: #ffedd5; /* Light orange for Hex */
+  color: #9a3412;
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+}
+
+.byte-table tr:nth-child(2) td {
+  background-color: #f3e8ff; /* Light purple for Binary */
+  color: #6b21a8;
+  font-family: 'Courier New', monospace;
+  font-size: 0.8rem;
+}
+
+/* Base64 Table: 6-Bit Binary and Base64 Char */
+.b64-table tr:nth-child(1) td {
+  background-color: #e0f2fe; /* Light blue for 6-Bit Binary */
+  color: #0369a1;
+  font-family: 'Courier New', monospace;
+  font-size: 0.8rem;
+}
+
+.b64-table tr:nth-child(2) td {
+  background-color: #dcfce7; /* Light green for Base64 Char */
+  color: #15803d;
+  font-weight: bold;
+}
+
+/* Hover highlights */
+.aes-trans-table td.highlight-col {
+  background-color: #fde047 !important; /* Yellow highlight for column tracing */
+  color: #000000 !important;
+}
+
+.transformed-table-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
+  color: #4c1c8a; /* Deep matching violet */
+  text-align: left;
+  margin-left: 2rem;
+  font-size: 1.1rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.block-container {
+  width: max-content;
+  min-width: 100%;
+  padding: 1rem 0;
+  border-bottom: 2px dashed rgba(76, 28, 138, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align left */
+}
+
+.block-container:last-child {
+  border-bottom: none;
+}
+
+.block-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
+  color: #3b0764; /* Matching dark purple */
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+  background-color: rgba(76, 28, 138, 0.15); /* Soft matching background overlay */
+  padding: 0.2rem 1.2rem;
+  border-radius: 20px;
+  margin-left: 2rem;
+}
+
+.split-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align left */
+  margin-left: 3rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  color: #6d28d9; /* Rich matching violet */
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.split-indicator i {
+  margin-left: 1.5rem;
+  margin-top: 2px;
+  font-size: 0.9rem;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-4px);
+  }
+  60% {
+    transform: translateY(-2px);
+  }
+}
+
+/* Theory Tab Styling */
+.aes-theory-container {
+  padding: 2rem;
+  font-family: 'Montserrat', sans-serif;
+  color: #2c3e50;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.aes-theory-header h2 {
+  font-size: 1.8rem;
+  color: #4c1c8a;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+.aes-theory-header p {
+  line-height: 1.6;
+  font-size: 0.95rem;
+  color: #4a5568;
+}
+
+.aes-theory-flow {
+  margin-top: 2rem;
+}
+
+.aes-theory-flow h3 {
+  font-size: 1.3rem;
+  color: #3b0764;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.aes-theory-flow p {
+  color: #718096;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.aes-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.aes-step-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 15px rgba(76, 28, 138, 0.08);
+  border: 1px solid rgba(76, 28, 138, 0.1);
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+  overflow: hidden;
+}
+
+.aes-step-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(76, 28, 138, 0.15);
+  border-color: #6d28d9;
+}
+
+.aes-step-badge {
+  background-color: rgba(76, 28, 138, 0.1);
+  color: #6d28d9;
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  margin-bottom: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.aes-step-card h4 {
+  font-size: 1.15rem;
+  color: #4c1c8a;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.aes-step-card p {
+  font-size: 0.85rem;
+  color: #4a5568;
+  line-height: 1.4;
+  margin-bottom: 1.2rem;
+  flex-grow: 1;
+}
+
+.aes-learn-btn {
+  background-color: #6d28d9;
+  color: #ffffff;
+  border: none;
+  padding: 0.4rem 1rem;
+  font-size: 0.75rem;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  transition: background-color 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.aes-step-card:hover .aes-learn-btn {
+  background-color: #4c1c8a;
+}
+
+.aes-theory-details {
+  margin-top: 3rem;
+  background-color: rgba(197, 148, 243, 0.15);
+  padding: 2rem;
+  border-radius: 16px;
+  border: 1px dashed rgba(76, 28, 138, 0.3);
+}
+
+.aes-theory-details h3 {
+  font-size: 1.2rem;
+  color: #3b0764;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.aes-round-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.round-phase {
+  background-color: #ffffff;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  flex: 1;
+  min-width: 180px;
+  display: flex;
+  flex-direction: column;
+  border-left: 4px solid #6d28d9;
+}
+
+.round-phase strong {
+  font-size: 0.9rem;
+  color: #4c1c8a;
+  margin-bottom: 0.3rem;
+}
+
+.round-phase span {
+  font-size: 0.8rem;
+  color: #4a5568;
+}
+
+.round-phase-arrow {
+  font-size: 1.5rem;
+  color: #6d28d9;
+  font-weight: bold;
+}
+
+/* Theory Modal Overlay Styles */
+.aes-theory-modal {
+  position: fixed;
+  z-index: 10000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(15, 23, 42, 0.6); /* Modern dark glassmorphism overlay */
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+.aes-theory-modal-content {
+  background-color: #ffffff;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 850px;
+  max-height: 85vh;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.aes-theory-modal-close {
+  position: absolute;
+  right: 1.5rem;
+  top: 1.2rem;
+  color: #a0aec0;
+  font-size: 1.8rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.aes-theory-modal-close:hover {
+  color: #4a5568;
+}
+
+.aes-theory-modal-content h2 {
+  font-size: 1.5rem;
+  color: #4c1c8a;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.aes-theory-modal-content hr {
+  border: 0;
+  height: 1px;
+  background: #e2e8f0;
+  margin: 1rem 0;
+}
+
+.aes-theory-modal-body {
+  display: flex;
+  gap: 2rem;
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+.theory-explanation-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.theory-explanation-section h3 {
+  font-size: 1.1rem;
+  color: #3b0764;
+  margin-bottom: 0.8rem;
+  font-weight: bold;
+}
+
+.theory-explanation-section p {
+  font-size: 0.88rem;
+  color: #4a5568;
+  line-height: 1.5;
+}
+
+.theory-illustration {
+  margin-top: 1rem;
+  background-color: #f8fafc;
+  border-radius: 8px;
+  padding: 1rem;
+  border: 1px solid #e2e8f0;
+  font-family: monospace;
+  font-size: 0.75rem;
+  white-space: pre-wrap;
+  color: #334155;
+  line-height: 1.4;
+}
+
+.theory-code-section {
+  flex: 1.2;
+  display: flex;
+  flex-direction: column;
+}
+
+.theory-code-section h3 {
+  font-size: 1.1rem;
+  color: #3b0764;
+  margin-bottom: 0.8rem;
+  font-weight: bold;
+}
+
+.theory-code-section pre {
+  margin: 0;
+  background-color: #0f172a; /* Slate 900 for modern code editors */
+  color: #e2e8f0;
+  border-radius: 8px;
+  padding: 1.2rem;
+  overflow-x: auto;
+  font-family: 'Courier New', monospace;
+  font-size: 0.8rem;
+  flex-grow: 1;
+  max-height: 400px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.theory-code-section pre code {
+  color: #38bdf8; /* Light blue code color */
+}
+
+/* S-Box Values Table in Theory Modal */
+.sbox-table-wrapper {
+  overflow-x: auto;
+  margin-top: 1rem;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.sbox-theory-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.85rem;
+  text-align: center;
+  background-color: #ffffff;
+}
+
+.sbox-theory-table th {
+  background-color: #f1f5f9;
+  color: #475569;
+  font-weight: bold;
+  padding: 0.4rem;
+  border: 1px solid #e2e8f0;
+}
+
+.sbox-theory-table td {
+  padding: 0.4rem;
+  border: 1px solid #e2e8f0;
+  color: #334155;
+  transition: background-color 0.2s;
+}
+
+.sbox-theory-table tr:hover td {
+  background-color: #f8fafc;
+}
+
+.sbox-theory-table td:hover {
+  background-color: #ddd6fe !important;
+  color: #5b21b6;
+  font-weight: bold;
+  cursor: crosshair;
+}
+
+.sbox-theory-table .header-cell {
+  background-color: #f1f5f9;
+  font-weight: bold;
+  color: #475569;
+}
+
+/* S-Box Dynamic Simulation Explanation styles */
+.sbox-step-explanation {
+  margin: 1rem auto;
+  width: 90%;
+  font-family: 'Montserrat', sans-serif;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  padding: 1rem;
+  transition: all 0.3s ease;
+  text-align: left;
+}
+
+.step-desc-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.step-desc-header {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #4c1c8a;
+  border-bottom: 2px solid #ddd6fe;
+  padding-bottom: 0.4rem;
+  margin-bottom: 0.3rem;
+}
+
+.step-desc-body p {
+  font-size: 0.85rem;
+  color: #475569;
+  margin: 0.3rem 0;
+  line-height: 1.5;
+}
+
+.hex-badge {
+  background-color: #e2e8f0;
+  color: #1e293b;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  font-family: monospace;
+  font-weight: bold;
+  font-size: 0.85rem;
+}
+
+.hex-badge.green-badge {
+  background-color: #dcfce7;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+}
+
+.hex-badge.yellow-badge {
+  background-color: #fef9c3;
+  color: #854d0e;
+  border: 1px solid #fef08a;
+}
+
+/* Theory Flow Section Styles */
+.aes-flow-section {
+  margin-top: 3rem;
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(76, 28, 138, 0.05);
+  border: 1px solid rgba(76, 28, 138, 0.1);
+}
+
+.aes-flow-section h3 {
+  font-size: 1.4rem;
+  color: #4c1c8a;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.flow-intro {
+  font-size: 0.95rem;
+  color: #4a5568;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.flow-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.flow-step-card {
+  background-color: #f8fafc;
+  border-left: 5px solid #6d28d9;
+  border-radius: 8px;
+  padding: 1.2rem;
+  border-top: 1px solid #e2e8f0;
+  border-right: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.flow-step-card.initial-round {
+  border-left-color: #10b981;
+}
+
+.flow-step-card.final-round {
+  border-left-color: #ef4444;
+}
+
+.flow-step-title {
+  font-weight: 700;
+  color: #1e1b4b;
+  font-size: 1.05rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flow-step-badge {
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 0.15rem 0.5rem;
+  border-radius: 12px;
+  text-transform: uppercase;
+}
+
+.flow-step-badge.badge-initial {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.flow-step-badge.badge-standard {
+  background-color: #ede9fe;
+  color: #5b21b6;
+}
+
+.flow-step-badge.badge-final {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.flow-step-content {
+  font-size: 0.88rem;
+  color: #475569;
+  line-height: 1.5;
+}
+
+.flow-step-content p {
+  margin-bottom: 0.8rem;
+}
+
+/* State Array Matrix styling in flow */
+.matrix-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin: 1rem 0;
+  align-items: center;
+}
+
+.matrix-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  padding: 0.8rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.matrix-block-title {
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: #64748b;
+  margin-bottom: 0.4rem;
+  text-transform: uppercase;
+}
+
+.matrix-table {
+  border-collapse: collapse;
+  font-family: monospace;
+  font-size: 0.8rem;
+}
+
+.matrix-table td {
+  border: 1px solid #cbd5e1;
+  width: 2.2rem;
+  height: 1.8rem;
+  text-align: center;
+  vertical-align: middle;
+  color: #334155;
+  background-color: #f8fafc;
+}
+
+.matrix-operator {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #64748b;
+}
+
+/* Full Width Modal Body styles */
+.aes-theory-modal-body.full-width-body {
+  flex-direction: column;
+}
+
+.aes-theory-modal-body.full-width-body .theory-explanation-section,
+.aes-theory-modal-body.full-width-body .theory-code-section {
+  flex: none;
+  width: 100%;
+}
+
+.aes-theory-modal-body.full-width-body .theory-code-section {
+  margin-top: 1.5rem;
+}

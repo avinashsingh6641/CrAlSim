@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- <link rel="stylesheet" href="DES.css"> -->
+  <script src="../scripts/Additive.js"></script>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CrAlSim</title>
+  <link rel="stylesheet" href="../styles/Additive.css">
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+    integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous">
+    </script>
+</head>
+
+<body>
+  <div class="additive">
+    <div class="additiveMenu">
+
+      <span class="active5 activeadditivetab" data-additive-value="#additive_1">Cipher/Decipher</span>
+      <!-- <span data-additive-value="#additive_2">simulator</span> -->
+      <span data-additive-value="#additive_3">Theory</span>
+
+    </div>
+
+    <div class="additive-content">
+      <div class="additive-content__additive active5" id="additive_1" data-additive-info>
+        <div class="additiveCipherDeciphertab1">
+          <div class="additiveMainDiv">
+             <div class="additiveKeyInputFields">
+                <label for="additiveKeyField">Key:</label>
+                <input type="text" id="additiveKeyField" placeholder="Enter Key " value=""> 
+                
+             </div>
+             <span>Enter single string character only</span>
+
+             <div class="additivePlainInputFields">
+                <label for="additivePlainField">Plain Text:</label>
+                <input type="text" id="additivePlainField" placeholder="Enter Plain Text " value=""> 
+                <button type="button" onclick="additiveEncrypt()">Encrypt</button>
+             </div>
+
+             <div class="additiveCipherInputFields">
+                <label for="additiveCipherField">Cipher Text:</label>
+                <input type="text" id="additiveCipherField" placeholder="Enter Cipher Text " value=""> 
+                <button type="button" onclick="additiveDecrypt()">Decrypt</button>
+             </div>
+             
+             <!-- <div class="additiveTransformedValue">
+              <h4>Transformed Value Table</h4>
+              <div class="additiveTransformedValueTable">
+              <table>
+                <tr></tr>
+                <tr></tr>
+                <tr></tr>
+                <tr></tr>
+              </table>
+            </div> -->
+
+             </div>
+
+          </div>
+          
+        </div>
+
+      <!-- <div class="additive-content__additive" id="additive_2" data-additive-info>
+        <div class="additiveCipherDecipher">
+          <p>decipher</p>
+        </div>
+      </div> -->
+      <div class="additive-content__additive" id="additive_3" data-additive-info>
+        <div class="additiveTheoryContainer">
+          <div class="additive-theory-card">
+            <h3>Understanding Additive (Shift) Cipher</h3>
+            <p>The Additive Cipher (historically known as the Shift Cipher or Caesar Cipher) is a classic <strong>monoalphabetic symmetric-key</strong> encryption technique. It is one of the simplest and oldest ciphers. It operates by replacing each plaintext letter with a letter found by shifting a fixed number of positions down the alphabet.</p>
+          </div>
+
+          <div class="additive-theory-card">
+            <h3>Mathematical Representation</h3>
+            <p>The encryption and decryption processes can be expressed using modular arithmetic over a modulus <code>n</code> (usually 26, the size of the English alphabet):</p>
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem; margin-top: 0.5rem; font-size: 0.88rem; color: #334155;">
+              <p style="margin-bottom: 0.5rem;"><strong>Encryption Formula:</strong>
+                <br><code class="hex-badge">C = (M + K) % n</code>
+              </p>
+              <p style="margin-bottom: 0;"><strong>Decryption Formula:</strong>
+                <br><code class="hex-badge green-badge">P = (C - K) % n</code>
+              </p>
+            </div>
+            <div style="margin-top: 0.8rem; font-size: 0.85rem; color: #64748b; line-height: 1.5;">
+              <strong>Variables:</strong>
+              <br>• <code>C</code> = Generated cipher character index
+              <br>• <code>M</code> (or <code>P</code>) = Plaintext message character index
+              <br>• <code>K</code> = Shift Key value (integer or key character index)
+              <br>• <code>n</code> = Size of the alphabet (typically 26)
+            </div>
+          </div>
+
+          <div class="additive-theory-card">
+            <h3>Alphabet Reference Grid</h3>
+            <p style="margin-bottom: 0.8rem;">Each letter of the alphabet is mapped to an integer from 0 to 25:</p>
+            <div style="overflow-x: auto; width: 100%; border: 1px solid #e2e8f0; border-radius: 8px;">
+              <table class="additiveGridTable">
+                <tr style="background-color: #f1f5f9; font-weight: 600; color: #3b0764;">
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">Char</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">a</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">b</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">c</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">d</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">e</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">f</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">g</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">h</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">i</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">j</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">k</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">l</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">m</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">n</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">o</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">p</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">q</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">r</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">s</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">t</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">u</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">v</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">w</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">x</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">y</td>
+                  <td style="padding: 0.4rem 0.6rem; border-bottom: 1px solid #e2e8f0;">z</td>
+                </tr>
+                <tr style="color: #475569;">
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0; font-weight: 600;">Val</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0;">0</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0;">1</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0;">2</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0;">3</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0;">4</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0;">5</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0;">6</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0;">7</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0;">8</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0;">9</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0;">10</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0;">11</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0;">12</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0;">13</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0;">14</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0;">15</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0;">16</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0;">17</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0;">18</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0;">19</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0;">20</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0;">21</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0;">22</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0;">23</td>
+                  <td style="padding: 0.4rem 0.6rem; border-right: 1px solid #e2e8f0;">24</td>
+                  <td style="padding: 0.4rem 0.6rem;">25</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="additive-theory-card" style="margin-bottom: 2rem;">
+            <h3>Interactive Calculation Walkthrough</h3>
+            <div class="additiveSteps" style="background-color: #faf5ff; border: 1px solid #e9d5ff; border-radius: 8px; padding: 1.2rem; color: #581c87; font-size: 0.88rem;">
+              <p style="font-weight: 600; margin-bottom: 0.5rem; color: #3b0764;">M(message) = hello everyone</p>
+              <p style="font-weight: 600; margin-bottom: 0.8rem; color: #3b0764;">K(key) = t</p>
+              
+              <h4 style="color: #6b21a8; font-size: 1rem; margin-top: 1rem; margin-bottom: 0.5rem; border-bottom: 1px solid #e9d5ff; padding-bottom: 4px;">Encryption Steps</h4>
+              <p style="margin-bottom: 0.4rem; color: #581c87;"><strong>#Step 1:</strong> Convert plaintext characters to integers:</p>
+              <div style="overflow-x: auto; margin-bottom: 1rem; border: 1px solid #e9d5ff; border-radius: 6px; background: white;">
+                <table class="interactiveExampleTable" style="width: 100%; border-collapse: collapse; text-align: center;">
+                  <!-- Filled dynamically by JS -->
+                </table>
+              </div>
+
+              <p style="margin-bottom: 0.4rem; color: #581c87;"><strong>#Step 2:</strong> Add key shift value modulo 26:</p>
+              <div style="overflow-x: auto; margin-bottom: 1rem; border: 1px solid #e9d5ff; border-radius: 6px; background: white;">
+                <table class="interactiveExampleTable" style="width: 100%; border-collapse: collapse; text-align: center;">
+                  <!-- Filled dynamically by JS -->
+                </table>
+              </div>
+
+              <p style="margin-bottom: 0.4rem; color: #581c87;"><strong>#Step 3:</strong> Convert integers back to characters:</p>
+              <div style="overflow-x: auto; margin-bottom: 1rem; border: 1px solid #e9d5ff; border-radius: 6px; background: white;">
+                <table class="interactiveExampleTable" style="width: 100%; border-collapse: collapse; text-align: center;">
+                  <!-- Filled dynamically by JS -->
+                </table>
+              </div>
+
+              <h3 style="font-size: 1rem; color: #15803d; background: #dcfce7; padding: 6px 12px; border-radius: 6px; display: inline-block; margin-bottom: 1.5rem; font-family: inherit; font-weight: 700;">Cipher text => </h3>
+
+              <h4 style="color: #6b21a8; font-size: 1rem; margin-top: 1rem; margin-bottom: 0.5rem; border-bottom: 1px solid #e9d5ff; padding-bottom: 4px;">Decryption Steps</h4>
+              <p style="margin-bottom: 0.4rem; color: #581c87;"><strong>#Step 4:</strong> Subtract key shift value modulo 26:</p>
+              <div style="overflow-x: auto; margin-bottom: 1rem; border: 1px solid #e9d5ff; border-radius: 6px; background: white;">
+                <table class="interactiveExampleTable" style="width: 100%; border-collapse: collapse; text-align: center;">
+                  <!-- Filled dynamically by JS -->
+                </table>
+              </div>
+
+              <p style="margin-bottom: 0.4rem; color: #581c87;"><strong>#Step 5:</strong> Convert indices back to plaintext letters:</p>
+              <div style="overflow-x: auto; margin-bottom: 1rem; border: 1px solid #e9d5ff; border-radius: 6px; background: white;">
+                <table class="interactiveExampleTable" style="width: 100%; border-collapse: collapse; text-align: center;">
+                  <!-- Filled dynamically by JS -->
+                </table>
+              </div>
+
+              <h3 style="font-size: 1rem; color: #3b0764; background: #f3e8ff; padding: 6px 12px; border-radius: 6px; display: inline-block; font-family: inherit; font-weight: 700;">Plain text => </h3>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script type="text/javascript">
+    const additivetabs = document.querySelectorAll('[data-additive-value]')
+    const additivetabInfos = document.querySelectorAll('[data-additive-info]')
+
+    additivetabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = document
+          .querySelector(tab.dataset.additiveValue);
+
+        additivetabInfos.forEach(additiveInfo => {
+          additiveInfo.classList.remove('active5')
+        })
+        target.classList.add('active5');
+        target.classList.add('activeadditivetab');
+      })
+    })
+  </script>
+
+  <script type="text/javascript">
+    $(document).on('click', 'span', function () {
+      $(this).addClass('activeadditivetab').siblings().removeClass('activeadditivetab')
+    });
+  </script>
+
+</body>
+
+</html>

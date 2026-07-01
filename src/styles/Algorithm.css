@@ -57,6 +57,31 @@
   color: #94a3b8;
 }
 
+.tabs p.category-l1 {
+  font-size: 0.92rem;
+  color: #1e1b4b;
+  font-weight: 700;
+  padding: 1.4rem 1rem 0.3rem 1rem;
+  border-bottom: 1px dashed #e2e8f0;
+  margin-bottom: 0.2rem;
+  margin-top: 0.5rem;
+}
+.tabs p.category-l1:first-of-type {
+  margin-top: 0;
+}
+.tabs p.category-l2 {
+  font-size: 0.8rem;
+  color: #4f46e5;
+  font-weight: 600;
+  padding: 0.8rem 1rem 0.2rem 1.5rem;
+}
+.tabs p.category-l3 {
+  font-size: 0.72rem;
+  color: #64748b;
+  font-weight: 600;
+  padding: 0.5rem 1rem 0.1rem 2rem;
+}
+
 .tabs span {
   padding: 0.8rem 1.5rem 0.8rem 2.5rem;
   width: 100%;
@@ -68,18 +93,32 @@
   cursor: pointer;
 }
 
+.tabs span.tab-l3 {
+  padding: 0.6rem 1.5rem 0.6rem 2.5rem;
+}
+.tabs span.tab-l3:hover,
+.tabs span.tab-l3.active {
+  padding-left: 2.7rem;
+}
+
+.tabs span.tab-l4 {
+  padding: 0.5rem 1.5rem 0.5rem 3.5rem;
+}
+.tabs span.tab-l4:hover,
+.tabs span.tab-l4.active {
+  padding-left: 3.7rem;
+}
+
 .tabs span:hover {
   color: #6d28d9;
   border-left: 4px solid #6d28d9;
   background-color: rgba(109, 40, 217, 0.04);
-  padding-left: 2.7rem;
 }
 .tabs span.active {
   color: #6d28d9;
   font-weight: 700;
   border-left: 4px solid #6d28d9;
   background-color: rgba(109, 40, 217, 0.08);
-  padding-left: 2.7rem;
 }
 .name {
   background-color: #3b0764;
@@ -138,10 +177,12 @@
   .tabs p {
     display: none; /* Hide category labels on mobile for clean scrolling tabs list */
   }
-  .tabs span {
+  .tabs span,
+  .tabs span.tab-l3,
+  .tabs span.tab-l4 {
     display: inline-block;
     width: auto;
-    padding: 10px 15px;
+    padding: 10px 15px !important;
     margin: 0 5px;
     border-left: none !important;
     border-bottom: 3px solid transparent;
@@ -149,11 +190,15 @@
     font-size: 1rem;
   }
   .tabs span.active,
-  .tabs span:hover {
+  .tabs span:hover,
+  .tabs span.tab-l3.active,
+  .tabs span.tab-l3:hover,
+  .tabs span.tab-l4.active,
+  .tabs span.tab-l4:hover {
     border-bottom: 3px solid rgb(3, 153, 190);
     background-color: rgb(235, 244, 245);
     font-size: 1rem;
-    padding-left: 15px; /* override desktop hover padding-left */
+    padding-left: 15px !important; /* override desktop hover padding-left */
   }
   .tab-content {
     width: 100%;

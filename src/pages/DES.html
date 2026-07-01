@@ -61,9 +61,11 @@
             </div>
 
             <div class="des-content__des" id="des_2" data-des-info>
-                <div class="desCipherDecipher">
-                    <div id="desSimulatorContainer" style="padding: 1.5rem; background-color: #faf5ff; border: 1px solid #e9d5ff; border-radius: 8px; font-size: 0.95rem; line-height: 1.5; color: #3b0764;">
-                        <p style='color: #64748b; font-style: italic; text-align: center;'>Run the cipher or decipher function to generate the detailed 16-round simulation.</p>
+                <div id="desSimulatorContainer" style="width: 100%;">
+                    <div class="des-simulator-placeholder">
+                        <i class="fa fa-info-circle fa-3x"></i>
+                        <h3 style="color: #3b0764; font-weight: 700; margin-top: 0.5rem;">Simulation Idle</h3>
+                        <p style="max-width: 32rem; line-height: 1.5;">Please enter an 8-character Key and Plaintext (or 16-character Hex Ciphertext) on the **Cipher/Decipher** tab, and click **Encrypt** or **Decrypt** to start the interactive simulation.</p>
                     </div>
                 </div>
             </div>
@@ -126,6 +128,14 @@
             $(this).addClass('activedestab').siblings().removeClass('activedestab')
         });
     </script>
+
+    <div id="desModalBackdrop" class="des-modal-backdrop" onclick="closeDesExplanationModal(event)">
+        <div class="des-modal-content" onclick="event.stopPropagation()">
+            <div class="des-modal-header" id="desModalTitle">Explanation</div>
+            <div class="des-modal-body" id="desModalBody">Content goes here...</div>
+            <button class="des-modal-close-btn" onclick="closeDesExplanationModal(event)">Close</button>
+        </div>
+    </div>
 
 </body>
 

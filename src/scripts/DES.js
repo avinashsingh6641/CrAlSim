@@ -343,7 +343,7 @@ function execDesEncrypt() {
     let cipherHex = binStringToHex(result.cipherText);
     document.getElementById("desciphertext").value = cipherHex;
     
-    populateSimulator(plainBin, keyBin, subkeys, result, true);
+    populateSimulator(plainBin, keyBin, subkeys, result, true, plainInput);
 }
 
 function execDesDecrypt() {
@@ -368,7 +368,7 @@ function execDesDecrypt() {
     let plainText = binStringToText(result.plainText);
     document.getElementById("desplaintext").value = plainText;
     
-    populateSimulator(cipherBin, keyBin, subkeys, result, false);
+    populateSimulator(cipherBin, keyBin, subkeys, result, false, cipherInput);
 }
 
 // Simulator State
@@ -379,7 +379,8 @@ let desSimState = {
     result: null,
     isEncrypt: true,
     currentRound: 0,
-    currentStep: 0
+    currentStep: 0,
+    origInputText: ""
 };
 
 function formatBinString(str, groupSize) {
@@ -465,7 +466,7 @@ function desHighlightSbox(sboxIdx) {
     }
 }
 
-function populateSimulator(inputBin, keyBin, subkeys, result, isEncrypt) {
+function populateSimulator(inputBin, keyBin, subkeys, result, isEncrypt, origInputText) {
     desSimState = {
         inputBin: inputBin,
         keyBin: keyBin,
@@ -473,7 +474,8 @@ function populateSimulator(inputBin, keyBin, subkeys, result, isEncrypt) {
         result: result,
         isEncrypt: isEncrypt,
         currentRound: 0,
-        currentStep: 0
+        currentStep: 0,
+        origInputText: origInputText || ""
     };
     renderDESRound();
 }
@@ -490,7 +492,8 @@ function resetDesSimulator() {
         result: null,
         isEncrypt: true,
         currentRound: 0,
-        currentStep: 0
+        currentStep: 0,
+        origInputText: ""
     };
     
     let simulatorDiv = document.getElementById("desSimulatorContainer");
@@ -525,6 +528,9 @@ function renderDESRound() {
     
     let navHTML = `
         <div class="des-nav-header">Pre-Round</div>
+        <div class="des-nav-item ${desSimState.currentRound === -1 ? 'active' : ''}" onclick="desGoToRound(-1)">
+            <span>Key Schedule (Subkeys)</span>
+        </div>
         <div class="des-nav-item ${desSimState.currentRound === 0 ? 'active' : ''}" onclick="desGoToRound(0)">
             <span>Initial Permutation (IP)</span>
         </div>
@@ -551,7 +557,46 @@ function renderDESRound() {
     let step = desSimState.currentStep;
     let res = desSimState.result;
     
-    if (currentRound === 0) {
+    if (currentRound === -1) {
+        let formattedKey = formatBinString(desSimState.keyBin, 8);
+        let pc1Key = permute(desSimState.keyBin, PC_1);
+        let c0 = pc1Key.substring(0, 28);
+        let d0 = pc1Key.substring(28, 56);
+        
+        mainPane.innerHTML = `
+            <div class="des-feistel-container">
+                <div class="des-round-header-bar">
+                    <span class="des-round-title">Key Schedule & Subkey Generation</span>
+                    <div class="des-step-navigation">
+                        <button class="des-step-btn" disabled>Back</button>
+                        <button class="des-step-btn primary-btn" onclick="desGoToRound(0)">Next (IP)</button>
+                    </div>
+                </div>
+                
+                <div style="font-size: 0.88rem; color: #475569; line-height: 1.5; margin-bottom: 1rem;">
+                    The original 64-bit key undergoes Permuted Choice 1 (PC-1), dropping 8 parity bits and dividing the remaining 56 bits into Left (C<sub>0</sub>) and Right (D<sub>0</sub>) halves. Circular left shifts are applied to both halves round-by-round, and Permuted Choice 2 (PC-2) extracts a 48-bit subkey K<sub>i</sub> for each round.
+                </div>
+                
+                <div class="des-diagram-flow">
+                    <div class="des-diagram-block" style="max-width: 24rem;">
+                        <h4>64-bit Original Key</h4>
+                        <p>${formattedKey}</p>
+                    </div>
+                    <div class="des-diagram-arrow-down"></div>
+                    <div class="des-diagram-block active-step" style="max-width: 24rem; cursor: pointer;" onclick="showPc1Explanation()">
+                        <h4>PC-1 Permutation Block</h4>
+                        <p>Drops parity bits & shuffles into 56 bits (Click to explain)</p>
+                        <p style="font-family: monospace; font-size: 0.7rem; font-weight: bold; margin-top: 4px; color: #1e1b4b; background: #faf5ff; padding: 2px 4px; border-radius: 4px; word-break: break-all;">C<sub>0</sub>: ${c0}<br>D<sub>0</sub>: ${d0}</p>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 1.5rem; width: 100%;">
+                    <h4 style="color: #3b0764; font-size: 1rem; margin-bottom: 0.5rem; font-weight: 700;">Subkey Round-by-Round Generation</h4>
+                    ${generateKeyScheduleTableHTML()}
+                </div>
+            </div>
+        `;
+    } else if (currentRound === 0) {
         let formattedInput = formatBinString(desSimState.inputBin, 8);
         let l0 = res.ip.substring(0, 32);
         let r0 = res.ip.substring(32, 64);
@@ -561,13 +606,20 @@ function renderDESRound() {
                 <div class="des-round-header-bar">
                     <span class="des-round-title">Initial Permutation (IP)</span>
                     <div class="des-step-navigation">
-                        <button class="des-step-btn" disabled>Back</button>
+                        <button class="des-step-btn" onclick="desGoToRound(-1)">Back</button>
                         <button class="des-step-btn primary-btn" onclick="desNextStep()">Next Step</button>
                         <button class="des-step-btn" onclick="desSkipSteps()">Skip to End</button>
                     </div>
                 </div>
                 
                 <div class="des-diagram-flow">
+                    <div class="des-diagram-block active-step" style="max-width: 24rem; cursor: pointer;" onclick="showInputTextExplanation()">
+                        <h4>${desSimState.isEncrypt ? 'Original Plaintext Input' : 'Original Ciphertext Input'}</h4>
+                        <p>${desSimState.isEncrypt ? `"${desSimState.origInputText}" (8 chars)` : `0x${desSimState.origInputText} (16 Hex)`}</p>
+                        <span style="font-size: 0.62rem; color: #6d28d9; font-weight: 600; display: block; margin-top: 2px;">(Click to explain bit conversion)</span>
+                    </div>
+                    <div class="des-diagram-arrow-down"></div>
+                    
                     <div class="des-diagram-block" style="max-width: 24rem;">
                         <h4>64-bit Input Block</h4>
                         <p>${formattedInput}</p>
@@ -589,17 +641,6 @@ function renderDESRound() {
                             <p>${formatBinString(r0, 8)}</p>
                         </div>
                     </div>
-                </div>
-            </div>
-            
-            <div class="des-detail-pane">
-                <div class="des-detail-header">
-                    <span>IP Permutation Grid Details</span>
-                    <span class="badge">IP Mapping</span>
-                </div>
-                <p style="font-size: 0.85rem; color: #475569;">The 64 input bits are shuffled according to the standard Initial Permutation (IP) table. Below is the mapping where index values represent the original 1-based index position of that bit. <a href="#" onclick="showIpExplanation(); return false;" style="color: #6d28d9; font-weight: 600; text-decoration: underline;">How is this calculated?</a></p>
-                <div style="overflow-x: auto;">
-                    ${generatePermutationGridHTML(desSimState.inputBin, IP)}
                 </div>
             </div>
         `;
@@ -637,41 +678,46 @@ function renderDESRound() {
                     
                     <div class="des-diagram-row" style="margin-top: 0.2rem;">
                         <div style="flex: 1; display: flex; flex-direction: column; align-items: center;">
-                            <div class="des-diagram-arrow-down" style="height: 120px;"></div>
+                            <div class="des-diagram-arrow-down" style="height: 90px;"></div>
                         </div>
                         <div style="flex: 1; display: flex; flex-direction: column; align-items: center; border: 1px dashed #c084fc; border-radius: 8px; padding: 0.5rem; background-color: #faf5ff;">
                             <span style="font-size: 0.7rem; font-weight: 700; color: #6d28d9; text-transform: uppercase; margin-bottom: 0.4rem;">Feistel Function F</span>
                             
-                            <div class="des-diagram-block ${step === 1 ? 'active-step' : ''}" onclick="desGoToStep(1)" style="width: 100%;">
+                            <div class="des-diagram-block ${step === 1 ? 'active-step' : ''}" onclick="${step === 1 ? 'showEBoxExplanation()' : 'desGoToStep(1)'}" style="width: 100%; cursor: pointer;">
                                 <h4>1. E-Box Expansion (32 to 48 bit)</h4>
                                 <p style="font-size: 0.72rem;">${formatBinString(rd.expandedR, 6)}</p>
+                                ${step === 1 ? '<span style="font-size: 0.62rem; color: #6d28d9; font-weight: 600; display: block; margin-top: 2px;">(Click to explain)</span>' : ''}
                             </div>
                             <div class="des-diagram-arrow-down" style="height: 10px;"></div>
                             
-                            <div class="des-diagram-block ${step === 2 ? 'active-step' : ''}" onclick="desGoToStep(2)" style="width: 100%;">
+                            <div class="des-diagram-block ${step === 2 ? 'active-step' : ''}" onclick="${step === 2 ? 'showXorExplanation()' : 'desGoToStep(2)'}" style="width: 100%; cursor: pointer;">
                                 <h4>2. XOR Subkey K<sub>${currentRound}</sub></h4>
                                 <p style="font-size: 0.72rem; color: #6d28d9;">K: ${formatBinString(subkey, 6)}</p>
                                 <p style="font-size: 0.72rem; font-weight: 600;">Out: ${formatBinString(rd.xored, 6)}</p>
+                                ${step === 2 ? '<span style="font-size: 0.62rem; color: #6d28d9; font-weight: 600; display: block; margin-top: 2px;">(Click to explain)</span>' : ''}
                             </div>
                             <div class="des-diagram-arrow-down" style="height: 10px;"></div>
                             
-                            <div class="des-diagram-block ${step === 3 ? 'active-step' : ''}" onclick="desGoToStep(3)" style="width: 100%;">
+                            <div class="des-diagram-block ${step === 3 ? 'active-step' : ''}" onclick="${step === 3 ? 'showSboxExplanation()' : 'desGoToStep(3)'}" style="width: 100%; cursor: pointer;">
                                 <h4>3. S-Box Substitution (48 to 32 bit)</h4>
                                 <p style="font-size: 0.72rem;">${formatBinString(rd.sboxResult, 4)}</p>
+                                ${step === 3 ? '<span style="font-size: 0.62rem; color: #6d28d9; font-weight: 600; display: block; margin-top: 2px;">(Click to explain)</span>' : ''}
                             </div>
                             <div class="des-diagram-arrow-down" style="height: 10px;"></div>
                             
-                            <div class="des-diagram-block ${step === 4 ? 'active-step' : ''}" onclick="desGoToStep(4)" style="width: 100%;">
+                            <div class="des-diagram-block ${step === 4 ? 'active-step' : ''}" onclick="${step === 4 ? 'showPBoxExplanation()' : 'desGoToStep(4)'}" style="width: 100%; cursor: pointer;">
                                 <h4>4. P-Box Permutation (32 bit)</h4>
                                 <p style="font-size: 0.72rem;">${formatBinString(rd.pboxResult, 8)}</p>
+                                ${step === 4 ? '<span style="font-size: 0.62rem; color: #6d28d9; font-weight: 600; display: block; margin-top: 2px;">(Click to explain)</span>' : ''}
                             </div>
                         </div>
                     </div>
                     
                     <div class="des-diagram-arrow-down" style="height: 12px;"></div>
-                    <div class="des-diagram-block ${step === 5 ? 'active-step' : ''}" onclick="desGoToStep(5)" style="max-width: 18rem;">
+                    <div class="des-diagram-block ${step === 5 ? 'active-step' : ''}" onclick="${step === 5 ? 'showXorLPrevExplanation()' : 'desGoToStep(5)'}" style="max-width: 18rem; cursor: pointer;">
                         <h4>5. XOR L<sub>${currentRound - 1}</sub> & Swap</h4>
                         <p style="font-size: 0.72rem;">L<sub>${currentRound - 1}</sub> &oplus; F(R<sub>${currentRound - 1}</sub>) = R<sub>${currentRound}</sub></p>
+                        ${step === 5 ? '<span style="font-size: 0.62rem; color: #6d28d9; font-weight: 600; display: block; margin-top: 2px;">(Click to explain)</span>' : ''}
                     </div>
                     
                     <div class="des-diagram-arrow-down" style="height: 12px;"></div>
@@ -686,10 +732,6 @@ function renderDESRound() {
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="des-detail-pane">
-                ${renderStepDetailsHTML(rd, step, currentRound)}
             </div>
         `;
     } else if (currentRound === 17) {
@@ -737,17 +779,6 @@ function renderDESRound() {
                         <h4>Final output (${desSimState.isEncrypt ? 'Hexadecimal' : 'Text'})</h4>
                         <p style="font-size: 1.1rem; color: #15803d; font-weight: bold;">${outputVal}</p>
                     </div>
-                </div>
-            </div>
-            
-            <div class="des-detail-pane">
-                <div class="des-detail-header">
-                    <span>IP Inverse Permutation Grid Details</span>
-                    <span class="badge">IP-Inv Mapping</span>
-                </div>
-                <p style="font-size: 0.85rem; color: #475569;">The swapped combination block is permuted using the standard IP Inverse table to yield the final block output. Below is the mapping details. <a href="#" onclick="showIpInvExplanation(); return false;" style="color: #6d28d9; font-weight: 600; text-decoration: underline;">How is this calculated?</a></p>
-                <div style="overflow-x: auto;">
-                    ${generatePermutationGridHTML(swappedCombined, IP_INV)}
                 </div>
             </div>
         `;
@@ -807,7 +838,7 @@ function renderStepDetailsHTML(rd, step, roundNum) {
                 <span>Step 1: Expansion Permutation (E-Box)</span>
                 <span class="badge">E-Box</span>
             </div>
-            <p>The 32-bit Right half R<sub>${roundNum-1}</sub> is expanded to 48 bits using the E-Box table. The table duplicates 16 bits (mostly border bits of 4-bit sections) to create 8 sections of 6 bits. Duplicated bits provide avalanche effects.</p>
+            <p>The 32-bit Right half R<sub>${roundNum-1}</sub> is expanded to 48 bits using the E-Box table. The table duplicates 16 bits (mostly border bits of 4-bit sections) to create 8 sections of 6 bits. Duplicated bits provide avalanche effects. <a href="#" onclick="showEBoxExplanation(); return false;" style="color: #6d28d9; font-weight: 600; text-decoration: underline;">How is this calculated?</a></p>
             <div style="overflow-x: auto; margin-top: 0.5rem;">
                 ${generateEBoxGridHTML(rd.R_prev, rd.expandedR)}
             </div>
@@ -819,7 +850,7 @@ function renderStepDetailsHTML(rd, step, roundNum) {
                 <span>Step 2: Subkey K<sub>${roundNum}</sub> Circular Shift & XOR</span>
                 <span class="badge">Key Schedule & XOR</span>
             </div>
-            <p>The expanded 48-bit Right register is bitwise XORed (&oplus;) with the 48-bit round subkey K<sub>${roundNum}</sub>.</p>
+            <p>The expanded 48-bit Right register is bitwise XORed (&oplus;) with the 48-bit round subkey K<sub>${roundNum}</sub>. <a href="#" onclick="showXorExplanation(); return false;" style="color: #6d28d9; font-weight: 600; text-decoration: underline;">How is this calculated?</a></p>
             ${keyShiftDetails}
             <div style="overflow-x: auto; margin-top: 0.8rem;">
                 ${generateXORTableHTML(rd.expandedR, rd.subkey, rd.xored)}
@@ -831,7 +862,7 @@ function renderStepDetailsHTML(rd, step, roundNum) {
                 <span>Step 3: S-Box Substitution (48-bit to 32-bit)</span>
                 <span class="badge">Non-linear substitution</span>
             </div>
-            <p>The 48-bit XOR output is split into 8 chunks of 6 bits. Each chunk is processed by a dedicated S-Box (S1 to S8). The first and last bits of the 6-bit chunk select the <strong>Row</strong> (0 to 3), and the middle four bits select the <strong>Column</strong> (0 to 15). The decimal value found is converted to a 4-bit binary output. Click on any card below to highlight its S-Box details.</p>
+            <p>The 48-bit XOR output is split into 8 chunks of 6 bits. Each chunk is processed by a dedicated S-Box (S1 to S8). The first and last bits of the 6-bit chunk select the <strong>Row</strong> (0 to 3), and the middle four bits select the <strong>Column</strong> (0 to 15). The decimal value found is converted to a 4-bit binary output. Click on any card below to highlight its S-Box details. <a href="#" onclick="showSboxExplanation(); return false;" style="color: #6d28d9; font-weight: 600; text-decoration: underline;">How is this calculated?</a></p>
             <div class="des-sboxes-grid">
                 ${generateSBoxesGridHTML(rd.sboxesDetails)}
             </div>
@@ -842,7 +873,7 @@ function renderStepDetailsHTML(rd, step, roundNum) {
                 <span>Step 4: Straight Permutation (P-Box)</span>
                 <span class="badge">P-Box</span>
             </div>
-            <p>The 32-bit S-Box output is shuffled using the standard P-Box table to disperse the S-Box outputs across different positions for the next round's XOR.</p>
+            <p>The 32-bit S-Box output is shuffled using the standard P-Box table to disperse the S-Box outputs across different positions for the next round's XOR. <a href="#" onclick="showPBoxExplanation(); return false;" style="color: #6d28d9; font-weight: 600; text-decoration: underline;">How is this calculated?</a></p>
             <div style="overflow-x: auto; margin-top: 0.5rem;">
                 ${generatePBoxGridHTML(rd.sboxResult, rd.pboxResult)}
             </div>
@@ -853,7 +884,7 @@ function renderStepDetailsHTML(rd, step, roundNum) {
                 <span>Step 5: XOR with L<sub>${roundNum-1}</sub> & Register Swap</span>
                 <span class="badge">Feistel XOR</span>
             </div>
-            <p>The 32-bit output of the Feistel function F (the P-Box result) is bitwise XORed with the original Left half L<sub>${roundNum-1}</sub>. The registers are then swapped: the new Left half becomes L<sub>${roundNum}</sub> = R<sub>${roundNum-1}</sub>, and the new Right half becomes R<sub>${roundNum}</sub> = L<sub>${roundNum-1}</sub> &oplus; F.</p>
+            <p>The 32-bit output of the Feistel function F (the P-Box result) is bitwise XORed with the original Left half L<sub>${roundNum-1}</sub>. The registers are then swapped: the new Left half becomes L<sub>${roundNum}</sub> = R<sub>${roundNum-1}</sub>, and the new Right half becomes R<sub>${roundNum}</sub> = L<sub>${roundNum-1}</sub> &oplus; F. <a href="#" onclick="showXorLPrevExplanation(); return false;" style="color: #6d28d9; font-weight: 600; text-decoration: underline;">How is this calculated?</a></p>
             <div style="overflow-x: auto; margin-top: 0.5rem;">
                 ${generateXORTableHTML(rd.L_prev, rd.pboxResult, rd.R, "L<sub>" + (roundNum-1) + "</sub>", "P-Box Output", "New R<sub>" + roundNum + "</sub>")}
             </div>
@@ -1014,6 +1045,8 @@ function openDesExplanationModal(title, bodyHTML) {
 
 function closeDesExplanationModal(event) {
     desPermStopPlay();
+    desXorStopPlay();
+    desSboxStopPlay();
     let backdrop = document.getElementById("desModalBackdrop");
     if (backdrop) {
         backdrop.style.display = "none";
@@ -1026,7 +1059,11 @@ let desPermVisualizerState = {
     tableName: "",
     currentStep: 0,
     timerId: null,
-    isPlaying: false
+    isPlaying: false,
+    inputSize: 64,
+    outputSize: 64,
+    inputCols: 8,
+    outputCols: 8
 };
 
 function drawInteractivePermutation() {
@@ -1038,6 +1075,11 @@ function drawInteractivePermutation() {
     let table = desPermVisualizerState.table;
     let tableName = desPermVisualizerState.tableName;
     
+    let inputSize = desPermVisualizerState.inputSize || 64;
+    let outputSize = desPermVisualizerState.outputSize || 64;
+    let inputCols = desPermVisualizerState.inputCols || 8;
+    let outputCols = desPermVisualizerState.outputCols || 8;
+    
     let html = `
         <div class="des-modal-visualizer-container">
             <p style="font-size: 0.85rem; margin-bottom: 0.5rem; color: #475569; text-align: center;">
@@ -1047,12 +1089,12 @@ function drawInteractivePermutation() {
             <div class="des-modal-grids-row">
                 <!-- Input Grid -->
                 <div class="des-modal-grid-box">
-                    <h5>1. 64-bit Input Grid</h5>
-                    <div class="des-interactive-grid">
+                    <h5>1. ${inputSize}-bit Input Grid</h5>
+                    <div class="des-interactive-grid" style="grid-template-columns: repeat(${inputCols}, 1.6rem);">
     `;
     
-    let sourceIdx = (step > 0 && step <= 64) ? table[step - 1] : null;
-    for (let i = 1; i <= 64; i++) {
+    let sourceIdx = (step > 0 && step <= outputSize) ? table[step - 1] : null;
+    for (let i = 1; i <= inputSize; i++) {
         let bit = inputBin[i - 1] || "0";
         let isActive = (i === sourceIdx);
         html += `
@@ -1069,10 +1111,10 @@ function drawInteractivePermutation() {
                 <!-- Table Grid -->
                 <div class="des-modal-grid-box">
                     <h5>2. ${tableName}</h5>
-                    <div class="des-interactive-grid">
+                    <div class="des-interactive-grid" style="grid-template-columns: repeat(${outputCols}, 1.6rem);">
     `;
     
-    for (let i = 1; i <= 64; i++) {
+    for (let i = 1; i <= outputSize; i++) {
         let val = table[i - 1];
         let isActive = (i === step);
         html += `
@@ -1088,11 +1130,11 @@ function drawInteractivePermutation() {
                 
                 <!-- Output Grid -->
                 <div class="des-modal-grid-box">
-                    <h5>3. 64-bit Output Grid</h5>
-                    <div class="des-interactive-grid">
+                    <h5>3. ${outputSize}-bit Output Grid</h5>
+                    <div class="des-interactive-grid" style="grid-template-columns: repeat(${outputCols}, 1.6rem);">
     `;
     
-    for (let i = 1; i <= 64; i++) {
+    for (let i = 1; i <= outputSize; i++) {
         let isFilled = (i < step);
         let isActive = (i === step);
         let bitVal = isFilled ? (inputBin[table[i - 1] - 1] || "0") : (isActive ? "" : "-");
@@ -1124,7 +1166,7 @@ function drawInteractivePermutation() {
             <!-- Controls -->
             <div class="des-visualizer-controls">
                 <button class="des-visualizer-btn" onclick="desPermPrev()" ${step === 0 ? 'disabled' : ''}>Prev</button>
-                <button class="des-visualizer-btn primary" onclick="desPermNext()" ${step === 64 ? 'disabled' : ''}>Next</button>
+                <button class="des-visualizer-btn primary" onclick="desPermNext()" ${step === outputSize ? 'disabled' : ''}>Next</button>
                 <button class="des-visualizer-btn" onclick="desPermTogglePlay()">
                     ${desPermVisualizerState.isPlaying ? '<i class="fa fa-pause"></i> Pause' : '<i class="fa fa-play"></i> Auto-Play'}
                 </button>
@@ -1137,11 +1179,12 @@ function drawInteractivePermutation() {
 }
 
 function getStepExplanationText(step, sourceIdx) {
+    let outputSize = desPermVisualizerState.outputSize || 64;
     if (step === 0) {
         return "Click <strong>Next</strong> or <strong>Auto-Play</strong> to start the permutation calculation.";
     }
-    if (step > 64) {
-        return "Permutation complete! All 64 bits have been copied to their respective destination offsets.";
+    if (step > outputSize) {
+        return `Permutation complete! All ${outputSize} bits have been copied to their respective destination offsets.`;
     }
     
     let table = desPermVisualizerState.table;
@@ -1152,7 +1195,8 @@ function getStepExplanationText(step, sourceIdx) {
 }
 
 function desPermNext() {
-    if (desPermVisualizerState.currentStep < 64) {
+    let outputSize = desPermVisualizerState.outputSize || 64;
+    if (desPermVisualizerState.currentStep < outputSize) {
         desPermVisualizerState.currentStep++;
         drawInteractivePermutation();
     } else {
@@ -1182,10 +1226,12 @@ function desPermTogglePlay() {
 }
 
 function desPermStartPlay() {
+    let outputSize = desPermVisualizerState.outputSize || 64;
     desPermVisualizerState.isPlaying = true;
     drawInteractivePermutation();
     desPermVisualizerState.timerId = setInterval(() => {
-        if (desPermVisualizerState.currentStep < 64) {
+        let currentOutputSize = desPermVisualizerState.outputSize || 64;
+        if (desPermVisualizerState.currentStep < currentOutputSize) {
             desPermNext();
         } else {
             desPermStopPlay();
@@ -1211,7 +1257,11 @@ function showIpExplanation() {
         tableName: "IP Table",
         currentStep: 0,
         timerId: null,
-        isPlaying: false
+        isPlaying: false,
+        inputSize: 64,
+        outputSize: 64,
+        inputCols: 8,
+        outputCols: 8
     };
     
     let backdrop = document.getElementById("desModalBackdrop");
@@ -1235,7 +1285,11 @@ function showIpInvExplanation() {
         tableName: "IP-Inv Table",
         currentStep: 0,
         timerId: null,
-        isPlaying: false
+        isPlaying: false,
+        inputSize: 64,
+        outputSize: 64,
+        inputCols: 8,
+        outputCols: 8
     };
     
     let backdrop = document.getElementById("desModalBackdrop");
@@ -1244,5 +1298,947 @@ function showIpInvExplanation() {
         titleEl.innerText = title;
         backdrop.style.display = "flex";
         drawInteractivePermutation();
+    }
+}
+
+function showEBoxExplanation() {
+    let title = "E-Box Expansion (32 to 48 bit) Interactive Visualizer";
+    let fallbackInput = "11110000101001011100001110100101";
+    
+    let inputBin = fallbackInput;
+    if (desSimState.result && desSimState.currentRound >= 1 && desSimState.currentRound <= 16) {
+        let rd = desSimState.result.roundsData[desSimState.currentRound - 1];
+        inputBin = rd.R_prev;
+    }
+    
+    desPermVisualizerState = {
+        inputBin: inputBin,
+        table: E_BOX,
+        tableName: "E-Box Expansion Table",
+        currentStep: 0,
+        timerId: null,
+        isPlaying: false,
+        inputSize: 32,
+        outputSize: 48,
+        inputCols: 8,
+        outputCols: 6
+    };
+    
+    let backdrop = document.getElementById("desModalBackdrop");
+    let titleEl = document.getElementById("desModalTitle");
+    if (backdrop && titleEl) {
+        titleEl.innerText = title;
+        backdrop.style.display = "flex";
+        drawInteractivePermutation();
+    }
+}
+
+let desXorVisualizerState = {
+    input1Bin: "",
+    input2Bin: "",
+    outputBin: "",
+    input1Name: "",
+    input2Name: "",
+    outputName: "",
+    currentStep: 0,
+    timerId: null,
+    isPlaying: false,
+    size: 48,
+    cols: 6
+};
+
+function drawInteractiveXor() {
+    let container = document.getElementById("desModalBody");
+    if (!container) return;
+    
+    let step = desXorVisualizerState.currentStep;
+    let input1Bin = desXorVisualizerState.input1Bin;
+    let input2Bin = desXorVisualizerState.input2Bin;
+    let outputBin = desXorVisualizerState.outputBin;
+    let size = desXorVisualizerState.size || 48;
+    let cols = desXorVisualizerState.cols || 6;
+    
+    let html = `
+        <div class="des-modal-visualizer-container">
+            <p style="font-size: 0.85rem; margin-bottom: 0.5rem; color: #475569; text-align: center;">
+                Click <strong>Next</strong> or <strong>Auto-Play</strong> to compute the XOR bit-by-bit.
+            </p>
+            
+            <div class="des-modal-grids-row">
+                <!-- Input 1 Grid -->
+                <div class="des-modal-grid-box">
+                    <h5>1. ${desXorVisualizerState.input1Name}</h5>
+                    <div class="des-interactive-grid" style="grid-template-columns: repeat(${cols}, 1.6rem);">
+    `;
+    
+    for (let i = 1; i <= size; i++) {
+        let bit = input1Bin[i - 1] || "0";
+        let isActive = (i === step);
+        html += `
+            <div class="des-interactive-grid-cell ${isActive ? 'active-input-highlight' : ''}" title="Position ${i}">
+                <span class="cell-index">${i}</span>
+                <span class="cell-value">${bit}</span>
+            </div>
+        `;
+    }
+    html += `
+                    </div>
+                </div>
+                
+                <!-- Input 2 Grid -->
+                <div class="des-modal-grid-box">
+                    <h5>2. ${desXorVisualizerState.input2Name}</h5>
+                    <div class="des-interactive-grid" style="grid-template-columns: repeat(${cols}, 1.6rem);">
+    `;
+    
+    for (let i = 1; i <= size; i++) {
+        let bit = input2Bin[i - 1] || "0";
+        let isActive = (i === step);
+        html += `
+            <div class="des-interactive-grid-cell ${isActive ? 'active-table-highlight' : ''}" title="Position ${i}">
+                <span class="cell-index">${i}</span>
+                <span class="cell-value">${bit}</span>
+            </div>
+        `;
+    }
+    html += `
+                    </div>
+                </div>
+                
+                <!-- Output Grid -->
+                <div class="des-modal-grid-box">
+                    <h5>3. ${desXorVisualizerState.outputName}</h5>
+                    <div class="des-interactive-grid" style="grid-template-columns: repeat(${cols}, 1.6rem);">
+    `;
+    
+    for (let i = 1; i <= size; i++) {
+        let isFilled = (i < step);
+        let isActive = (i === step);
+        let bitVal = isFilled ? (outputBin[i - 1] || "0") : (isActive ? "" : "-");
+        
+        let cellClass = "";
+        if (isActive) {
+            cellClass = "active-output-highlight";
+        } else if (isFilled) {
+            cellClass = "filled-output";
+        }
+        
+        html += `
+            <div class="des-interactive-grid-cell ${cellClass}" title="Position ${i}">
+                <span class="cell-index">${i}</span>
+                <span class="cell-value">${bitVal}</span>
+            </div>
+        `;
+    }
+    html += `
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Explanation Panel -->
+            <div class="des-visualizer-explanation">
+                <span>${getXorStepExplanationText(step)}</span>
+            </div>
+            
+            <!-- Controls -->
+            <div class="des-visualizer-controls">
+                <button class="des-visualizer-btn" onclick="desXorPrev()" ${step === 0 ? 'disabled' : ''}>Prev</button>
+                <button class="des-visualizer-btn primary" onclick="desXorNext()" ${step === size ? 'disabled' : ''}>Next</button>
+                <button class="des-visualizer-btn" onclick="desXorTogglePlay()">
+                    ${desXorVisualizerState.isPlaying ? '<i class="fa fa-pause"></i> Pause' : '<i class="fa fa-play"></i> Auto-Play'}
+                </button>
+                <button class="des-visualizer-btn" onclick="desXorReset()">Reset</button>
+            </div>
+        </div>
+    `;
+    
+    container.innerHTML = html;
+}
+
+function getXorStepExplanationText(step) {
+    let size = desXorVisualizerState.size || 48;
+    if (step === 0) {
+        return "Click <strong>Next</strong> or <strong>Auto-Play</strong> to start the XOR calculation.";
+    }
+    if (step > size) {
+        return `XOR calculation complete! All ${size} bits have been processed.`;
+    }
+    
+    let bit1 = desXorVisualizerState.input1Bin[step - 1] || "0";
+    let bit2 = desXorVisualizerState.input2Bin[step - 1] || "0";
+    let bitOut = desXorVisualizerState.outputBin[step - 1] || "0";
+    
+    return `XOR Cell <strong>#${step}</strong>: Bit <strong>${bit1}</strong> from ${desXorVisualizerState.input1Name} &oplus; Bit <strong>${bit2}</strong> from ${desXorVisualizerState.input2Name} = <strong>${bitOut}</strong>.`;
+}
+
+function desXorNext() {
+    let size = desXorVisualizerState.size || 48;
+    if (desXorVisualizerState.currentStep < size) {
+        desXorVisualizerState.currentStep++;
+        drawInteractiveXor();
+    } else {
+        desXorStopPlay();
+    }
+}
+
+function desXorPrev() {
+    if (desXorVisualizerState.currentStep > 0) {
+        desXorVisualizerState.currentStep--;
+        drawInteractiveXor();
+    }
+}
+
+function desXorReset() {
+    desXorStopPlay();
+    desXorVisualizerState.currentStep = 0;
+    drawInteractiveXor();
+}
+
+function desXorTogglePlay() {
+    if (desXorVisualizerState.isPlaying) {
+        desXorStopPlay();
+    } else {
+        desXorStartPlay();
+    }
+}
+
+function desXorStartPlay() {
+    let size = desXorVisualizerState.size || 48;
+    desXorVisualizerState.isPlaying = true;
+    drawInteractiveXor();
+    desXorVisualizerState.timerId = setInterval(() => {
+        let currentSize = desXorVisualizerState.size || 48;
+        if (desXorVisualizerState.currentStep < currentSize) {
+            desXorNext();
+        } else {
+            desXorStopPlay();
+        }
+    }, 350);
+}
+
+function desXorStopPlay() {
+    desXorVisualizerState.isPlaying = false;
+    if (desXorVisualizerState.timerId) {
+        clearInterval(desXorVisualizerState.timerId);
+        desXorVisualizerState.timerId = null;
+    }
+    drawInteractiveXor();
+}
+
+function showXorExplanation() {
+    let title = "Subkey XOR (48-bit) Interactive Visualizer";
+    
+    let fallbackInput1 = "111100001111000011110000111100001111000011110000";
+    let fallbackInput2 = "101010101010101010101010101010101010101010101010";
+    let fallbackOutput = xorBinStrings(fallbackInput1, fallbackInput2);
+    
+    let input1Bin = fallbackInput1;
+    let input2Bin = fallbackInput2;
+    let outputBin = fallbackOutput;
+    
+    if (desSimState.result && desSimState.currentRound >= 1 && desSimState.currentRound <= 16) {
+        let rd = desSimState.result.roundsData[desSimState.currentRound - 1];
+        input1Bin = rd.expandedR;
+        input2Bin = rd.subkey;
+        outputBin = rd.xored;
+    }
+    
+    desXorVisualizerState = {
+        input1Bin: input1Bin,
+        input2Bin: input2Bin,
+        outputBin: outputBin,
+        input1Name: "Expanded R (48-bit)",
+        input2Name: "Subkey K (48-bit)",
+        outputName: "XOR Output (48-bit)",
+        currentStep: 0,
+        timerId: null,
+        isPlaying: false,
+        size: 48,
+        cols: 6
+    };
+    
+    let backdrop = document.getElementById("desModalBackdrop");
+    let titleEl = document.getElementById("desModalTitle");
+    if (backdrop && titleEl) {
+        titleEl.innerText = title;
+        backdrop.style.display = "flex";
+        drawInteractiveXor();
+    }
+}
+
+function showXorLPrevExplanation() {
+    let title = "Feistel XOR & Swap (32-bit) Interactive Visualizer";
+    
+    let fallbackInput1 = "11110000111100001111000011110000";
+    let fallbackInput2 = "10101010101010101010101010101010";
+    let fallbackOutput = xorBinStrings(fallbackInput1, fallbackInput2);
+    
+    let input1Bin = fallbackInput1;
+    let input2Bin = fallbackInput2;
+    let outputBin = fallbackOutput;
+    
+    if (desSimState.result && desSimState.currentRound >= 1 && desSimState.currentRound <= 16) {
+        let rd = desSimState.result.roundsData[desSimState.currentRound - 1];
+        input1Bin = rd.L_prev;
+        input2Bin = rd.pboxResult;
+        outputBin = rd.R;
+    }
+    
+    desXorVisualizerState = {
+        input1Bin: input1Bin,
+        input2Bin: input2Bin,
+        outputBin: outputBin,
+        input1Name: "L half (32-bit)",
+        input2Name: "P-Box Output (32-bit)",
+        outputName: "New R half (32-bit)",
+        currentStep: 0,
+        timerId: null,
+        isPlaying: false,
+        size: 32,
+        cols: 8
+    };
+    
+    let backdrop = document.getElementById("desModalBackdrop");
+    let titleEl = document.getElementById("desModalTitle");
+    if (backdrop && titleEl) {
+        titleEl.innerText = title;
+        backdrop.style.display = "flex";
+        drawInteractiveXor();
+    }
+}
+
+let desSboxVisualizerState = {
+    inputBin: "",
+    sboxesDetails: [],
+    currentStep: 0,
+    timerId: null,
+    isPlaying: false
+};
+
+function drawInteractiveSbox() {
+    let container = document.getElementById("desModalBody");
+    if (!container) return;
+    
+    let step = desSboxVisualizerState.currentStep;
+    let inputBin = desSboxVisualizerState.inputBin;
+    let details = desSboxVisualizerState.sboxesDetails;
+    
+    // Build 48-bit input blocks HTML (8 groups of 6)
+    let inputBlocksHTML = `<div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 0.5rem; width: 100%;">`;
+    for (let s = 1; s <= 8; s++) {
+        let isActive = (step >= 1 && step <= 8 && s === step);
+        inputBlocksHTML += `
+            <div style="border: 1px solid #cbd5e1; border-radius: 6px; padding: 4px; background: #f8fafc; transition: all 0.2s ease; ${isActive ? 'border-color: #6d28d9; background: #faf5ff; box-shadow: 0 0 6px rgba(109,40,217,0.15); transform: scale(1.03);' : ''}">
+                <span style="display: block; text-align: center; font-size: 0.6rem; color: #64748b; font-weight: bold; margin-bottom: 2px;">S${s}</span>
+                <div style="display: flex; gap: 2px;">
+        `;
+        for (let b = 0; b < 6; b++) {
+            let bitIdx = (s - 1) * 6 + b;
+            let bit = inputBin[bitIdx] || "0";
+            let isRowBit = isActive && (b === 0 || b === 5);
+            let isColBit = isActive && (b >= 1 && b <= 4);
+            
+            let cellBg = "white";
+            let cellBorder = "#e2e8f0";
+            let cellColor = "#334155";
+            if (isRowBit) {
+                cellBg = "#fee2e2";
+                cellBorder = "#ef4444";
+                cellColor = "#991b1b";
+            } else if (isColBit) {
+                cellBg = "#dbeafe";
+                cellBorder = "#3b82f6";
+                cellColor = "#1e40af";
+            }
+            
+            inputBlocksHTML += `
+                <div style="width: 1.25rem; height: 1.25rem; display: flex; justify-content: center; align-items: center; font-size: 0.72rem; font-weight: 700; background: ${cellBg}; border-radius: 2px; border: 1px solid ${cellBorder}; color: ${cellColor};" title="Bit ${bitIdx + 1}">
+                    ${bit}
+                </div>
+            `;
+        }
+        inputBlocksHTML += `
+                </div>
+            </div>
+        `;
+    }
+    inputBlocksHTML += `</div>`;
+    
+    // Build 32-bit output blocks HTML (8 groups of 4)
+    let outputBlocksHTML = `<div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 0.5rem; width: 100%;">`;
+    for (let s = 1; s <= 8; s++) {
+        let isFilled = (s < step) || (step === 9);
+        let isActive = (step >= 1 && step <= 8 && s === step);
+        let det = details[s - 1];
+        
+        outputBlocksHTML += `
+            <div style="border: 1px solid #cbd5e1; border-radius: 6px; padding: 4px; background: #f8fafc; transition: all 0.2s ease; ${isActive ? 'border-color: #3b82f6; background: #eff6ff; box-shadow: 0 0 6px rgba(59,130,246,0.15); transform: scale(1.03);' : ''}">
+                <span style="display: block; text-align: center; font-size: 0.6rem; color: #64748b; font-weight: bold; margin-bottom: 2px;">Out ${s}</span>
+                <div style="display: flex; gap: 2px;">
+        `;
+        
+        for (let b = 0; b < 4; b++) {
+            let bitIdx = (s - 1) * 4 + b;
+            let bitVal = isFilled ? det.output[b] : (isActive ? "" : "-");
+            
+            let cellBg = "white";
+            let cellBorder = "#e2e8f0";
+            let cellColor = "#94a3b8";
+            if (isActive) {
+                cellBg = "#dbeafe";
+                cellBorder = "#3b82f6";
+                cellColor = "#1d4ed8";
+            } else if (isFilled) {
+                cellBg = "#f1f5f9";
+                cellBorder = "#cbd5e1";
+                cellColor = "#334155";
+            }
+            
+            outputBlocksHTML += `
+                <div style="width: 1.25rem; height: 1.25rem; display: flex; justify-content: center; align-items: center; font-size: 0.72rem; font-weight: 700; background: ${cellBg}; border-radius: 2px; border: 1px solid ${cellBorder}; color: ${cellColor};" title="Bit ${bitIdx + 1}">
+                    ${bitVal}
+                </div>
+            `;
+        }
+        outputBlocksHTML += `
+                </div>
+            </div>
+        `;
+    }
+    outputBlocksHTML += `</div>`;
+    
+    // Build Middle Lookup HTML
+    let lookupHTML = "";
+    if (step === 0) {
+        lookupHTML = `
+            <div style="text-align: center; padding: 1.5rem; font-size: 0.95rem; color: #475569; width: 100%;">
+                <strong>Substitution Box Lookup Details</strong><br>
+                Click <strong>Next</strong> or <strong>Auto-Play</strong> to step through each S-Box (S1 to S8) lookup process.
+            </div>
+        `;
+    } else if (step >= 1 && step <= 8) {
+        let det = details[step - 1];
+        let sBoxIndex = det.sbox - 1;
+        let sboxTable = S_BOX[sBoxIndex];
+        
+        let rowLabel = det.input[0] + det.input[5];
+        let colLabel = det.input.substring(1, 5);
+        
+        // Build table html
+        let tableHTML = `<table class="des-sbox-table-view" style="margin: 0 auto; width: 100%; border-collapse: collapse; font-size: 0.75rem;"><thead><tr><th style="padding: 2px;">R\\C</th>`;
+        for (let col = 0; col < 16; col++) {
+            tableHTML += `<th style="padding: 2px; text-align: center;">${col.toString(16).toUpperCase()}</th>`;
+        }
+        tableHTML += `</tr></thead><tbody>`;
+        
+        for (let r = 0; r < 4; r++) {
+            let isRowMatch = (r === det.row);
+            tableHTML += `<tr class="${isRowMatch ? 'highlight-sbox-row' : ''}">`;
+            tableHTML += `<th style="background-color: #f1f5f9; padding: 2px; font-weight: bold; text-align: center;">${r}</th>`;
+            for (let c = 0; c < 16; c++) {
+                let val = sboxTable[r][c];
+                let isCellMatch = (isRowMatch && c === det.col);
+                let colCls = (c === det.col) ? 'highlight-sbox-col' : '';
+                
+                let cellBgStyle = "";
+                let cellColorStyle = "";
+                if (isCellMatch) {
+                    cellBgStyle = "background-color: #22c55e !important; color: white !important; font-weight: bold; border-radius: 3px;";
+                } else if (isRowMatch) {
+                    cellBgStyle = "background-color: #fee2e2;";
+                } else if (c === det.col) {
+                    cellBgStyle = "background-color: #dbeafe;";
+                }
+                
+                tableHTML += `<td class="${isCellMatch ? 'highlight-sbox-cell' : colCls}" style="padding: 2px; text-align: center; ${cellBgStyle} ${cellColorStyle}">${val}</td>`;
+            }
+            tableHTML += `</tr>`;
+        }
+        tableHTML += `</tbody></table>`;
+        
+        lookupHTML = `
+            <div style="display: flex; gap: 20px; align-items: center; justify-content: center; flex-wrap: wrap; width: 100%;">
+                <!-- Left Details -->
+                <div style="flex: 1; min-width: 18rem; background: white; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+                    <h4 style="margin: 0 0 0.5rem 0; color: #3b0764; font-size: 1.1rem; display: flex; align-items: center; gap: 6px;">
+                        S-Box ${det.sbox} Substitution
+                        <span style="font-size: 0.7rem; background: #6d28d9; color: white; padding: 2px 6px; border-radius: 9999px; font-weight: bold; text-transform: uppercase;">Active</span>
+                    </h4>
+                    <p style="margin: 0 0 0.6rem 0; font-size: 0.82rem; color: #475569; line-height: 1.4;">
+                        Select row and column indexes from the 6-bit input block:
+                    </p>
+                    <ul style="margin: 0; padding-left: 1.1rem; font-size: 0.8rem; color: #334155; display: flex; flex-direction: column; gap: 6px;">
+                        <li><strong>6-bit Input Chunk:</strong> <code style="font-size: 0.85rem; font-weight: 700; color: #1e1b4b; background: #f1f5f9; padding: 2px 4px; border-radius: 4px; border: 1px solid #cbd5e1;">${det.input[0]}<span style="color: #6d28d9;">${det.input.substring(1,5)}</span>${det.input[5]}</code></li>
+                        <li><strong>Row Bits (1st & 6th):</strong> <code style="font-size: 0.85rem; font-weight: 700; color: #b91c1c; background: #fef2f2; padding: 1px 3px; border-radius: 3px; border: 1px solid #fee2e2;">${det.input[0]}${det.input[5]}</code> &rarr; Row <strong>${det.row}</strong> (decimal)</li>
+                        <li><strong>Column Bits (2nd to 5th):</strong> <code style="font-size: 0.85rem; font-weight: 700; color: #1d4ed8; background: #eff6ff; padding: 1px 3px; border-radius: 3px; border: 1px solid #dbeafe;">${det.input.substring(1,5)}</code> &rarr; Column <strong>${det.col}</strong> (decimal)</li>
+                        <li><strong>Retrieved decimal:</strong> Table[Row ${det.row}][Col ${det.col}] = <strong style="color: #16a34a; font-size: 0.9rem;">${det.val}</strong></li>
+                        <li><strong>4-bit Output value:</strong> <code style="font-size: 0.85rem; font-weight: 700; color: #16a34a; background: #f0fdf4; padding: 2px 4px; border-radius: 4px; border: 1px solid #bbf7d0;">${det.output}</code></li>
+                    </ul>
+                </div>
+                
+                <!-- Right Table View -->
+                <div style="flex: 1.2; min-width: 22rem; max-width: 100%; overflow-x: auto; background: white; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+                    <h5 style="margin: 0 0 0.4rem 0; color: #3b0764; font-size: 0.8rem; font-weight: bold; text-align: center;">S-Box ${det.sbox} Lookup Grid</h5>
+                    ${tableHTML}
+                </div>
+            </div>
+        `;
+    } else if (step === 9) {
+        lookupHTML = `
+            <div style="text-align: center; padding: 1.5rem; font-size: 0.95rem; color: #15803d; width: 100%; font-weight: 600; background: #f0fdf4; border: 1px dashed #bbf7d0; border-radius: 8px;">
+                <i class="fa fa-check-circle fa-2x" style="vertical-align: middle; margin-right: 6px; color: #22c55e;"></i>
+                Substitution Complete! All 8 S-Boxes have been processed. 48-bit input register is substituted into a 32-bit output.
+            </div>
+        `;
+    }
+    
+    let html = `
+        <div class="des-modal-visualizer-container">
+            <p style="font-size: 0.85rem; margin-bottom: 0.5rem; color: #475569; text-align: center;">
+                S-Box Substitution: The 48-bit register is split into 8 chunks. Each S-Box (S1 to S8) maps 6 bits to 4 bits.
+            </p>
+            
+            <!-- 48-bit input grid -->
+            <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+                <h5 style="margin: 0 0 0.3rem 0; font-size: 0.82rem; color: #3b0764; font-weight: bold;">48-bit XOR Output (Input Blocks)</h5>
+                ${inputBlocksHTML}
+            </div>
+            
+            <!-- Middle lookup area -->
+            <div style="background: #faf5ff; border: 1px solid #e9d5ff; border-radius: 12px; padding: 1rem; width: 100%; box-sizing: border-box; min-height: 12rem; display: flex; align-items: center; justify-content: center;">
+                ${lookupHTML}
+            </div>
+            
+            <!-- 32-bit output grid -->
+            <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+                <h5 style="margin: 0 0 0.3rem 0; font-size: 0.82rem; color: #3b0764; font-weight: bold;">32-bit S-Box Output (S-Box Results)</h5>
+                ${outputBlocksHTML}
+            </div>
+            
+            <!-- Controls -->
+            <div class="des-visualizer-controls" style="margin-top: 0.5rem;">
+                <button class="des-visualizer-btn" onclick="desSboxPrev()" ${step === 0 ? 'disabled' : ''}>Prev</button>
+                <button class="des-visualizer-btn primary" onclick="desSboxNext()" ${step === 9 ? 'disabled' : ''}>Next</button>
+                <button class="des-visualizer-btn" onclick="desSboxTogglePlay()">
+                    ${desSboxVisualizerState.isPlaying ? '<i class="fa fa-pause"></i> Pause' : '<i class="fa fa-play"></i> Auto-Play'}
+                </button>
+                <button class="des-visualizer-btn" onclick="desSboxReset()">Reset</button>
+            </div>
+        </div>
+    `;
+    
+    container.innerHTML = html;
+}
+
+function desSboxNext() {
+    if (desSboxVisualizerState.currentStep < 9) {
+        desSboxVisualizerState.currentStep++;
+        drawInteractiveSbox();
+    } else {
+        desSboxStopPlay();
+    }
+}
+
+function desSboxPrev() {
+    if (desSboxVisualizerState.currentStep > 0) {
+        desSboxVisualizerState.currentStep--;
+        drawInteractiveSbox();
+    }
+}
+
+function desSboxReset() {
+    desSboxStopPlay();
+    desSboxVisualizerState.currentStep = 0;
+    drawInteractiveSbox();
+}
+
+function desSboxTogglePlay() {
+    if (desSboxVisualizerState.isPlaying) {
+        desSboxStopPlay();
+    } else {
+        desSboxStartPlay();
+    }
+}
+
+function desSboxStartPlay() {
+    desSboxVisualizerState.isPlaying = true;
+    drawInteractiveSbox();
+    desSboxVisualizerState.timerId = setInterval(() => {
+        if (desSboxVisualizerState.currentStep < 9) {
+            desSboxNext();
+        } else {
+            desSboxStopPlay();
+        }
+    }, 1500);
+}
+
+function desSboxStopPlay() {
+    desSboxVisualizerState.isPlaying = false;
+    if (desSboxVisualizerState.timerId) {
+        clearInterval(desSboxVisualizerState.timerId);
+        desSboxVisualizerState.timerId = null;
+    }
+    drawInteractiveSbox();
+}
+
+function showSboxExplanation() {
+    let title = "S-Box Substitution (48 to 32 bit) Interactive Visualizer";
+    
+    let fallbackInput = "111100001010010111000011101001011100001110100101";
+    let fallbackDetails = [];
+    for (let i = 0; i < 8; i++) {
+        let block = fallbackInput.substring(i * 6, i * 6 + 6);
+        let row = parseInt(block[0] + block[5], 2);
+        let col = parseInt(block.substring(1, 5), 2);
+        let val = S_BOX[i][row][col];
+        let valBin = val.toString(2).padStart(4, '0');
+        fallbackDetails.push({
+            sbox: i + 1,
+            input: block,
+            row: row,
+            col: col,
+            val: val,
+            output: valBin
+        });
+    }
+    
+    let inputBin = fallbackInput;
+    let sboxesDetails = fallbackDetails;
+    
+    if (desSimState.result && desSimState.currentRound >= 1 && desSimState.currentRound <= 16) {
+        let rd = desSimState.result.roundsData[desSimState.currentRound - 1];
+        inputBin = rd.xored;
+        sboxesDetails = rd.sboxesDetails;
+    }
+    
+    desSboxVisualizerState = {
+        inputBin: inputBin,
+        sboxesDetails: sboxesDetails,
+        currentStep: 0,
+        timerId: null,
+        isPlaying: false
+    };
+    
+    let backdrop = document.getElementById("desModalBackdrop");
+    let titleEl = document.getElementById("desModalTitle");
+    if (backdrop && titleEl) {
+        titleEl.innerText = title;
+        backdrop.style.display = "flex";
+        drawInteractiveSbox();
+    }
+}
+
+function showPBoxExplanation() {
+    let title = "P-Box Permutation (32-bit) Interactive Visualizer";
+    let fallbackInput = "11110000101001011100001110100101";
+    
+    let inputBin = fallbackInput;
+    if (desSimState.result && desSimState.currentRound >= 1 && desSimState.currentRound <= 16) {
+        let rd = desSimState.result.roundsData[desSimState.currentRound - 1];
+        inputBin = rd.sboxResult;
+    }
+    
+    desPermVisualizerState = {
+        inputBin: inputBin,
+        table: P_BOX,
+        tableName: "P-Box Table",
+        currentStep: 0,
+        timerId: null,
+        isPlaying: false,
+        inputSize: 32,
+        outputSize: 32,
+        inputCols: 8,
+        outputCols: 8
+    };
+    
+    let backdrop = document.getElementById("desModalBackdrop");
+    let titleEl = document.getElementById("desModalTitle");
+    if (backdrop && titleEl) {
+        titleEl.innerText = title;
+        backdrop.style.display = "flex";
+        drawInteractivePermutation();
+    }
+}
+
+function generateKeyScheduleTableHTML() {
+    let keyBin = desSimState.keyBin || "0110000101110110011010010110111001100001011100110110100000110001";
+    let pc1Key = permute(keyBin, PC_1);
+    let C = pc1Key.substring(0, 28);
+    let D = pc1Key.substring(28, 56);
+    
+    let html = `
+        <table class="des-bit-table" style="font-size: 0.75rem; text-align: left; width: 100%; border-collapse: collapse; margin-top: 1rem; box-sizing: border-box;">
+            <thead>
+                <tr style="background: #f1f5f9; border-bottom: 2px solid #cbd5e1;">
+                    <th style="padding: 6px;">Round</th>
+                    <th style="padding: 6px;">Shift</th>
+                    <th style="padding: 6px;">C<sub>i</sub> (28-bit)</th>
+                    <th style="padding: 6px;">D<sub>i</sub> (28-bit)</th>
+                    <th style="padding: 6px;">Subkey K<sub>i</sub> (48-bit Hex)</th>
+                    <th style="padding: 6px; text-align: center;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+    
+    for (let r = 1; r <= 16; r++) {
+        let shift = SHIFT_SCHEDULE[r - 1];
+        C = leftCircularShift(C, shift);
+        D = leftCircularShift(D, shift);
+        let combined = C + D;
+        let subkey = permute(combined, PC_2);
+        let subkeyHex = binStringToHex(subkey);
+        
+        html += `
+            <tr style="border-bottom: 1px solid #e2e8f0;">
+                <td style="padding: 6px; font-weight: bold; color: #3b0764;">Round ${r}</td>
+                <td style="padding: 6px;">&larr; ${shift} bit(s)</td>
+                <td style="padding: 6px; font-family: monospace; font-size: 0.68rem; letter-spacing: -0.5px;">${C}</td>
+                <td style="padding: 6px; font-family: monospace; font-size: 0.68rem; letter-spacing: -0.5px;">${D}</td>
+                <td style="padding: 6px; font-family: monospace; font-weight: bold; color: #16a34a; font-size: 0.8rem;">${subkeyHex}</td>
+                <td style="padding: 6px; text-align: center;">
+                    <button class="des-visualizer-btn" style="padding: 2px 6px; font-size: 0.68rem;" onclick="showPc2Explanation(${r})">
+                        <i class="fa fa-eye"></i> PC-2
+                    </button>
+                </td>
+            </tr>
+        `;
+    }
+    html += `</tbody></table>`;
+    return html;
+}
+
+function showPc1Explanation() {
+    let title = "PC-1 Permuted Choice (64 to 56 bit) Interactive Visualizer";
+    let fallbackInput = "0110000101110110011010010110111001100001011100110110100000110001";
+    
+    let inputBin = desSimState.keyBin || fallbackInput;
+    
+    desPermVisualizerState = {
+        inputBin: inputBin,
+        table: PC_1,
+        tableName: "PC-1 Table",
+        currentStep: 0,
+        timerId: null,
+        isPlaying: false,
+        inputSize: 64,
+        outputSize: 56,
+        inputCols: 8,
+        outputCols: 8
+    };
+    
+    let backdrop = document.getElementById("desModalBackdrop");
+    let titleEl = document.getElementById("desModalTitle");
+    if (backdrop && titleEl) {
+        titleEl.innerText = title;
+        backdrop.style.display = "flex";
+        drawInteractivePermutation();
+    }
+}
+
+function showPc2Explanation(roundIdx) {
+    let title = `PC-2 Permuted Choice (56 to 48 bit) - Round ${roundIdx}`;
+    
+    let keyBin = desSimState.keyBin || "0110000101110110011010010110111001100001011100110110100000110001";
+    let pc1Key = permute(keyBin, PC_1);
+    let C = pc1Key.substring(0, 28);
+    let D = pc1Key.substring(28, 56);
+    
+    let C_curr = C;
+    let D_curr = D;
+    for (let r = 0; r < roundIdx; r++) {
+        C_curr = leftCircularShift(C_curr, SHIFT_SCHEDULE[r]);
+        D_curr = leftCircularShift(D_curr, SHIFT_SCHEDULE[r]);
+    }
+    
+    let inputBin = C_curr + D_curr;
+    
+    desPermVisualizerState = {
+        inputBin: inputBin,
+        table: PC_2,
+        tableName: "PC-2 Table",
+        currentStep: 0,
+        timerId: null,
+        isPlaying: false,
+        inputSize: 56,
+        outputSize: 48,
+        inputCols: 8,
+        outputCols: 6
+    };
+    
+    let backdrop = document.getElementById("desModalBackdrop");
+    let titleEl = document.getElementById("desModalTitle");
+    if (backdrop && titleEl) {
+        titleEl.innerText = title;
+        backdrop.style.display = "flex";
+        drawInteractivePermutation();
+    }
+}
+
+// Dynamic Selection Bit Counter Tooltip
+document.addEventListener('selectionchange', () => {
+    let selection = window.getSelection();
+    if (!selection) return;
+    let selectedText = selection.toString().trim();
+    if (!selectedText) {
+        hideSelectionTooltip();
+        return;
+    }
+    
+    let selectedClean = selectedText.replace(/\s+/g, '');
+    if (/^[01]+$/.test(selectedClean)) {
+        let count = selectedClean.length;
+        showSelectionTooltip(selection, count);
+    } else {
+        hideSelectionTooltip();
+    }
+});
+
+function showSelectionTooltip(selection, count) {
+    if (selection.rangeCount === 0) return;
+    let range = selection.getRangeAt(0);
+    let rect = range.getBoundingClientRect();
+    
+    // Check if selection rect is valid
+    if (rect.width === 0 || rect.height === 0) {
+        hideSelectionTooltip();
+        return;
+    }
+    
+    let tooltip = document.getElementById("desSelectionTooltip");
+    if (!tooltip) {
+        tooltip = document.createElement("div");
+        tooltip.id = "desSelectionTooltip";
+        tooltip.style.position = "fixed";
+        tooltip.style.background = "#1e1b4b";
+        tooltip.style.color = "#f3e8ff";
+        tooltip.style.padding = "5px 10px";
+        tooltip.style.borderRadius = "6px";
+        tooltip.style.fontSize = "0.75rem";
+        tooltip.style.fontWeight = "bold";
+        tooltip.style.pointerEvents = "none";
+        tooltip.style.zIndex = "9999";
+        tooltip.style.boxShadow = "0 4px 12px rgba(0,0,0,0.15)";
+        tooltip.style.border = "1px solid #c084fc";
+        tooltip.style.transition = "opacity 0.1s ease";
+        document.body.appendChild(tooltip);
+    }
+    
+    tooltip.innerText = `${count} bit${count > 1 ? 's' : ''} selected`;
+    tooltip.style.display = "block";
+    tooltip.style.opacity = "1";
+    
+    // Position above selection rect
+    let left = rect.left + rect.width / 2 - tooltip.offsetWidth / 2;
+    let top = rect.top - tooltip.offsetHeight - 8;
+    
+    // Boundary checks for screen edges
+    if (left < 10) left = 10;
+    if (left + tooltip.offsetWidth > window.innerWidth - 10) {
+        left = window.innerWidth - tooltip.offsetWidth - 10;
+    }
+    if (top < 10) {
+        top = rect.bottom + 8; // display below selection if it overflows top of screen
+    }
+    
+    tooltip.style.left = left + "px";
+    tooltip.style.top = top + "px";
+}
+
+function hideSelectionTooltip() {
+    let tooltip = document.getElementById("desSelectionTooltip");
+    if (tooltip) {
+        tooltip.style.opacity = "0";
+        tooltip.style.display = "none";
+    }
+}
+
+function showInputTextExplanation() {
+    let title = desSimState.isEncrypt ? "Plaintext Character to Binary Conversion" : "Ciphertext Hex to Binary Conversion";
+    let isEncrypt = desSimState.isEncrypt;
+    let text = desSimState.origInputText || (isEncrypt ? "avinash1" : "01a2b3c4d5e6f788");
+    
+    let html = `
+        <div style="font-size: 0.88rem; color: #475569; margin-bottom: 1.2rem; line-height: 1.5;">
+            ${isEncrypt ? 
+                `Each of the 8 characters of the plaintext string is converted to its 8-bit ASCII binary representation to form the combined 64-bit input block.` : 
+                `Each of the 16 Hex characters of the ciphertext string is converted to its 4-bit binary representation to form the combined 64-bit input block.`
+            }
+        </div>
+        <div style="overflow-x: auto; background: white; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 1.2rem;">
+            <table class="des-bit-table" style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.8rem;">
+                <thead>
+                    <tr style="background: #f1f5f9; border-bottom: 2px solid #cbd5e1;">
+                        <th style="padding: 8px;">Index</th>
+                        <th style="padding: 8px;">${isEncrypt ? 'Character' : 'Hex Char'}</th>
+                        <th style="padding: 8px;">${isEncrypt ? 'ASCII Decimal' : 'Decimal Value'}</th>
+                        <th style="padding: 8px;">${isEncrypt ? 'ASCII Hex' : 'Hex Value'}</th>
+                        <th style="padding: 8px; font-family: monospace;">Binary Output</th>
+                    </tr>
+                </thead>
+                <tbody>
+    `;
+    
+    let combinedBin = "";
+    if (isEncrypt) {
+        for (let i = 0; i < text.length; i++) {
+            let char = text[i];
+            let dec = char.charCodeAt(0);
+            let hex = dec.toString(16).toUpperCase().padStart(2, '0');
+            let bin = dec.toString(2).padStart(8, '0');
+            combinedBin += bin;
+            
+            html += `
+                <tr style="border-bottom: 1px solid #e2e8f0;">
+                    <td style="padding: 8px; font-weight: bold; color: #64748b;">#${i + 1}</td>
+                    <td style="padding: 8px; font-weight: bold; color: #6d28d9; font-size: 0.95rem;">'${char}'</td>
+                    <td style="padding: 8px; color: #1e293b;">${dec}</td>
+                    <td style="padding: 8px; color: #1e293b; font-family: monospace;">0x${hex}</td>
+                    <td style="padding: 8px; font-family: monospace; font-weight: bold; color: #16a34a; font-size: 0.9rem;">${bin}</td>
+                </tr>
+            `;
+        }
+    } else {
+        for (let i = 0; i < text.length; i++) {
+            let char = text[i];
+            let dec = parseInt(char, 16);
+            if (isNaN(dec)) dec = 0;
+            let hex = dec.toString(16).toUpperCase();
+            let bin = dec.toString(2).padStart(4, '0');
+            combinedBin += bin;
+            
+            html += `
+                <tr style="border-bottom: 1px solid #e2e8f0;">
+                    <td style="padding: 8px; font-weight: bold; color: #64748b;">#${i + 1}</td>
+                    <td style="padding: 8px; font-weight: bold; color: #6d28d9; font-size: 0.95rem;">'${char}'</td>
+                    <td style="padding: 8px; color: #1e293b;">${dec}</td>
+                    <td style="padding: 8px; color: #1e293b; font-family: monospace;">0x${hex}</td>
+                    <td style="padding: 8px; font-family: monospace; font-weight: bold; color: #16a34a; font-size: 0.9rem;">${bin}</td>
+                </tr>
+            `;
+        }
+    }
+    
+    html += `
+                </tbody>
+            </table>
+        </div>
+        
+        <div style="margin-top: 1rem;">
+            <h4 style="color: #3b0764; font-size: 0.9rem; font-weight: 700; margin-bottom: 0.5rem;">Combined 64-bit Input Block:</h4>
+            <p style="font-family: monospace; font-size: 0.85rem; background: #faf5ff; border: 1px solid #c084fc; border-radius: 6px; padding: 10px; word-break: break-all; color: #1e1b4b; font-weight: 600; line-height: 1.6;">
+                ${formatBinString(combinedBin, isEncrypt ? 8 : 4)}
+            </p>
+        </div>
+    `;
+    
+    let backdrop = document.getElementById("desModalBackdrop");
+    let titleEl = document.getElementById("desModalTitle");
+    let contentEl = document.getElementById("desModalBody");
+    
+    if (backdrop && titleEl && contentEl) {
+        titleEl.innerText = title;
+        contentEl.innerHTML = html;
+        backdrop.style.display = "flex";
     }
 }
